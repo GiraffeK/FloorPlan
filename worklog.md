@@ -135,6 +135,7 @@ if (periodGroup && periodSelect) {
 | **視圖區域極大化** | 畫面比例調整 | 左側微縮至 270px，中央 Viewport 佔比擴大，預設縮放值提高至 1.18，視覺清析宏偉 | ✅ 100% 正確 |
 | **Win11 美學與細字體** | 全介面 CSS 樣式 | 主背景採用 `#1c1c1c`，字體 weight 設為 300/400，符合 Windows 11 Mica 高質感規格 | ✅ 100% 正確 |
 | **Google Maps 空拍圖貼上與基準線測繪** | 按 `Ctrl+V` 貼上空拍圖或選擇圖檔 | 自動顯示正北 0° 指向、互動端點 L1/L2 拖曳貼合前牆主面、綠色朝向向量推算、一鍵帶入陽宅羅盤 | ✅ 100% 正確 |
+| **非平行屋雙牆幾何平均演算法** | 梯形屋 / 前後牆不平行建案 | 切換至「雙牆模式」拖曳 B1/B2 後牆端點，系統自動計算幾何平分中軸及修正朝向角度 | ✅ 100% 正確 |
 | **雲端部署與 Web 發布** | GitHub 倉庫與 GitHub Pages | Repository `GiraffeK/FloorPlan` 建立完成，Web 發布於 `giraffek.github.io/FloorPlan` | ✅ 100% 正確 |
 
 ---
