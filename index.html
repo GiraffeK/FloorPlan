@@ -1021,7 +1021,7 @@
           💡 <strong>操作說明</strong>：
           <br/>1. 直接在此畫面按 <strong>Ctrl+V 貼上</strong> Google Maps 截圖，或點擊下方選擇檔案。
           <br/>2. 畫面上正上方垂直線固定為 <strong>正北 (0.0°)</strong>。
-          <br/>3. 請以滑鼠拖曳畫布上的 <strong>紅色端點 (L1 & L2)</strong>，貼合建物前牆主面。
+          <br/>3. 請拖曳紅色端點 <strong>(L1 & L2)</strong> 貼合前牆；如為<strong>前後牆不平行之梯形屋</strong>，可切換至雙牆模式加拉藍色端點 <strong>(B1 & B2)</strong> 取幾何平分角度。
         </div>
 
         <div class="form-group">
@@ -1029,9 +1029,17 @@
           <input type="file" id="fileSatImg" accept="image/*" onchange="loadSatImageFile(event)">
         </div>
 
+        <div class="form-group">
+          <label>建物牆面繪測模式 (牆面不平行化解)</label>
+          <div style="display: flex; gap: 0.35rem; margin-top: 0.15rem;">
+            <button class="btn" id="btnSatModeSingle" style="flex: 1; justify-content: center; font-size: 0.72rem; padding: 0.3rem;" onclick="setSatMode('single')">🏠 單牆 (前牆納氣為主)</button>
+            <button class="btn" id="btnSatModeDual" style="flex: 1; justify-content: center; font-size: 0.72rem; padding: 0.3rem;" onclick="setSatMode('dual')">📐 雙牆 (非平行牆平均)</button>
+          </div>
+        </div>
+
         <div class="water-path-item safe" style="border-left-color: #38bdf8;">
           <div class="water-path-header">
-            <span>前牆基準線向量 (L1 ➔ L2)</span>
+            <span id="satBaseTitle">前牆基準線向量 (L1 ➔ L2)</span>
             <span class="status-badge status-safe" id="satBaseAngleBadge">37.0°</span>
           </div>
           <div class="water-path-desc" id="satBaseAngleDesc">
@@ -1176,8 +1184,11 @@
     // Satellite Map Interactive Alignment State (Normalized Relative Percentages)
     let satState = {
       img: null,
-      l1: { pctX: 0.35, pctY: 0.58 }, // End point 1 (0.0~1.0 relative to display canvas)
-      l2: { pctX: 0.65, pctY: 0.42 }, // End point 2 (0.0~1.0 relative to display canvas)
+      mode: 'single', // 'single' (前牆納氣為主) or 'dual' (前後牆雙牆幾何平均)
+      l1: { pctX: 0.35, pctY: 0.58 }, // 前牆端點 1 (0.0~1.0 relative to display canvas)
+      l2: { pctX: 0.65, pctY: 0.42 }, // 前牆端點 2 (0.0~1.0 relative to display canvas)
+      b1: { pctX: 0.30, pctY: 0.72 }, // 後牆端點 1 (雙牆模式)
+      b2: { pctX: 0.60, pctY: 0.56 }, // 後牆端點 2 (雙牆模式)
       draggingPt: null,
       facingAngle: 307.0,
       sitAngle: 127.0,
@@ -2038,9 +2049,19 @@
     }
 
     // --- Satellite Image Alignment & Baseline Logic ---
+    function setSatMode(mode) {
+      satState.mode = mode;
+      document.getElementById('btnSatModeSingle').className = mode === 'single' ? 'btn btn-primary' : 'btn';
+      document.getElementById('btnSatModeDual').className = mode === 'dual' ? 'btn btn-primary' : 'btn';
+      drawSatCanvas();
+    }
+
     function openSatModal() {
       document.getElementById('satModal').style.display = 'flex';
-      drawSatCanvas();
+      setSatMode(satState.mode || 'single');
+      setTimeout(() => {
+        drawSatCanvas();
+      }, 50);
     }
 
     function closeSatModal() {
@@ -2057,7 +2078,9 @@
           satState.img = img;
           satState.l1 = { pctX: 0.35, pctY: 0.58 };
           satState.l2 = { pctX: 0.65, pctY: 0.42 };
-          drawSatCanvas();
+          satState.b1 = { pctX: 0.30, pctY: 0.72 };
+          satState.b2 = { pctX: 0.60, pctY: 0.56 };
+          openSatModal();
         };
         img.src = evt.target.result;
       };
@@ -2078,6 +2101,8 @@
                 satState.img = img;
                 satState.l1 = { pctX: 0.35, pctY: 0.58 };
                 satState.l2 = { pctX: 0.65, pctY: 0.42 };
+                satState.b1 = { pctX: 0.30, pctY: 0.72 };
+                satState.b2 = { pctX: 0.60, pctY: 0.56 };
                 openSatModal();
               };
               img.src = evt.target.result;
@@ -2090,22 +2115,16 @@
 
     function drawSatCanvas() {
       const canvas = document.getElementById('satCanvas');
+      if (!canvas) return;
       const ctx = canvas.getContext('2d');
       const container = document.getElementById('satCanvasArea');
 
-      let w = container.clientWidth - 20 || 800;
-      let h = container.clientHeight - 20 || 600;
-
       if (satState.img) {
-        let aspect = satState.img.width / satState.img.height;
-        if (w / h > aspect) {
-          canvas.height = h;
-          canvas.width = h * aspect;
-        } else {
-          canvas.width = w;
-          canvas.height = w / aspect;
-        }
+        canvas.width = satState.img.width;
+        canvas.height = satState.img.height;
       } else {
+        let w = container.clientWidth || 800;
+        let h = container.clientHeight || 600;
         canvas.width = w;
         canvas.height = h;
       }
@@ -2118,44 +2137,62 @@
         ctx.fillStyle = "#1e1e1e";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "#94a3b8";
-        ctx.font = "14px Segoe UI";
+        ctx.font = "16px Segoe UI";
         ctx.textAlign = "center";
         ctx.fillText("請在此處按 Ctrl+V 貼上 Google Maps 空拍圖，或在右側選擇圖檔", canvas.width / 2, canvas.height / 2);
+        return;
       }
 
+      // 動態對應圖片解析度之縮放比例 (scale factor)
+      let scaleFactor = Math.max(1, canvas.width / 900);
+
       // 畫出正北 0.0° 指向箭頭 (Cyan Arrow North)
+      let northX = 50 * scaleFactor;
+      let northY = 50 * scaleFactor;
       ctx.strokeStyle = "#38bdf8";
-      ctx.lineWidth = 2;
-      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 3 * scaleFactor;
+      ctx.setLineDash([6 * scaleFactor, 6 * scaleFactor]);
       ctx.beginPath();
-      ctx.moveTo(35, 70);
-      ctx.lineTo(35, 25);
+      ctx.moveTo(northX, northY + 60 * scaleFactor);
+      ctx.lineTo(northX, northY);
       ctx.stroke();
       ctx.setLineDash([]);
+      
       ctx.fillStyle = "#38bdf8";
       ctx.beginPath();
-      ctx.moveTo(35, 15);
-      ctx.lineTo(28, 28);
-      ctx.lineTo(42, 28);
+      ctx.moveTo(northX, northY - 15 * scaleFactor);
+      ctx.lineTo(northX - 10 * scaleFactor, northY + 5 * scaleFactor);
+      ctx.lineTo(northX + 10 * scaleFactor, northY + 5 * scaleFactor);
       ctx.fill();
-      ctx.font = "11px Segoe UI";
-      ctx.fillText("正北 N (0.0°)", 35, 85);
+      ctx.font = `bold ${Math.round(13 * scaleFactor)}px Segoe UI`;
+      ctx.textAlign = "center";
+      ctx.fillText("正北 N (0.0°)", northX, northY + 80 * scaleFactor);
 
-      // 計算基準線 (L1 ➔ L2) 之實際 Canvas 繪圖座標 (解析度無關)
-      let l1 = {
-        x: satState.l1.pctX * canvas.width,
-        y: satState.l1.pctY * canvas.height
-      };
-      let l2 = {
-        x: satState.l2.pctX * canvas.width,
-        y: satState.l2.pctY * canvas.height
-      };
+      // 前牆基準線 (L1 ➔ L2)
+      let l1 = { x: satState.l1.pctX * canvas.width, y: satState.l1.pctY * canvas.height };
+      let l2 = { x: satState.l2.pctX * canvas.width, y: satState.l2.pctY * canvas.height };
+      let dxA = l2.x - l1.x;
+      let dyA = l2.y - l1.y;
+      let baseRadA = Math.atan2(dyA, dxA);
+      let baseDegA = normalizeAngle(baseRadA * 180 / Math.PI + 90);
 
-      let dx = l2.x - l1.x;
-      let dy = l2.y - l1.y;
+      let baseDeg = baseDegA;
 
-      let baseRad = Math.atan2(dy, dx);
-      let baseDeg = normalizeAngle(baseRad * 180 / Math.PI + 90);
+      // 後牆基準線 (B1 ➔ B2) - 雙牆模式
+      let b1 = { x: satState.b1.pctX * canvas.width, y: satState.b1.pctY * canvas.height };
+      let b2 = { x: satState.b2.pctX * canvas.width, y: satState.b2.pctY * canvas.height };
+
+      if (satState.mode === 'dual') {
+        let dxB = b2.x - b1.x;
+        let dyB = b2.y - b1.y;
+        let baseRadB = Math.atan2(dyB, dxB);
+        let baseDegB = normalizeAngle(baseRadB * 180 / Math.PI + 90);
+
+        let diff = baseDegB - baseDegA;
+        if (diff > 180) baseDegB -= 360;
+        if (diff < -180) baseDegB += 360;
+        baseDeg = normalizeAngle((baseDegA + baseDegB) / 2);
+      }
 
       let facingDeg = normalizeAngle(baseDeg - 90);
       let sitDeg = normalizeAngle(facingDeg + 180);
@@ -2167,38 +2204,81 @@
       let facingMnt = getMountain(facingDeg);
       let sitMnt = getMountain(sitDeg);
 
-      document.getElementById('satBaseAngleBadge').innerText = `${baseDeg.toFixed(1)}°`;
+      if (satState.mode === 'dual') {
+        document.getElementById('satBaseTitle').innerText = "雙牆平分中軸向量 (前後牆幾何平均)";
+        document.getElementById('satBaseAngleBadge').innerText = `${baseDeg.toFixed(1)}° (前:${baseDegA.toFixed(1)}°)`;
+        document.getElementById('satBaseAngleDesc').innerText = `已綜合計算前牆 (${baseDegA.toFixed(1)}°) 與後牆非平行牆面之平分角度。`;
+      } else {
+        document.getElementById('satBaseTitle').innerText = "前牆基準線向量 (L1 ➔ L2)";
+        document.getElementById('satBaseAngleBadge').innerText = `${baseDeg.toFixed(1)}°`;
+        document.getElementById('satBaseAngleDesc').innerText = `沿建物前牆主要納氣採光面貼合之夾角。`;
+      }
+
       document.getElementById('satFacingBadge').innerText = `${facingDeg.toFixed(1)}° (${facingMnt.name}向)`;
       document.getElementById('satSitBadge').innerText = `${sitDeg.toFixed(1)}° (${sitMnt.name}山)`;
-      document.getElementById('satFacingDesc').innerText = `法線垂直指向大門氣口與海景方向 (${facingMnt.name}向)。`;
+      document.getElementById('satFacingDesc').innerText = `法線垂直指向大門氣口與景觀面 (${facingMnt.name}向)。`;
 
-      // 繪製前牆基準線 L1 ➔ L2 (Red Line)
-      ctx.strokeStyle = "#ef4444";
-      ctx.lineWidth = 3.5;
+      // 1. 繪製前牆基準線 L1 ➔ L2 (紅色細虛線 50% 半透明)
+      ctx.strokeStyle = "rgba(239, 68, 68, 0.5)";
+      ctx.lineWidth = 2.2 * scaleFactor;
+      ctx.setLineDash([8 * scaleFactor, 5 * scaleFactor]);
       ctx.beginPath();
       ctx.moveTo(l1.x, l1.y);
       ctx.lineTo(l2.x, l2.y);
       ctx.stroke();
+      ctx.setLineDash([]); // 重置虛線
 
-      // 繪製端點圓球 (Drag Handles)
+      // 繪製前牆端點圓球 (Drag Handles L1 & L2 - 100% 清晰)
+      let circleR = 12 * scaleFactor;
       ctx.fillStyle = "#ef4444";
-      ctx.beginPath(); ctx.arc(l1.x, l1.y, 8, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.arc(l2.x, l2.y, 8, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(l1.x, l1.y, circleR, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(l2.x, l2.y, circleR, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 2 * scaleFactor;
+      ctx.beginPath(); ctx.arc(l1.x, l1.y, circleR, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(l2.x, l2.y, circleR, 0, Math.PI * 2); ctx.stroke();
       ctx.fillStyle = "#ffffff";
-      ctx.font = "bold 11px Segoe UI"; ctx.textAlign = "center";
-      ctx.fillText("L1", l1.x, l1.y + 4);
-      ctx.fillText("L2", l2.x, l2.y + 4);
+      ctx.font = `bold ${Math.round(12 * scaleFactor)}px Segoe UI`;
+      ctx.textAlign = "center";
+      ctx.fillText("L1", l1.x, l1.y + 4 * scaleFactor);
+      ctx.fillText("L2", l2.x, l2.y + 4 * scaleFactor);
 
-      // 繪製垂直朝向法線向量 (Green Perpendicular Facing Arrow)
+      // 2. 雙牆模式：繪製後牆基準線 B1 ➔ B2 (水藍色細虛線 50% 半透明)
+      if (satState.mode === 'dual') {
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.5)";
+        ctx.lineWidth = 2.2 * scaleFactor;
+        ctx.setLineDash([8 * scaleFactor, 5 * scaleFactor]);
+        ctx.beginPath();
+        ctx.moveTo(b1.x, b1.y);
+        ctx.lineTo(b2.x, b2.y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // 端點 B1 & B2
+        ctx.fillStyle = "#0284c7";
+        ctx.beginPath(); ctx.arc(b1.x, b1.y, circleR, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(b2.x, b2.y, circleR, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 2 * scaleFactor;
+        ctx.beginPath(); ctx.arc(b1.x, b1.y, circleR, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(b2.x, b2.y, circleR, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = "#ffffff";
+        ctx.font = `bold ${Math.round(12 * scaleFactor)}px Segoe UI`;
+        ctx.textAlign = "center";
+        ctx.fillText("B1", b1.x, b1.y + 4 * scaleFactor);
+        ctx.fillText("B2", b2.x, b2.y + 4 * scaleFactor);
+      }
+
+      // 3. 繪製垂直朝向法線向量 (Green Perpendicular Facing Arrow)
       let midX = (l1.x + l2.x) / 2;
       let midY = (l1.y + l2.y) / 2;
       let facingRad = (facingDeg - 90) * Math.PI / 180;
-      let arrowLen = 65;
+      let arrowLen = 90 * scaleFactor;
       let fx = midX + arrowLen * Math.cos(facingRad);
       let fy = midY + arrowLen * Math.sin(facingRad);
 
       ctx.strokeStyle = "#10b981";
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 3.5 * scaleFactor;
       ctx.beginPath();
       ctx.moveTo(midX, midY);
       ctx.lineTo(fx, fy);
@@ -2206,52 +2286,77 @@
 
       // 綠色箭頭頭部
       let arrowHeadRad = Math.atan2(fy - midY, fx - midX);
+      let headLen = 16 * scaleFactor;
       ctx.fillStyle = "#10b981";
       ctx.beginPath();
       ctx.moveTo(fx, fy);
-      ctx.lineTo(fx - 12 * Math.cos(arrowHeadRad - Math.PI / 6), fy - 12 * Math.sin(arrowHeadRad - Math.PI / 6));
-      ctx.lineTo(fx - 12 * Math.cos(arrowHeadRad + Math.PI / 6), fy - 12 * Math.sin(arrowHeadRad + Math.PI / 6));
+      ctx.lineTo(fx - headLen * Math.cos(arrowHeadRad - Math.PI / 6), fy - headLen * Math.sin(arrowHeadRad - Math.PI / 6));
+      ctx.lineTo(fx - headLen * Math.cos(arrowHeadRad + Math.PI / 6), fy - headLen * Math.sin(arrowHeadRad + Math.PI / 6));
       ctx.fill();
 
       ctx.fillStyle = "#10b981";
-      ctx.font = "bold 12px Segoe UI";
-      ctx.fillText(`朝向: ${facingDeg.toFixed(1)}° (${facingMnt.name}向)`, fx + 10, fy);
+      ctx.font = `bold ${Math.round(14 * scaleFactor)}px Segoe UI`;
+      ctx.textAlign = "left";
+      ctx.fillText(`  朝向: ${facingDeg.toFixed(1)}° (${facingMnt.name}向)`, fx, fy);
     }
 
     function setupSatCanvasDrag() {
       const canvas = document.getElementById('satCanvas');
-      canvas.addEventListener('mousedown', (e) => {
-        let rect = canvas.getBoundingClientRect();
-        let mx = e.clientX - rect.left;
-        let my = e.clientY - rect.top;
 
+      const getCanvasMousePos = (e) => {
+        let rect = canvas.getBoundingClientRect();
+        let scaleX = canvas.width / rect.width;
+        let scaleY = canvas.height / rect.height;
+        let mx = (e.clientX - rect.left) * scaleX;
+        let my = (e.clientY - rect.top) * scaleY;
+        return { mx, my };
+      };
+
+      canvas.addEventListener('mousedown', (e) => {
+        let { mx, my } = getCanvasMousePos(e);
         let l1X = satState.l1.pctX * canvas.width;
         let l1Y = satState.l1.pctY * canvas.height;
         let l2X = satState.l2.pctX * canvas.width;
         let l2Y = satState.l2.pctY * canvas.height;
 
+        let scaleFactor = Math.max(1, canvas.width / 900);
+        let touchRadius = 35 * scaleFactor;
+
         let d1 = Math.hypot(mx - l1X, my - l1Y);
         let d2 = Math.hypot(mx - l2X, my - l2Y);
 
-        if (d1 < 25) satState.draggingPt = 'l1';
-        else if (d2 < 25) satState.draggingPt = 'l2';
+        if (d1 < touchRadius) { satState.draggingPt = 'l1'; return; }
+        if (d2 < touchRadius) { satState.draggingPt = 'l2'; return; }
+
+        if (satState.mode === 'dual') {
+          let b1X = satState.b1.pctX * canvas.width;
+          let b1Y = satState.b1.pctY * canvas.height;
+          let b2X = satState.b2.pctX * canvas.width;
+          let b2Y = satState.b2.pctY * canvas.height;
+
+          let dB1 = Math.hypot(mx - b1X, my - b1Y);
+          let dB2 = Math.hypot(mx - b2X, my - b2Y);
+
+          if (dB1 < touchRadius) { satState.draggingPt = 'b1'; return; }
+          if (dB2 < touchRadius) { satState.draggingPt = 'b2'; return; }
+        }
       });
 
       canvas.addEventListener('mousemove', (e) => {
         if (!satState.draggingPt) return;
-        let rect = canvas.getBoundingClientRect();
-        let mx = e.clientX - rect.left;
-        let my = e.clientY - rect.top;
+        let { mx, my } = getCanvasMousePos(e);
 
-        let pctX = Math.max(0.01, Math.min(0.99, mx / canvas.width));
-        let pctY = Math.max(0.01, Math.min(0.99, my / canvas.height));
+        let pctX = Math.max(0.02, Math.min(0.98, mx / canvas.width));
+        let pctY = Math.max(0.02, Math.min(0.98, my / canvas.height));
 
         if (satState.draggingPt === 'l1') {
-          satState.l1.pctX = pctX;
-          satState.l1.pctY = pctY;
+          satState.l1.pctX = pctX; satState.l1.pctY = pctY;
         } else if (satState.draggingPt === 'l2') {
-          satState.l2.pctX = pctX;
-          satState.l2.pctY = pctY;
+          satState.l2.pctX = pctX; satState.l2.pctY = pctY;
+        } else if (satState.draggingPt === 'b1') {
+          satState.b1.pctX = pctX; satState.b1.pctY = pctY;
+        } else if (satState.draggingPt === 'b2') {
+          satState.b2.pctX = pctX; satState.b2.pctY = pctY;
         }
         drawSatCanvas();
       });
