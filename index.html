@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>動態陽宅與方位 - 陽宅後天派分金、立太極與禁水路動態平面圖系統</title>
+  <title>動態陽宅與方位 - 陽宅後天派分金、立太極與 Google Maps 空拍圖基準線測繪系統</title>
   <!-- Google Fonts: Light Weights 300 & 400 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -394,6 +394,59 @@
       cursor: grabbing;
     }
 
+    /* Satellite Image Modal & Canvas Overlay */
+    .sat-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .sat-modal-container {
+      background: #242424;
+      border: 1px solid var(--accent-gold);
+      border-radius: 0.75rem;
+      width: 92vw;
+      height: 90vh;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .sat-canvas-area {
+      background: #121212;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #satCanvas {
+      max-width: 100%;
+      max-height: 100%;
+      cursor: crosshair;
+      box-shadow: 0 0 16px rgba(0,0,0,0.6);
+    }
+
+    .sat-sidebar {
+      background: #1c1c1c;
+      border-left: 1px solid var(--border-color);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      overflow-y: auto;
+    }
+
     /* Result Reports */
     .status-badge {
       display: inline-flex;
@@ -528,6 +581,7 @@
     </div>
 
     <div class="header-actions">
+      <button class="btn" onclick="openSatModal()">🛰️ 空拍圖貼上/測繪</button>
       <button class="btn" onclick="resetAllInputs()">🔄 重置預設</button>
       <button class="btn btn-primary" onclick="exportReport()">📄 匯出視覺圖</button>
     </div>
@@ -661,6 +715,20 @@
             <div class="chip" onclick="setPresetAngle(225)">艮坤 225°</div>
           </div>
         </div>
+      </div>
+
+      <!-- Card 5: Google Maps Satellite Alignment Helper -->
+      <div class="card">
+        <div class="card-title">
+          <span>5. 🛰️ 空拍圖貼上與基準線測繪</span>
+          <i>🗺️</i>
+        </div>
+        <div style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.4;">
+          支援將 Google Maps 空拍圖複製後在網頁任意處按 <strong>Ctrl+V 貼上</strong>，或點擊下方選擇圖片：
+        </div>
+        <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="openSatModal()">
+          📸 開啟空拍圖繪測畫布 (Ctrl+V 貼上)
+        </button>
       </div>
 
       <!-- Card 4: Display Layers -->
@@ -937,6 +1005,72 @@
 
   </div>
 
+  <!-- Google Maps Satellite Overlay Modal -->
+  <div class="sat-modal-overlay" id="satModal">
+    <div class="sat-modal-container">
+      <div class="sat-canvas-area" id="satCanvasArea">
+        <canvas id="satCanvas"></canvas>
+      </div>
+      <div class="sat-sidebar">
+        <div class="card-title">
+          <span>🛰️ 空拍圖基準線對齊與判定</span>
+          <button class="btn" style="padding: 0.15rem 0.4rem;" onclick="closeSatModal()">✕ 關閉</button>
+        </div>
+
+        <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.45;">
+          💡 <strong>操作說明</strong>：
+          <br/>1. 直接在此畫面按 <strong>Ctrl+V 貼上</strong> Google Maps 截圖，或點擊下方選擇檔案。
+          <br/>2. 畫面上正上方垂直線固定為 <strong>正北 (0.0°)</strong>。
+          <br/>3. 請以滑鼠拖曳畫布上的 <strong>紅色端點 (L1 & L2)</strong>，貼合建物前牆主面。
+        </div>
+
+        <div class="form-group">
+          <label>選擇或貼上空拍圖</label>
+          <input type="file" id="fileSatImg" accept="image/*" onchange="loadSatImageFile(event)">
+        </div>
+
+        <div class="water-path-item safe" style="border-left-color: #38bdf8;">
+          <div class="water-path-header">
+            <span>前牆基準線向量 (L1 ➔ L2)</span>
+            <span class="status-badge status-safe" id="satBaseAngleBadge">37.0°</span>
+          </div>
+          <div class="water-path-desc" id="satBaseAngleDesc">
+            沿建物前牆牆面貼合之方向夾角。
+          </div>
+        </div>
+
+        <div class="water-path-item safe">
+          <div class="water-path-header">
+            <span>推算垂直朝向 (Facing Vector)</span>
+            <span class="status-badge status-safe" id="satFacingBadge">307.0° (戌向)</span>
+          </div>
+          <div class="water-path-desc" id="satFacingDesc">
+            法線垂直指向大門氣口與景觀面。
+          </div>
+        </div>
+
+        <div class="water-path-item safe" style="border-left-color: #a855f7;">
+          <div class="water-path-header">
+            <span>推算垂直坐山 (Sit Mountain)</span>
+            <span class="status-badge status-safe" id="satSitBadge">127.0° (辰山)</span>
+          </div>
+          <div class="water-path-desc" id="satSitDesc">
+            坐東南辰山，朝西北戌向 (辰山戌向 巽宅)。
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto;">
+          <button class="btn btn-primary" style="justify-content: center; padding: 0.55rem;" onclick="applySatAngleToSystem()">
+            ✅ 確認基準線標註正確，並帶入陽宅羅盤
+          </button>
+          <button class="btn" style="justify-content: center;" onclick="resetSatBaseline()">
+            🔄 重置基準線至中央
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Application Logic -->
   <script>
     // --- 24 Mountains Data ---
@@ -1014,7 +1148,7 @@
       "離": { xianTian: "震", houTian: "乾", shaMountain: "亥", desc: "離宅（坐南）：破先天在【震方/東/長男】，破後天在【乾方/西北/父位】，八煞黃泉在【亥山/西北/父位】。" }
     };
 
-    // Global State - Default ZoomScale set to 1.18 for larger central main canvas view
+    // Global State
     let state = {
       length: 6.3,
       width: 11.0,
@@ -1037,6 +1171,17 @@
       fontScale: 1.0,
       panX: 0,
       panY: 0
+    };
+
+    // Satellite Map Interactive Alignment State
+    let satState = {
+      img: null,
+      l1: { x: 300, y: 350 }, // End point 1 of baseline
+      l2: { x: 450, y: 240 }, // End point 2 of baseline
+      draggingPt: null,
+      facingAngle: 307.0,
+      sitAngle: 127.0,
+      baseAngle: 37.0
     };
 
     function normalizeAngle(deg) {
@@ -1892,6 +2037,231 @@
       window.print();
     }
 
+    // --- Satellite Image Alignment & Baseline Logic ---
+    function openSatModal() {
+      document.getElementById('satModal').style.display = 'flex';
+      drawSatCanvas();
+    }
+
+    function closeSatModal() {
+      document.getElementById('satModal').style.display = 'none';
+    }
+
+    function loadSatImageFile(e) {
+      let file = e.target.files[0];
+      if (!file) return;
+      let reader = new FileReader();
+      reader.onload = (evt) => {
+        let img = new Image();
+        img.onload = () => {
+          satState.img = img;
+          satState.l1 = { x: img.width * 0.4, y: img.height * 0.6 };
+          satState.l2 = { x: img.width * 0.6, y: img.height * 0.45 };
+          drawSatCanvas();
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setupPasteListener() {
+      window.addEventListener('paste', (e) => {
+        let items = e.clipboardData && e.clipboardData.items;
+        if (!items) return;
+        for (let item of items) {
+          if (item.type.indexOf('image') !== -1) {
+            let file = item.getAsFile();
+            let reader = new FileReader();
+            reader.onload = (evt) => {
+              let img = new Image();
+              img.onload = () => {
+                satState.img = img;
+                satState.l1 = { x: img.width * 0.4, y: img.height * 0.6 };
+                satState.l2 = { x: img.width * 0.6, y: img.height * 0.45 };
+                openSatModal();
+              };
+              img.src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      });
+    }
+
+    function drawSatCanvas() {
+      const canvas = document.getElementById('satCanvas');
+      const ctx = canvas.getContext('2d');
+      const container = document.getElementById('satCanvasArea');
+
+      let w = container.clientWidth - 20 || 800;
+      let h = container.clientHeight - 20 || 600;
+
+      if (satState.img) {
+        let aspect = satState.img.width / satState.img.height;
+        if (w / h > aspect) {
+          canvas.height = h;
+          canvas.width = h * aspect;
+        } else {
+          canvas.width = w;
+          canvas.height = w / aspect;
+        }
+      } else {
+        canvas.width = w;
+        canvas.height = h;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (satState.img) {
+        ctx.drawImage(satState.img, 0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.fillStyle = "#1e1e1e";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "14px Segoe UI";
+        ctx.textAlign = "center";
+        ctx.fillText("請在此處按 Ctrl+V 貼上 Google Maps 空拍圖，或在右側選擇圖檔", canvas.width / 2, canvas.height / 2);
+      }
+
+      // 畫出正北 0.0° 指向箭頭 (Cyan Arrow North)
+      ctx.strokeStyle = "#38bdf8";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(35, 70);
+      ctx.lineTo(35, 25);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#38bdf8";
+      ctx.beginPath();
+      ctx.moveTo(35, 15);
+      ctx.lineTo(28, 28);
+      ctx.lineTo(42, 28);
+      ctx.fill();
+      ctx.font = "11px Segoe UI";
+      ctx.fillText("正北 N (0.0°)", 35, 85);
+
+      // 計算基準線 (L1 ➔ L2) 之夾角
+      let l1 = satState.l1;
+      let l2 = satState.l2;
+
+      let dx = l2.x - l1.x;
+      let dy = l2.y - l1.y;
+
+      let baseRad = Math.atan2(dy, dx);
+      let baseDeg = normalizeAngle(baseRad * 180 / Math.PI + 90);
+
+      let facingDeg = normalizeAngle(baseDeg - 90);
+      let sitDeg = normalizeAngle(facingDeg + 180);
+
+      satState.baseAngle = baseDeg;
+      satState.facingAngle = facingDeg;
+      satState.sitAngle = sitDeg;
+
+      let facingMnt = getMountain(facingDeg);
+      let sitMnt = getMountain(sitDeg);
+
+      document.getElementById('satBaseAngleBadge').innerText = `${baseDeg.toFixed(1)}°`;
+      document.getElementById('satFacingBadge').innerText = `${facingDeg.toFixed(1)}° (${facingMnt.name}向)`;
+      document.getElementById('satSitBadge').innerText = `${sitDeg.toFixed(1)}° (${sitMnt.name}山)`;
+      document.getElementById('satFacingDesc').innerText = `法線垂直指向大門氣口與海景方向 (${facingMnt.name}向)。`;
+
+      // 繪製前牆基準線 L1 ➔ L2 (Red Line)
+      ctx.strokeStyle = "#ef4444";
+      ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(l1.x, l1.y);
+      ctx.lineTo(l2.x, l2.y);
+      ctx.stroke();
+
+      // 繪製端點圓球 (Drag Handles)
+      ctx.fillStyle = "#ef4444";
+      ctx.beginPath(); ctx.arc(l1.x, l1.y, 7, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(l2.x, l2.y, 7, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "10px Segoe UI"; ctx.textAlign = "center";
+      ctx.fillText("L1", l1.x, l1.y + 3);
+      ctx.fillText("L2", l2.x, l2.y + 3);
+
+      // 繪製垂直朝向法線向量 (Green Perpendicular Facing Arrow)
+      let midX = (l1.x + l2.x) / 2;
+      let midY = (l1.y + l2.y) / 2;
+      let facingRad = (facingDeg - 90) * Math.PI / 180;
+      let arrowLen = 65;
+      let fx = midX + arrowLen * Math.cos(facingRad);
+      let fy = midY + arrowLen * Math.sin(facingRad);
+
+      ctx.strokeStyle = "#10b981";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(midX, midY);
+      ctx.lineTo(fx, fy);
+      ctx.stroke();
+
+      // 綠色箭頭頭部
+      let arrowHeadRad = Math.atan2(fy - midY, fx - midX);
+      ctx.fillStyle = "#10b981";
+      ctx.beginPath();
+      ctx.moveTo(fx, fy);
+      ctx.lineTo(fx - 12 * Math.cos(arrowHeadRad - Math.PI / 6), fy - 12 * Math.sin(arrowHeadRad - Math.PI / 6));
+      ctx.lineTo(fx - 12 * Math.cos(arrowHeadRad + Math.PI / 6), fy - 12 * Math.sin(arrowHeadRad + Math.PI / 6));
+      ctx.fill();
+
+      ctx.fillStyle = "#10b981";
+      ctx.font = "bold 12px Segoe UI";
+      ctx.fillText(`朝向: ${facingDeg.toFixed(1)}° (${facingMnt.name}向)`, fx + 10, fy);
+    }
+
+    function setupSatCanvasDrag() {
+      const canvas = document.getElementById('satCanvas');
+      canvas.addEventListener('mousedown', (e) => {
+        let rect = canvas.getBoundingClientRect();
+        let mx = e.clientX - rect.left;
+        let my = e.clientY - rect.top;
+
+        let d1 = Math.hypot(mx - satState.l1.x, my - satState.l1.y);
+        let d2 = Math.hypot(mx - satState.l2.x, my - satState.l2.y);
+
+        if (d1 < 15) satState.draggingPt = 'l1';
+        else if (d2 < 15) satState.draggingPt = 'l2';
+      });
+
+      canvas.addEventListener('mousemove', (e) => {
+        if (!satState.draggingPt) return;
+        let rect = canvas.getBoundingClientRect();
+        let mx = e.clientX - rect.left;
+        let my = e.clientY - rect.top;
+
+        if (satState.draggingPt === 'l1') {
+          satState.l1.x = mx; satState.l1.y = my;
+        } else if (satState.draggingPt === 'l2') {
+          satState.l2.x = mx; satState.l2.y = my;
+        }
+        drawSatCanvas();
+      });
+
+      window.addEventListener('mouseup', () => {
+        satState.draggingPt = null;
+      });
+    }
+
+    function applySatAngleToSystem() {
+      let angle = parseFloat(satState.facingAngle.toFixed(1));
+      document.getElementById('facingAngle').value = angle;
+      updateCalculations();
+      closeSatModal();
+      alert(`✅ 已成功將空拍圖基準線推算角度 ${angle}° (${getMountain(angle).name}向) 帶入陽宅系統！`);
+    }
+
+    function resetSatBaseline() {
+      const canvas = document.getElementById('satCanvas');
+      let cx = canvas.width / 2;
+      let cy = canvas.height / 2;
+      satState.l1 = { x: cx - 60, y: cy + 30 };
+      satState.l2 = { x: cx + 60, y: cy - 30 };
+      drawSatCanvas();
+    }
+
     function attachWheelListeners() {
       const bindWheel = (elementId, inputId, step, min, max) => {
         const el = document.getElementById(elementId);
@@ -1930,10 +2300,8 @@
           if (idx === -1) idx = 0;
 
           if (e.deltaY < 0) {
-            // Scroll Up -> 上一個元運
             idx = (idx - 1 + periodList.length) % periodList.length;
           } else {
-            // Scroll Down -> 下一個元運
             idx = (idx + 1) % periodList.length;
           }
 
@@ -1960,6 +2328,8 @@
 
     window.onload = () => {
       attachWheelListeners();
+      setupPasteListener();
+      setupSatCanvasDrag();
       updateCalculations();
     };
   </script>
