@@ -1173,11 +1173,11 @@
       panY: 0
     };
 
-    // Satellite Map Interactive Alignment State
+    // Satellite Map Interactive Alignment State (Normalized Relative Percentages)
     let satState = {
       img: null,
-      l1: { x: 300, y: 350 }, // End point 1 of baseline
-      l2: { x: 450, y: 240 }, // End point 2 of baseline
+      l1: { pctX: 0.35, pctY: 0.58 }, // End point 1 (0.0~1.0 relative to display canvas)
+      l2: { pctX: 0.65, pctY: 0.42 }, // End point 2 (0.0~1.0 relative to display canvas)
       draggingPt: null,
       facingAngle: 307.0,
       sitAngle: 127.0,
@@ -2055,8 +2055,8 @@
         let img = new Image();
         img.onload = () => {
           satState.img = img;
-          satState.l1 = { x: img.width * 0.4, y: img.height * 0.6 };
-          satState.l2 = { x: img.width * 0.6, y: img.height * 0.45 };
+          satState.l1 = { pctX: 0.35, pctY: 0.58 };
+          satState.l2 = { pctX: 0.65, pctY: 0.42 };
           drawSatCanvas();
         };
         img.src = evt.target.result;
@@ -2076,8 +2076,8 @@
               let img = new Image();
               img.onload = () => {
                 satState.img = img;
-                satState.l1 = { x: img.width * 0.4, y: img.height * 0.6 };
-                satState.l2 = { x: img.width * 0.6, y: img.height * 0.45 };
+                satState.l1 = { pctX: 0.35, pctY: 0.58 };
+                satState.l2 = { pctX: 0.65, pctY: 0.42 };
                 openSatModal();
               };
               img.src = evt.target.result;
@@ -2141,9 +2141,15 @@
       ctx.font = "11px Segoe UI";
       ctx.fillText("正北 N (0.0°)", 35, 85);
 
-      // 計算基準線 (L1 ➔ L2) 之夾角
-      let l1 = satState.l1;
-      let l2 = satState.l2;
+      // 計算基準線 (L1 ➔ L2) 之實際 Canvas 繪圖座標 (解析度無關)
+      let l1 = {
+        x: satState.l1.pctX * canvas.width,
+        y: satState.l1.pctY * canvas.height
+      };
+      let l2 = {
+        x: satState.l2.pctX * canvas.width,
+        y: satState.l2.pctY * canvas.height
+      };
 
       let dx = l2.x - l1.x;
       let dy = l2.y - l1.y;
@@ -2176,12 +2182,12 @@
 
       // 繪製端點圓球 (Drag Handles)
       ctx.fillStyle = "#ef4444";
-      ctx.beginPath(); ctx.arc(l1.x, l1.y, 7, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.arc(l2.x, l2.y, 7, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(l1.x, l1.y, 8, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(l2.x, l2.y, 8, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = "#ffffff";
-      ctx.font = "10px Segoe UI"; ctx.textAlign = "center";
-      ctx.fillText("L1", l1.x, l1.y + 3);
-      ctx.fillText("L2", l2.x, l2.y + 3);
+      ctx.font = "bold 11px Segoe UI"; ctx.textAlign = "center";
+      ctx.fillText("L1", l1.x, l1.y + 4);
+      ctx.fillText("L2", l2.x, l2.y + 4);
 
       // 繪製垂直朝向法線向量 (Green Perpendicular Facing Arrow)
       let midX = (l1.x + l2.x) / 2;
@@ -2219,11 +2225,16 @@
         let mx = e.clientX - rect.left;
         let my = e.clientY - rect.top;
 
-        let d1 = Math.hypot(mx - satState.l1.x, my - satState.l1.y);
-        let d2 = Math.hypot(mx - satState.l2.x, my - satState.l2.y);
+        let l1X = satState.l1.pctX * canvas.width;
+        let l1Y = satState.l1.pctY * canvas.height;
+        let l2X = satState.l2.pctX * canvas.width;
+        let l2Y = satState.l2.pctY * canvas.height;
 
-        if (d1 < 15) satState.draggingPt = 'l1';
-        else if (d2 < 15) satState.draggingPt = 'l2';
+        let d1 = Math.hypot(mx - l1X, my - l1Y);
+        let d2 = Math.hypot(mx - l2X, my - l2Y);
+
+        if (d1 < 25) satState.draggingPt = 'l1';
+        else if (d2 < 25) satState.draggingPt = 'l2';
       });
 
       canvas.addEventListener('mousemove', (e) => {
@@ -2232,10 +2243,15 @@
         let mx = e.clientX - rect.left;
         let my = e.clientY - rect.top;
 
+        let pctX = Math.max(0.01, Math.min(0.99, mx / canvas.width));
+        let pctY = Math.max(0.01, Math.min(0.99, my / canvas.height));
+
         if (satState.draggingPt === 'l1') {
-          satState.l1.x = mx; satState.l1.y = my;
+          satState.l1.pctX = pctX;
+          satState.l1.pctY = pctY;
         } else if (satState.draggingPt === 'l2') {
-          satState.l2.x = mx; satState.l2.y = my;
+          satState.l2.pctX = pctX;
+          satState.l2.pctY = pctY;
         }
         drawSatCanvas();
       });
@@ -2254,11 +2270,8 @@
     }
 
     function resetSatBaseline() {
-      const canvas = document.getElementById('satCanvas');
-      let cx = canvas.width / 2;
-      let cy = canvas.height / 2;
-      satState.l1 = { x: cx - 60, y: cy + 30 };
-      satState.l2 = { x: cx + 60, y: cy - 30 };
+      satState.l1 = { pctX: 0.35, pctY: 0.58 };
+      satState.l2 = { pctX: 0.65, pctY: 0.42 };
       drawSatCanvas();
     }
 
