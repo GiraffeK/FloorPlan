@@ -235,6 +235,69 @@
       transition: all 0.15s ease;
     }
 
+    .val-badge-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      color: var(--accent-gold);
+      background: rgba(245, 158, 11, 0.12);
+      padding: 0.04rem 0.25rem;
+      border-radius: 0.2rem;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      transition: all 0.15s ease;
+    }
+
+    .val-badge-input-wrap:focus-within,
+    .form-group:hover .val-badge-input-wrap {
+      background: rgba(245, 158, 11, 0.25);
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 6px rgba(245, 158, 11, 0.3);
+    }
+
+    .intersection-dot-group {
+      cursor: pointer;
+    }
+
+    .intersection-dot-group:hover .dot-circle {
+      r: 7.5;
+      fill: #f59e0b;
+      stroke: #38bdf8;
+      stroke-width: 2.5;
+      transition: all 0.15s ease;
+    }
+
+    .intersection-dot-group:hover .dot-hover-badge rect {
+      stroke: #f59e0b;
+      stroke-width: 2.5;
+      transition: all 0.15s ease;
+    }
+
+    .intersection-dot-group:hover .dot-hover-badge {
+      opacity: 1 !important;
+      transition: opacity 0.15s ease;
+    }
+
+    .num-input-badge {
+      background: transparent;
+      border: none;
+      color: var(--accent-gold);
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      font-weight: 400;
+      width: 3.0rem;
+      text-align: right;
+      outline: none;
+      padding: 0;
+    }
+
+    .num-input-badge::-webkit-inner-spin-button,
+    .num-input-badge::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
     .form-group:hover .val-badge {
       background: rgba(245, 158, 11, 0.25);
       border-color: var(--accent-gold);
@@ -349,24 +412,25 @@
       z-index: 20;
     }
 
-    /* Top-Left HUD Info Panel */
+    /* Top-Left HUD Info Panel (Fully Transparent Mode) */
     .viewport-hud-topleft {
       position: absolute;
-      top: 0.6rem;
-      left: 0.6rem;
-      background: rgba(24, 24, 27, 0.92);
-      border: 1px solid var(--border-color);
-      border-radius: 0.375rem;
-      padding: 0.45rem 0.75rem;
+      top: 0.5rem;
+      left: 0.5rem;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
       color: var(--text-main);
       font-size: 0.82rem;
-      font-weight: 300;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      font-weight: 400;
+      backdrop-filter: none;
+      box-shadow: none;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
       z-index: 20;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.2rem;
       pointer-events: none;
     }
 
@@ -375,6 +439,48 @@
       align-items: center;
       gap: 0.75rem;
       white-space: nowrap;
+    }
+
+    /* Door Feng Shui Evaluation (Borderless Floating Text Mode - Strictly locked to 180px width for both green title and white desc) */
+    .hud-door-eval-box {
+      margin-top: 0.1rem;
+      padding: 0;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.08rem;
+      width: 180px;
+      max-width: 180px;
+      box-sizing: border-box;
+      backdrop-filter: none;
+      box-shadow: none;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
+      pointer-events: none;
+    }
+
+    .hud-door-eval-box .eval-title {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: #10b981;
+      width: 180px;
+      max-width: 180px;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-all;
+    }
+
+    .hud-door-eval-box .eval-desc {
+      font-size: 0.70rem;
+      font-weight: 300;
+      color: rgba(235, 235, 235, 0.88);
+      line-height: 1.25;
+      width: 150px;
+      max-width: 150px;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-all;
     }
 
     .viewport-controls-row {
@@ -621,33 +727,49 @@
     <!-- Left Panel: Controls 1, 2, 3, 4 (Compact 270px) -->
     <div class="panel">
 
-      <!-- Card 1: House Dimensions -->
+      <!-- Card 1: House Dimensions (Centerline to Centerline) -->
       <div class="card">
         <div class="card-title">
-          <span>1. 房屋尺寸與格局</span>
+          <span>1. 房屋尺寸與格局 (牆心至牆心)</span>
           <i>🏠</i>
         </div>
         
-        <div class="form-group" id="groupLength" title="滾輪向上/向下微調長度">
+        <div class="form-group" id="groupLength" title="房屋進深 L (牆心到牆心距離)，滾輪向上/向下微調">
           <div class="form-row">
-            <label for="houseLength">房屋長度 L (進深)</label>
+            <label for="houseLength">房屋長度 L (進深 牆心)</label>
             <span class="val-badge" id="lblLength">6.3 m</span>
           </div>
           <input type="range" id="houseLength" min="3" max="35" step="0.1" value="6.3" oninput="updateCalculations()">
         </div>
 
-        <div class="form-group" id="groupWidth" title="滾輪向上/向下微調寬度">
+        <div class="form-group" id="groupWidth" title="房屋面寬 W (牆心到牆心距離)，滾輪向上/向下微調">
           <div class="form-row">
-            <label for="houseWidth">房屋寬度 W (面寬)</label>
+            <label for="houseWidth">房屋寬度 W (面寬 牆心)</label>
             <span class="val-badge" id="lblWidth">11.0 m</span>
           </div>
           <input type="range" id="houseWidth" min="3" max="30" step="0.1" value="11.0" oninput="updateCalculations()">
+        </div>
+
+        <div class="form-group" id="groupWallThickness" title="牆體總厚度，滾輪向上/向下微調">
+          <div class="form-row">
+            <label for="wallThickness">牆體厚度 (Wall Thickness)</label>
+            <span class="val-badge" id="lblWallThickness">40 cm</span>
+          </div>
+          <input type="range" id="wallThickness" min="10" max="100" step="5" value="40" oninput="updateCalculations()">
         </div>
 
         <div class="form-row">
           <label>牆體與動態卦位分區</label>
           <label class="toggle-row">
             <input type="checkbox" id="showRooms" checked onchange="updateCalculations()" hidden>
+            <div class="toggle-switch"></div>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>顯示施工牆心卦界尺寸線 (0,0 原點)</label>
+          <label class="toggle-row">
+            <input type="checkbox" id="showBaguaDimensions" checked onchange="updateCalculations()" hidden>
             <div class="toggle-switch"></div>
           </label>
         </div>
@@ -676,6 +798,14 @@
             <span class="val-badge" id="lblDoorPos">75%</span>
           </div>
           <input type="range" id="doorPos" min="10" max="90" step="1" value="75" oninput="updateCalculations()">
+        </div>
+
+        <div class="form-group" id="groupDoorWidth" title="大門門框總淨寬度 (預設 1.2m)，滾輪向上/向下微調">
+          <div class="form-row">
+            <label for="doorWidth">大門門寬 (Door Width)</label>
+            <span class="val-badge" id="lblDoorWidth">1.20 m</span>
+          </div>
+          <input type="range" id="doorWidth" min="0.6" max="3.0" step="0.05" value="1.2" oninput="updateCalculations()">
         </div>
 
         <div class="form-group" id="groupDoorAngle" title="滾輪向上/向下微調門向偏角">
@@ -714,26 +844,26 @@
         <div class="form-group" id="groupFacing" title="滾輪向上/向下微調角度">
           <div class="form-row">
             <label for="facingAngle">朝向角度 (Facing Angle θ)</label>
-            <span class="val-badge" id="lblFacing">307.0° (戌山)</span>
+            <span class="val-badge" id="lblFacing">306.0° (戌山)</span>
           </div>
-          <input type="range" id="facingAngle" min="0" max="359.9" step="0.5" value="307.0" oninput="updateCalculations()">
+          <input type="range" id="facingAngle" min="0" max="359.9" step="0.5" value="306.0" oninput="updateCalculations()">
         </div>
 
         <div class="summary-grid">
           <div class="summary-box">
             <div class="title">坐山 (Sit)</div>
-            <div class="val" id="dispSitInfo">辰山 127.0°</div>
+            <div class="val" id="dispSitInfo">辰山 126.0°</div>
           </div>
           <div class="summary-box">
             <div class="title">向山 (Facing)</div>
-            <div class="val" id="dispFacingInfo">戌向 307.0°</div>
+            <div class="val" id="dispFacingInfo">戌向 306.0°</div>
           </div>
         </div>
 
         <div class="form-group">
           <label>二十四山快捷預設 (Presets)</label>
           <div class="preset-chips">
-            <div class="chip active" onclick="setPresetAngle(307)">辰戌 307°</div>
+            <div class="chip active" onclick="setPresetAngle(306)">辰戌 306°</div>
             <div class="chip" onclick="setPresetAngle(180)">子午 180°</div>
             <div class="chip" onclick="setPresetAngle(0)">午子 0°</div>
             <div class="chip" onclick="setPresetAngle(270)">卯酉 270°</div>
@@ -743,20 +873,6 @@
             <div class="chip" onclick="setPresetAngle(225)">艮坤 225°</div>
           </div>
         </div>
-      </div>
-
-      <!-- Card 5: Google Maps Satellite Alignment Helper -->
-      <div class="card">
-        <div class="card-title">
-          <span>5. 🛰️ 空拍圖貼上與基準線測繪</span>
-          <i>🗺️</i>
-        </div>
-        <div style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.4;">
-          支援將 Google Maps 空拍圖複製後在網頁任意處按 <strong>Ctrl+V 貼上</strong>，或點擊下方選擇圖片：
-        </div>
-        <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="openSatModal()">
-          📸 開啟空拍圖繪測畫布 (Ctrl+V 貼上)
-        </button>
       </div>
 
       <!-- Card 4: Display Layers -->
@@ -820,14 +936,19 @@
     <!-- Center Viewport Canvas (Windows 11 Dark Canvas - Maximized) -->
     <div class="viewport" id="viewportArea" title="在羅盤圖上滾動滾輪可微調字體大小 (Scroll Up/Down to Adjust Font Size)">
       
-      <!-- Top-Left HUD Info Panel (面寬、進深、門位資訊) -->
+      <!-- Top-Left HUD Info Panel (面寬、進深、門位資訊與門位偏角吉凶論斷) -->
       <div class="viewport-hud-topleft" id="viewportTopLeftHud">
         <div class="hud-row">
           <span>📐 <strong>面寬 (W):</strong> <span id="hudWidth" style="color: #60a5fa;">-- m</span></span>
           <span><strong>進深 (L):</strong> <span id="hudLength" style="color: #60a5fa;">-- m</span></span>
+          <span><strong>牆厚:</strong> <span id="hudWall" style="color: #60a5fa;">40 cm</span></span>
         </div>
         <div class="hud-row">
           <span>🚪 <strong>門位:</strong> <span id="hudDoorInfo" style="color: #facc15;">--</span></span>
+        </div>
+        <div class="hud-door-eval-box" id="hudDoorEvalBox">
+          <div class="eval-title" id="hudDoorEvalTitle">--</div>
+          <div class="eval-desc" id="hudDoorEvalDesc">--</div>
         </div>
       </div>
 
@@ -856,6 +977,34 @@
 
     <!-- Right Panel: Reports & Rules -->
     <div class="panel panel-right">
+
+      <!-- Card: Construction Bagua Boundary Centerline Dimension Table -->
+      <div class="card">
+        <div class="card-title">
+          <span>📐 施工現場牆心丈量對照表 (0,0右上角原點)</span>
+          <i>📏</i>
+        </div>
+        <div style="font-size: 0.72rem; color: #fbbf24; line-height: 1.45; background: rgba(245, 158, 11, 0.08); padding: 0.4rem; border-radius: 0.3rem; border: 1px solid rgba(245, 158, 11, 0.25);">
+          <strong>【放樣基準】：以「右上角牆心 (0.00, 0.00)」為原點！</strong><br/>
+          扣除 1/2 牆厚 (20cm) 即為現場內牆面淨丈量尺寸。
+        </div>
+
+        <div style="margin-top: 0.35rem; max-height: 240px; overflow-y: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.70rem; text-align: left; color: var(--text-main);">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.15); color: #94a3b8;">
+                <th style="padding: 0.25rem 0.2rem;">卦界名稱</th>
+                <th style="padding: 0.25rem 0.2rem;">牆面</th>
+                <th style="padding: 0.25rem 0.2rem; text-align: right;">牆心距離</th>
+                <th style="padding: 0.25rem 0.2rem; text-align: right; color: #38bdf8;">室內淨距離</th>
+              </tr>
+            </thead>
+            <tbody id="tblBaguaIntersections">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       <!-- Card: House Feng Shui Summary -->
       <div class="card">
@@ -1199,10 +1348,12 @@
     let state = {
       length: 6.3,
       width: 11.0,
+      wallThickness: 40,
       period: '9',
       facingAngle: 307.0,
       doorWall: 'front',
       doorPosPct: 75,
+      doorWidth: 1.2,
       doorAngleOffset: 0,
       taijiXPct: 50,
       taijiYPct: 50,
@@ -1220,6 +1371,18 @@
       panY: 0
     };
 
+    // 宮位風水指南卡自訂拖曳偏移量 (Custom Interactive Offsets for Palace Cards)
+    let palaceCardOffsets = {
+      "坎": { dx: 0, dy: 0 },
+      "艮": { dx: 0, dy: 0 },
+      "震": { dx: 0, dy: 0 },
+      "巽": { dx: 0, dy: 0 },
+      "離": { dx: 0, dy: 0 },
+      "坤": { dx: 0, dy: 0 },
+      "兌": { dx: 0, dy: 0 },
+      "乾": { dx: 0, dy: 0 }
+    };
+
     // Satellite Map Interactive Alignment State (Normalized Relative Percentages)
     let satState = {
       img: null,
@@ -1229,9 +1392,9 @@
       b1: { pctX: 0.30, pctY: 0.72 }, // 後牆端點 1 (雙牆模式)
       b2: { pctX: 0.60, pctY: 0.56 }, // 後牆端點 2 (雙牆模式)
       draggingPt: null,
-      facingAngle: 307.0,
-      sitAngle: 127.0,
-      baseAngle: 37.0
+      facingAngle: 306.0,
+      sitAngle: 126.0,
+      baseAngle: 36.0
     };
 
     function normalizeAngle(deg) {
@@ -1314,6 +1477,176 @@
       return 0;
     }
 
+    // 計算大門門框兩端點位座標與長度 (精確以右上角外牆牆心 0,0 為原點)
+    function getDoorFrameCoordinates() {
+      let W = state.width;
+      let L = state.length;
+      let wallThick = (state.wallThickness || 40) / 100;
+      let halfWall = wallThick / 2;
+      let doorW = state.doorWidth || 1.2;
+      let halfDoor = doorW / 2;
+
+      let centerDistFromOrigin = 0;
+      let wallName = "";
+      let x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+
+      if (state.doorWall === 'front') {
+        wallName = "前牆 (Top)";
+        // 在前牆，右上角 x=0，左上角 x=W。SVG 門位置 doorPosPct 是自 Left 起算，因此自 Right (0,0) 原點距離為 W * (1 - doorPosPct/100)
+        centerDistFromOrigin = W * (1 - state.doorPosPct / 100);
+        let d1 = centerDistFromOrigin - halfDoor;
+        let d2 = centerDistFromOrigin + halfDoor;
+        x1 = Math.max(0, Math.min(d1, d2));
+        x2 = Math.min(W, Math.max(d1, d2));
+        y1 = 0;
+        y2 = 0;
+      } else if (state.doorWall === 'right') {
+        wallName = "右牆 (Right)";
+        // 在右牆，右上角 y=0，右下角 y=L。門位置是自 Top (0,0) 原點起算 L * (doorPosPct/100)
+        centerDistFromOrigin = L * (state.doorPosPct / 100);
+        let d1 = centerDistFromOrigin - halfDoor;
+        let d2 = centerDistFromOrigin + halfDoor;
+        y1 = Math.max(0, Math.min(d1, d2));
+        y2 = Math.min(L, Math.max(d1, d2));
+        x1 = 0;
+        x2 = 0;
+      } else if (state.doorWall === 'back') {
+        wallName = "後牆 (Bottom)";
+        // 在後牆，右下角 (0,L)，左下角 (W,L)。SVG 門位置是自 Bottom-Right 起算 W * (doorPosPct/100)
+        centerDistFromOrigin = W * (state.doorPosPct / 100);
+        let d1 = centerDistFromOrigin - halfDoor;
+        let d2 = centerDistFromOrigin + halfDoor;
+        x1 = Math.max(0, Math.min(d1, d2));
+        x2 = Math.min(W, Math.max(d1, d2));
+        y1 = L;
+        y2 = L;
+      } else if (state.doorWall === 'left') {
+        wallName = "左牆 (Left)";
+        // 在左牆，左上角 (W,0)，左下角 (W,L)。SVG 門位置是自 Top (0,0) 起算 L * (1 - doorPosPct/100)
+        centerDistFromOrigin = L * (1 - state.doorPosPct / 100);
+        let d1 = centerDistFromOrigin - halfDoor;
+        let d2 = centerDistFromOrigin + halfDoor;
+        y1 = Math.max(0, Math.min(d1, d2));
+        y2 = Math.min(L, Math.max(d1, d2));
+        x1 = W;
+        x2 = W;
+      }
+
+      let dist1 = (state.doorWall === 'front' || state.doorWall === 'back') ? x1 : y1;
+      let dist2 = (state.doorWall === 'front' || state.doorWall === 'back') ? x2 : y2;
+
+      let net1 = Math.max(0, dist1 - halfWall);
+      let net2 = Math.max(0, dist2 - halfWall);
+
+      return {
+        doorWidth: doorW,
+        wallName: wallName,
+        centerDist: centerDistFromOrigin,
+        frameDist1: dist1,
+        frameDist2: dist2,
+        x1: x1, y1: y1, net1: net1,
+        x2: x2, y2: y2, net2: net2
+      };
+    }
+
+    // 計算 8 個八卦宮位邊界線（卦界線）相交於外牆牆心之精確尺寸座標 (以右上角牆心為 0,0 原點)
+    function calculateBaguaIntersections() {
+      let W = state.width;
+      let L = state.length;
+      let wallThick = (state.wallThickness || 40) / 100; // 公尺 (如 0.40m)
+      let halfWall = wallThick / 2; // 0.20m
+
+      // 太極中心座標 (以右上角牆心為 (0,0)，X 向左, Y 向下)
+      let xTaiji = W * (1 - (state.taijiXPct || 50) / 100);
+      let yTaiji = L * ((state.taijiYPct || 50) / 100);
+
+      // 八卦 8 個邊界分界角度在羅盤上的角度
+      let bCompassAngles = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5];
+      let boundaryNames = [
+        "癸丑界 (坎/艮)", "甲寅界 (艮/震)", "乙辰界 (震/巽)", "丙巳界 (巽/離)",
+        "丁未界 (離/坤)", "庚申界 (坤/兌)", "辛戌界 (兌/乾)", "壬亥界 (乾/坎)"
+      ];
+
+      let results = [];
+
+      bCompassAngles.forEach((bCompassDeg, idx) => {
+        let relAngle = normalizeAngle(bCompassDeg - state.facingAngle);
+        let rad = (relAngle - 90) * Math.PI / 180;
+        let dx = -Math.cos(rad); // 向左 (+X)
+        let dy = Math.sin(rad);  // 向下 (+Y)
+
+        let intersections = [];
+
+        // 1. 前牆 (y = 0, 0 <= x <= W)
+        if (Math.abs(dy) > 1e-6) {
+          let t = -yTaiji / dy;
+          if (t > 0) {
+            let x = xTaiji + t * dx;
+            if (x >= -0.01 && x <= W + 0.01) {
+              let clampedX = Math.max(0, Math.min(W, x));
+              intersections.push({ wall: "前牆 (Top)", x: clampedX, y: 0, t: t });
+            }
+          }
+        }
+
+        // 2. 右牆 (x = 0, 0 <= y <= L)
+        if (Math.abs(dx) > 1e-6) {
+          let t = -xTaiji / dx;
+          if (t > 0) {
+            let y = yTaiji + t * dy;
+            if (y >= -0.01 && y <= L + 0.01) {
+              let clampedY = Math.max(0, Math.min(L, y));
+              intersections.push({ wall: "右牆 (Right)", x: 0, y: clampedY, t: t });
+            }
+          }
+        }
+
+        // 3. 後牆 (y = L, 0 <= x <= W)
+        if (Math.abs(dy) > 1e-6) {
+          let t = (L - yTaiji) / dy;
+          if (t > 0) {
+            let x = xTaiji + t * dx;
+            if (x >= -0.01 && x <= W + 0.01) {
+              let clampedX = Math.max(0, Math.min(W, x));
+              intersections.push({ wall: "後牆 (Bottom)", x: clampedX, y: L, t: t });
+            }
+          }
+        }
+
+        // 4. 左牆 (x = W, 0 <= y <= L)
+        if (Math.abs(dx) > 1e-6) {
+          let t = (W - xTaiji) / dx;
+          if (t > 0) {
+            let y = yTaiji + t * dy;
+            if (y >= -0.01 && y <= L + 0.01) {
+              let clampedY = Math.max(0, Math.min(L, y));
+              intersections.push({ wall: "左牆 (Left)", x: W, y: clampedY, t: t });
+            }
+          }
+        }
+
+        if (intersections.length > 0) {
+          intersections.sort((a, b) => a.t - b.t);
+          let p = intersections[0];
+
+          let distWallCenter = (p.wall.includes("前牆") || p.wall.includes("後牆")) ? p.x : p.y;
+          let distNet = Math.max(0, distWallCenter - halfWall);
+
+          results.push({
+            name: boundaryNames[idx],
+            compassDeg: bCompassDeg,
+            wall: p.wall,
+            x: p.x,
+            y: p.y,
+            distCenter: distWallCenter,
+            distNet: distNet
+          });
+        }
+      });
+
+      return results;
+    }
+
     function updateCalculations() {
       state.length = parseFloat(document.getElementById('houseLength').value);
       state.width = parseFloat(document.getElementById('houseWidth').value);
@@ -1321,6 +1654,7 @@
       state.facingAngle = parseFloat(document.getElementById('facingAngle').value);
       state.doorWall = document.getElementById('doorWall').value;
       state.doorPosPct = parseFloat(document.getElementById('doorPos').value);
+      state.doorWidth = parseFloat(document.getElementById('doorWidth').value) || 1.2;
       state.doorAngleOffset = parseFloat(document.getElementById('doorAngleOffset').value);
 
       state.showRooms = document.getElementById('showRooms').checked;
@@ -1330,6 +1664,7 @@
       state.showBoundaries = document.getElementById('showBoundaries').checked;
       state.showForbiddenWater = document.getElementById('showForbiddenWater').checked;
       state.showSafeWater = document.getElementById('showSafeWater').checked;
+      state.showBaguaDimensions = document.getElementById('showBaguaDimensions') ? document.getElementById('showBaguaDimensions').checked : true;
 
       document.getElementById('lblLength').innerText = state.length.toFixed(1) + " m";
       document.getElementById('lblWidth').innerText = state.width.toFixed(1) + " m";
@@ -1343,6 +1678,7 @@
       document.getElementById('dispFacingInfo').innerText = facingMnt.name + "向 " + state.facingAngle.toFixed(1) + "°";
       
       document.getElementById('lblDoorPos').innerText = state.doorPosPct + "%";
+      if (document.getElementById('lblDoorWidth')) document.getElementById('lblDoorWidth').innerText = state.doorWidth.toFixed(2) + " m";
       document.getElementById('lblDoorAngleOffset').innerText = (state.doorAngleOffset >= 0 ? "+" : "") + state.doorAngleOffset.toFixed(1) + "°";
 
       document.getElementById('btnFontScaleDisplay').innerText = `🔤 字體: ${Math.round(state.fontScale * 100)}%`;
@@ -1460,6 +1796,121 @@
       return { rules, forbiddenSectors, safeSectors };
     }
 
+    // 易經八卦八宮成員對應表 (Bagua Family Member & Property Suitability Map)
+    const BAGUA_MEMBER_MAP = {
+      "乾": { primary: "父親/男主人", secondary: "長輩", nonBed: "金庫/董事長室/玄關" },
+      "坤": { primary: "母親/女主人", secondary: "主婦", nonBed: "起居室/儲藏/大堂" },
+      "震": { primary: "長男(大兒子)", secondary: "長子", nonBed: "大門/客廳/書房" },
+      "巽": { primary: "長女(大女兒)", secondary: "長女", nonBed: "文昌書房/雅致客廳" },
+      "坎": { primary: "中男(次男)", secondary: "次子", nonBed: "水景魚缸/動線通道" },
+      "離": { primary: "中女(次女)", secondary: "次女", nonBed: "神明廳/採光起居室" },
+      "艮": { primary: "少男(幼子)", secondary: "男孫", nonBed: "文昌書房/靜室" },
+      "兌": { primary: "少女(幼女)", secondary: "女孫", nonBed: "客廳/會客接待" }
+    };
+
+    // 動態計算各宮位（八卦扇區）內部之【納吉・化煞・避煞】風水建議標籤
+    function getPalaceRules(baguaObj, sitGuaCode, periodKey, waterAnalysis) {
+      let starInfo = getNineStar(sitGuaCode, baguaObj.code);
+      let isGoodStar = starInfo.type.includes("吉");
+      let pData = PERIOD_DATA[periodKey] || PERIOD_DATA["9"];
+      let isLingGua = (baguaObj.code === pData.lingGua);
+      let isZhengGua = (baguaObj.code === pData.zhengGua);
+      let mem = BAGUA_MEMBER_MAP[baguaObj.code] || { primary: "家人", secondary: "親眷", nonBed: "客廳/書房" };
+
+      let forbSecs = waterAnalysis.forbiddenSectors.filter(sec => {
+        if (sec.type === "卦界空亡") return false;
+        let center = baguaObj.center;
+        let fMin = sec.min, fMax = sec.max;
+        if (fMin > fMax) return center >= fMin || center < fMax;
+        return center >= fMin && center < fMax;
+      });
+
+      let isSafeWater = waterAnalysis.safeSectors.some(sec => {
+        let center = baguaObj.center;
+        let sMin = sec.min, sMax = sec.max;
+        if (sMin > sMax) return center >= sMin || center < sMax;
+        return center >= sMin && center < sMax;
+      });
+
+      let yi = [];
+      let huasha = [];
+      let bisha = [];
+
+      if (isGoodStar) {
+        // --- 吉星宮位 (天醫/生氣/延年/伏位) ---
+        // 1. 【納吉】: 首重最宜安床成員、次宜適應症、非安床宜設項目
+        if (starInfo.star.includes("生氣")) {
+          yi.push(`生氣吉・最宜${mem.primary}安床`);
+          yi.push(`次宜求子旺事業`);
+          yi.push(`非安床宜設${mem.nonBed}`);
+        } else if (starInfo.star.includes("天醫")) {
+          yi.push(`天醫吉・最宜${mem.primary}安床`);
+          yi.push(`次宜長者/病癒養生`);
+          yi.push(`非安床宜設${mem.nonBed}`);
+        } else if (starInfo.star.includes("延年")) {
+          yi.push(`延年吉・最宜${mem.primary}安床`);
+          yi.push(`次宜夫妻和睦`);
+          yi.push(`非安床宜設${mem.nonBed}`);
+        } else if (starInfo.star.includes("伏位")) {
+          yi.push(`伏位吉・最宜${mem.primary}安床`);
+          yi.push(`次宜沉穩考運`);
+          yi.push(`非安床宜設${mem.nonBed}`);
+        } else {
+          yi.push(`吉星位・最宜${mem.primary}安床`);
+          yi.push(`非安床宜設${mem.nonBed}`);
+        }
+
+        if (isLingGua) yi.push("零神水聚財");
+
+        // 2. 【避煞】: 陽宅後天派「火燒艮山(灶)」禁忌與水法禁忌
+        if (baguaObj.code === "艮") {
+          bisha.push("忌設廚房灶位(火燒艮山破財)");
+        }
+        if (isZhengGua) bisha.push("正神忌開溝排水");
+        if (forbSecs.length > 0) {
+          forbSecs.forEach(f => {
+            if (f.reason.includes("八煞")) bisha.push("八煞黃泉");
+            else if (f.reason.includes("消水")) bisha.push("消水煞");
+            else if (f.reason.includes("亡水")) bisha.push("亡水煞");
+            else if (f.isGenSpecial) bisha.push("艮位明溝");
+          });
+        }
+      } else {
+        // --- 凶星宮位 (絕命/五鬼/六煞/禍害) ---
+        // 1. 【化煞】: 陽宅後天派「艮宮(鬼門/少男)忌廚房/灶」特別指示
+        if (baguaObj.code === "艮") {
+          huasha.push("宜衛浴壓煞 (嚴禁設廚房/灶)");
+        } else {
+          huasha.push("以廁壓煞・宜廚房衛浴");
+        }
+
+        // 2. 【避煞】: 避對應家族成員安床、後天派火燒艮山、水法煞
+        bisha.push(`避${mem.primary}安床`);
+
+        if (baguaObj.code === "艮") {
+          bisha.push("忌火燒艮山(損少男破財)");
+          bisha.push("艮位明溝水");
+        } else if (baguaObj.code === "坤" && !isLingGua) {
+          bisha.push("坤位水溝煞");
+        }
+
+        if (forbSecs.length > 0) {
+          forbSecs.forEach(f => {
+            if (f.reason.includes("八煞")) bisha.push("八煞黃泉");
+            else if (f.reason.includes("消水")) bisha.push("消水煞");
+            else if (f.reason.includes("亡水")) bisha.push("亡水煞");
+            else if (f.isGenSpecial && baguaObj.code !== "艮") bisha.push("艮位明溝水");
+          });
+        }
+      }
+
+      yi = [...new Set(yi)].slice(0, 2);
+      huasha = [...new Set(huasha)].slice(0, 2);
+      bisha = [...new Set(bisha)].slice(0, 2);
+
+      return { yi, huasha, bisha };
+    }
+
     // 動態計算房屋 4 個分區實際對應的八卦、九星與親人安床建議
     function getQuadrantDynamicGua(dx, dy, housePxW, housePxL, sitGuaCode) {
       let cx = 550, cy = 550;
@@ -1510,16 +1961,27 @@
 
     function renderSvg(sitMnt, facingMnt, waterAnalysis) {
       const svg = document.getElementById('mainSvg');
-      svg.innerHTML = '';
+      svg.innerHTML = `
+        <defs>
+          <pattern id="brickPattern" width="20" height="10" patternUnits="userSpaceOnUse">
+            <rect width="20" height="10" fill="rgba(194, 65, 12, 0.16)" />
+            <line x1="0" y1="5" x2="20" y2="5" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
+            <line x1="0" y1="10" x2="20" y2="10" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
+            <line x1="10" y1="0" x2="10" y2="5" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
+            <line x1="0" y1="5" x2="0" y2="10" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
+            <line x1="20" y1="5" x2="20" y2="10" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
+          </pattern>
+        </defs>
+      `;
 
       const cx = 550, cy = 550;
 
       const radiusMnt = 280;
       const radiusCompass = 330;
       const radiusBagua = 370;
-      const radiusSevenStars = 410;
-      const radiusAxisText = 455;
-      const radiusBoundaryText = 495;
+      const radiusSevenStars = 415;
+      const radiusAxisText = 460;
+      const radiusBoundaryText = 500;
 
       const scalePPM = 48;
       const housePxL = state.length * scalePPM;
@@ -1597,19 +2059,78 @@
         let baguaG = document.createElementNS("http://www.w3.org/2000/svg", "g");
         BAGUA.forEach(b => {
           let rad = (b.center - 90) * Math.PI / 180;
-          let tx = cx + (radiusBagua - 20) * Math.cos(rad);
-          let ty = cy + (radiusBagua - 20) * Math.sin(rad);
-
           let textAngle = -compassRotation;
+
+          // 1. 八卦名稱與元運零神/正神標籤 (精密置中於 24 山外層弧形框內 r = 350)
+          let rMid = (radiusCompass + radiusBagua) / 2; // 350px
+          let tx = cx + rMid * Math.cos(rad);
+          let ty = cy + rMid * Math.sin(rad);
+
           let color = b.code === "艮" ? "#f97316" : "#fbbf24";
           let extraTag = b.code === pData.lingGua ? `💧${state.period}運零神` : (b.code === pData.zhengGua ? `⛰️${state.period}運正神` : '');
 
-          baguaG.innerHTML += `
+          let textHtml = extraTag ? `
             <g transform="rotate(${textAngle}, ${tx}, ${ty})">
-              <text x="${tx}" y="${ty + 6 * fs}" font-size="${16 * fs}" font-weight="400" fill="${color}" text-anchor="middle" font-family="Noto Serif TC">${b.name}</text>
-              ${extraTag ? `<text x="${tx}" y="${ty + 22 * fs}" font-size="${10 * fs}" font-weight="300" fill="#38bdf8" text-anchor="middle">${extraTag}</text>` : ''}
+              <text x="${tx}" y="${ty - 4 * fs}" font-size="${24 * fs}" font-weight="500" fill="${color}" text-anchor="middle" font-family="Noto Serif TC">${b.name}</text>
+              <text x="${tx}" y="${ty + 16 * fs}" font-size="${15 * fs}" font-weight="400" fill="#38bdf8" text-anchor="middle">${extraTag}</text>
+            </g>
+          ` : `
+            <g transform="rotate(${textAngle}, ${tx}, ${ty})">
+              <text x="${tx}" y="${ty + 8 * fs}" font-size="${26 * fs}" font-weight="500" fill="${color}" text-anchor="middle" font-family="Noto Serif TC">${b.name}</text>
             </g>
           `;
+
+          baguaG.innerHTML += textHtml;
+
+          // 2. 宮位風水指南卡：可由使用者點擊拖曳至任意指定位置 (預設在中軸射線 r = 215)
+          let off = palaceCardOffsets[b.code] || { dx: 0, dy: 0 };
+          let sx = cx + 215 * Math.cos(rad) + off.dx;
+          let sy = cy + 215 * Math.sin(rad) + off.dy;
+
+          let rules = getPalaceRules(b, sitMnt.gua, state.period, waterAnalysis);
+          let lines = [];
+          if (rules.yi.length > 0) {
+            rules.yi.forEach(item => lines.push({ tag: `納吉:${item}`, color: "#10b981" }));
+          }
+          if (rules.huasha.length > 0) {
+            rules.huasha.forEach(item => lines.push({ tag: `化煞:${item}`, color: "#f59e0b" }));
+          }
+          if (rules.bisha.length > 0) {
+            rules.bisha.forEach(item => lines.push({ tag: `避煞:${item}`, color: "#ef4444" }));
+          }
+
+          if (lines.length > 0) {
+            let fontSz = 15 * fs;
+            let lh = 22 * fs;
+            let padY = 7 * fs;
+
+            // 動態計算各卡片最長文字列數，自動調整卡片外框寬度 (blockW) 與高度 (blockH)
+            let maxCharLen = Math.max(...lines.map(l => {
+              let len = 0;
+              for (let i = 0; i < l.tag.length; i++) {
+                len += l.tag.charCodeAt(i) > 255 ? 1 : 0.5;
+              }
+              return len;
+            }));
+
+            let blockW = Math.max(160 * fs, (maxCharLen * 15 + 28) * fs);
+            let blockH = lines.length * lh + padY * 2;
+
+            let rectX = sx - blockW / 2;
+            let rectY = sy - blockH / 2;
+
+            let linesHtml = lines.map((l, idx) => {
+              let lineY = rectY + padY + (idx + 0.75) * lh;
+              return `<text x="${sx}" y="${lineY}" font-size="${fontSz}" font-weight="500" fill="${l.color}" opacity="0.88" text-anchor="middle" style="pointer-events: none;">${l.tag}</text>`;
+            }).join("");
+
+            baguaG.innerHTML += `
+              <g class="palace-card-g" data-gua="${b.code}" style="cursor: move; pointer-events: all;" transform="rotate(${textAngle}, ${sx}, ${sy})">
+                <rect x="${rectX}" y="${rectY}" width="${blockW}" height="${blockH}" rx="${5 * fs}" fill="rgba(15, 23, 42, 0.78)" stroke="rgba(59, 130, 246, 0.45)" stroke-width="${1.2 * fs}" />
+                ${linesHtml}
+              </g>
+            `;
+          }
         });
         compassG.appendChild(baguaG);
       }
@@ -1625,13 +2146,13 @@
           let color = starInfo.type.includes("吉") ? "#10b981" : "#ef4444";
           let textAngle = -compassRotation;
 
-          let rw = 67.2 * fs;
-          let rh = 19.2 * fs;
+          let rw = 82 * fs;
+          let rh = 26 * fs;
 
           starG.innerHTML += `
             <g transform="rotate(${textAngle}, ${tx}, ${ty})">
-              <rect x="${tx - rw/2}" y="${ty - rh/2}" width="${rw}" height="${rh}" rx="${3.2 * fs}" fill="rgba(32, 32, 32, 0.95)" stroke="${color}" stroke-width="${1.2 * fs}" />
-              <text x="${tx}" y="${ty + 3.5 * fs}" font-size="${11 * fs}" font-weight="300" fill="${color}" text-anchor="middle">${starInfo.star.split(" ")[0]}・${b.gate.split(" ")[0]}</text>
+              <rect x="${tx - rw/2}" y="${ty - rh/2}" width="${rw}" height="${rh}" rx="${4 * fs}" fill="rgba(32, 32, 32, 0.50)" stroke="${color}" stroke-width="${1.6 * fs}" />
+              <text x="${tx}" y="${ty + 5 * fs}" font-size="${16 * fs}" font-weight="500" fill="${color}" text-anchor="middle">${starInfo.star.split(" ")[0]}・${b.gate.split(" ")[0]}</text>
             </g>
           `;
         });
@@ -1654,7 +2175,7 @@
           let textAngle = -compassRotation;
 
           mntG.innerHTML += `
-            <text x="${tx}" y="${ty + 5 * fs}" font-size="${14 * fs}" font-weight="300" fill="${color}" text-anchor="middle" transform="rotate(${textAngle}, ${tx}, ${ty})">${m.name}</text>
+            <text x="${tx}" y="${ty + 7 * fs}" font-size="${22 * fs}" font-weight="400" fill="${color}" text-anchor="middle" transform="rotate(${textAngle}, ${tx}, ${ty})">${m.name}</text>
           `;
         });
         compassG.appendChild(mntG);
@@ -1673,16 +2194,48 @@
           `;
         });
 
-        let line307Rad = (307.5 - 90) * Math.PI / 180;
-        let lx307 = cx + radiusBoundaryText * Math.cos(line307Rad);
-        let ly307 = cy + radiusBoundaryText * Math.sin(line307Rad);
+        // 動態推算與目前朝向 (state.facingAngle) 最接近的危險大空亡/卦界分金線
+        const DANGEROUS_BOUNDARIES = [
+          { angle: 22.5,  name: "22.5° 癸丑卦界" },
+          { angle: 67.5,  name: "67.5° 寅甲卦界" },
+          { angle: 112.5, name: "112.5° 乙辰卦界" },
+          { angle: 157.5, name: "157.5° 巳丙卦界" },
+          { angle: 202.5, name: "202.5° 丁未卦界" },
+          { angle: 247.5, name: "247.5° 申庚卦界" },
+          { angle: 292.5, name: "292.5° 辛戌卦界" },
+          { angle: 307.5, name: "307.5° 戌乾陰陽界" },
+          { angle: 337.5, name: "337.5° 乾亥卦界" }
+        ];
+
+        let facing = normalizeAngle(state.facingAngle);
+        let nearestBoundary = DANGEROUS_BOUNDARIES[0];
+        let minDiff = 360;
+
+        DANGEROUS_BOUNDARIES.forEach(b => {
+          let diff = Math.abs(normalizeAngle(facing - b.angle));
+          if (diff > 180) diff = 360 - diff;
+          if (diff < minDiff) {
+            minDiff = diff;
+            nearestBoundary = b;
+          }
+        });
+
+        let lineRad = (nearestBoundary.angle - 90) * Math.PI / 180;
+        let lx = cx + radiusBoundaryText * Math.cos(lineRad);
+        let ly = cy + radiusBoundaryText * Math.sin(lineRad);
         let textAngle = -compassRotation;
 
+        let isDangerous = minDiff < 2.0;
+        let lineColor = isDangerous ? "#ef4444" : "#0284c7";
+        let badgeStroke = isDangerous ? "#ef4444" : "#38bdf8";
+        let badgeText = `${nearestBoundary.name} (偏 ${minDiff.toFixed(1)}°)`;
+        let rw = 155 * fs;
+
         boundG.innerHTML += `
-          <line x1="${cx}" y1="${cy}" x2="${lx307}" y2="${ly307}" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="4,2" />
-          <g transform="rotate(${textAngle}, ${lx307}, ${ly307})">
-            <rect x="${lx307 - 65 * fs}" y="${ly307 - 11 * fs}" width="${130 * fs}" height="${20 * fs}" rx="${3 * fs}" fill="rgba(32, 32, 32, 0.9)" stroke="#38bdf8" stroke-width="1" />
-            <text x="${lx307}" y="${ly307 + 3.5 * fs}" font-size="${11 * fs}" fill="#38bdf8" text-anchor="middle" font-weight="300">307.5° 戌乾分界線</text>
+          <line x1="${cx}" y1="${cy}" x2="${lx}" y2="${ly}" stroke="${lineColor}" stroke-width="${isDangerous ? 3 : 2.5}" stroke-dasharray="4,2" />
+          <g transform="rotate(${textAngle}, ${lx}, ${ly})">
+            <rect x="${lx - rw/2}" y="${ly - 11 * fs}" width="${rw}" height="${20 * fs}" rx="${3 * fs}" fill="rgba(32, 32, 32, 0.95)" stroke="${badgeStroke}" stroke-width="1.2" />
+            <text x="${lx}" y="${ly + 3.5 * fs}" font-size="${11 * fs}" fill="${badgeStroke}" text-anchor="middle" font-weight="400">${badgeText}</text>
           </g>
         `;
 
@@ -1724,25 +2277,198 @@
       let houseRotGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
       houseRotGroup.setAttribute("transform", `rotate(${houseRotation}, ${cx}, ${cy})`);
 
+      let wallPx = (state.wallThickness / 100) * scalePPM; // 牆厚像素
+      let halfWall = wallPx / 2;
+      let outX = houseLeft - halfWall;
+      let outY = houseTop - halfWall;
+      let outW = housePxW + wallPx;
+      let outH = housePxL + wallPx;
+
+      let inX = houseLeft + halfWall;
+      let inY = houseTop + halfWall;
+      let inW = housePxW - wallPx;
+      let inH = housePxL - wallPx;
+
+      // 牆體 Compound Path (EvenOdd Fill Rule 填入半透明磚頭紋理 url(#brickPattern))
+      let wallPathD = `
+        M ${outX} ${outY} H ${outX + outW} V ${outY + outH} H ${outX} Z
+        M ${inX} ${inY} H ${inX + inW} V ${inY + inH} H ${inX} Z
+      `;
+
       houseRotGroup.innerHTML += `
+        <!-- 房屋內部深邃半透明藍底 -->
+        <rect x="${inX}" y="${inY}" width="${inW}" height="${inH}" 
+              fill="rgba(0, 120, 212, 0.16)" style="pointer-events: none;" />
+
+        <!-- 牆體本體：極細緻高透明磚頭紋理 (rgba(194, 65, 12, 0.16) + 白灰色淡磚縫) -->
+        <path d="${wallPathD}" fill="url(#brickPattern)" fill-rule="evenodd" 
+              stroke="rgba(234, 88, 12, 0.45)" stroke-width="1" style="pointer-events: none;" />
+
+        <!-- 牆心線參考虛線 (Golden Centerline) -->
         <rect x="${houseLeft}" y="${houseTop}" width="${housePxW}" height="${housePxL}" 
-              fill="rgba(0, 120, 212, 0.25)" stroke="#0078d4" stroke-width="3.5" rx="4" />
+              fill="none" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,4" style="pointer-events: none;" />
       `;
 
       if (state.showRooms) {
-        let innerPadding = 14;
-        let iw = housePxW - innerPadding * 2;
-        let ih = housePxL - innerPadding * 2;
-        let ix = houseLeft + innerPadding;
-        let iy = houseTop + innerPadding;
+        let iw = inW;
+        let ih = inH;
+        let ix = inX;
+        let iy = inY;
 
         houseRotGroup.innerHTML += `
-          <line x1="${ix + iw * 0.5}" y1="${iy}" x2="${ix + iw * 0.5}" y2="${iy + ih}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" />
-          <line x1="${ix}" y1="${iy + ih * 0.5}" x2="${ix + iw}" y2="${iy + ih * 0.5}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" />
+          <line x1="${ix + iw * 0.5}" y1="${iy}" x2="${ix + iw * 0.5}" y2="${iy + ih}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" style="pointer-events: none;" />
+          <line x1="${ix}" y1="${iy + ih * 0.5}" x2="${ix + iw}" y2="${iy + ih * 0.5}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" style="pointer-events: none;" />
         `;
       }
 
+      // 繪製大門與施工牆心放樣尺寸標註 (Door & Construction Dimension Markers)
+      let doorFrameInfo = getDoorFrameCoordinates();
       let { doorX, doorY } = getDoorUnrotatedCoords(cx, cy, housePxW, housePxL);
+
+      if (state.showBaguaDimensions) {
+        let dimG = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        let trX = cx + housePxW / 2;
+        let trY = cy - housePxL / 2;
+
+        // 1. 右上角牆心 (0,0) 原點標記
+        let textAngle = -houseRotation;
+        dimG.innerHTML += `
+          <circle cx="${trX}" cy="${trY}" r="6" fill="#f59e0b" stroke="#ffffff" stroke-width="1.8" />
+          <g transform="rotate(${textAngle}, ${trX + 8}, ${trY - 14})">
+            <rect x="${trX + 2}" y="${trY - 24}" width="105" height="18" rx="3" fill="rgba(32, 32, 32, 0.92)" stroke="#f59e0b" stroke-width="1" />
+            <text x="${trX + 54.5}" y="${trY - 11}" font-size="10" font-weight="500" fill="#f59e0b" text-anchor="middle">原點 (0,0) 右上牆心</text>
+          </g>
+        `;
+
+        // 2. 牆心交點亮藍圓點 (在房屋外牆上)
+        let bIntersections = calculateBaguaIntersections();
+        bIntersections.forEach(item => {
+          let ptX = trX - item.x * scalePPM;
+          let ptY = trY + item.y * scalePPM;
+
+          dimG.innerHTML += `
+            <g class="intersection-dot-group" 
+               data-name="${item.name}" 
+               data-wall="${item.wall}" 
+               data-x="${item.x.toFixed(2)}" 
+               data-y="${item.y.toFixed(2)}" 
+               data-distnet="${item.distNet.toFixed(2)}">
+              
+              <circle cx="${ptX}" cy="${ptY}" r="${14 * fs}" fill="transparent" />
+              <circle cx="${ptX}" cy="${ptY}" r="${5 * fs}" fill="#38bdf8" stroke="#ffffff" stroke-width="${1.5 * fs}" class="dot-circle" />
+              <title>📌 ${item.name} (${item.wall})\n牆心座標 (X, Y) = (${item.x.toFixed(2)}m, ${item.y.toFixed(2)}m)\n室內牆面淨距離 = ${item.distNet.toFixed(2)}m (已扣 20cm 牆厚)</title>
+            </g>
+          `;
+        });
+
+        houseRotGroup.appendChild(dimG);
+
+        // 3. 3x 特大號 (X,Y) 牆心座標標籤：精確安放於【八卦層 r=370】與【九星八門層 r=415】之間的環形空間 (R_mid = 392.5px)
+        let coordG = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        let rCoordMid = (radiusBagua + radiusSevenStars) / 2; // 392.5px
+        let compassTextAngle = -compassRotation;
+
+        bIntersections.forEach(item => {
+          let rad = (item.compassDeg - 90) * Math.PI / 180;
+          let bx = cx + rCoordMid * Math.cos(rad);
+          let by = cy + rCoordMid * Math.sin(rad);
+
+          let bw = 175 * fs;
+          let bh = 34 * fs;
+
+          coordG.innerHTML += `
+            <g class="intersection-dot-group" 
+               data-name="${item.name}" 
+               data-wall="${item.wall}" 
+               data-x="${item.x.toFixed(2)}" 
+               data-y="${item.y.toFixed(2)}" 
+               data-distnet="${item.distNet.toFixed(2)}">
+              
+              <!-- 3 倍大字體 (X,Y) 牆心座標，安放於八卦與九星八門之間的 392.5px 環形幾何中軸 -->
+              <g transform="rotate(${compassTextAngle}, ${bx}, ${by})">
+                <rect x="${bx - bw/2}" y="${by - bh/2}" width="${bw}" height="${bh}" rx="${5 * fs}" 
+                      fill="rgba(15, 23, 42, 0.95)" stroke="#38bdf8" stroke-width="${1.8 * fs}" />
+                <text x="${bx}" y="${by + 7 * fs}" font-size="${24 * fs}" font-weight="700" fill="#f59e0b" text-anchor="middle" font-family="Segoe UI, Consolas, monospace">(${item.x.toFixed(2)}m, ${item.y.toFixed(2)}m)</text>
+              </g>
+              <title>📌 ${item.name} (${item.wall})\n牆心座標 (X, Y) = (${item.x.toFixed(2)}m, ${item.y.toFixed(2)}m)\n室內牆面淨距離 = ${item.distNet.toFixed(2)}m (已扣 20cm 牆厚)</title>
+            </g>
+          `;
+        });
+
+        // 4. 大門左右門柱 (X,Y) 牆心座標標籤：兩條紅虛線自牆面門柱點 100% 平行延伸至 392.5px 環中軸
+        let doorWidthPx = doorFrameInfo.doorWidth * scalePPM;
+        let halfDoorPx = doorWidthPx / 2;
+        let isFrontOrBack = (state.doorWall === 'front' || state.doorWall === 'back');
+
+        let pt1X = doorX, pt1Y = doorY;
+        let pt2X = doorX, pt2Y = doorY;
+
+        if (isFrontOrBack) {
+          pt1X = doorX + halfDoorPx; // 右門柱
+          pt2X = doorX - halfDoorPx; // 左門柱
+        } else {
+          pt1Y = doorY + halfDoorPx; // 下/右門柱
+          pt2Y = doorY - halfDoorPx; // 上/左門柱
+        }
+
+        let doorDimG = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+        let postsData = [
+          { ptX: pt2X, ptY: pt2Y, x: doorFrameInfo.x2, y: doorFrameInfo.y2, label: "左門柱" },
+          { ptX: pt1X, ptY: pt1Y, x: doorFrameInfo.x1, y: doorFrameInfo.y1, label: "右門柱" }
+        ];
+
+        postsData.forEach(post => {
+          let bx, by;
+
+          if (state.doorWall === 'front') {
+            bx = post.ptX;
+            let dy = Math.sqrt(Math.max(0, rCoordMid * rCoordMid - (bx - cx) * (bx - cx)));
+            by = cy - dy;
+          } else if (state.doorWall === 'back') {
+            bx = post.ptX;
+            let dy = Math.sqrt(Math.max(0, rCoordMid * rCoordMid - (bx - cx) * (bx - cx)));
+            by = cy + dy;
+          } else if (state.doorWall === 'left') {
+            by = post.ptY;
+            let dx = Math.sqrt(Math.max(0, rCoordMid * rCoordMid - (by - cy) * (by - cy)));
+            bx = cx - dx;
+          } else { // right wall
+            by = post.ptY;
+            let dx = Math.sqrt(Math.max(0, rCoordMid * rCoordMid - (by - cy) * (by - cy)));
+            bx = cx + dx;
+          }
+
+          let bw = 70 * fs;
+          let bh = 19 * fs;
+          let textAngle = -houseRotation;
+
+          doorDimG.innerHTML += `
+            <g class="intersection-dot-group" 
+               data-name="大門${post.label}" 
+               data-wall="${doorFrameInfo.wallName}" 
+               data-x="${post.x.toFixed(2)}" 
+               data-y="${post.y.toFixed(2)}" 
+               data-distnet="${Math.max(0, (isFrontOrBack?post.x:post.y)-wallPx/2/scalePPM).toFixed(2)}">
+              
+              <!-- 垂直牆面 100% 嚴格平行延伸至 392.5px 環中軸之指引紅虛線 -->
+              <line x1="${post.ptX}" y1="${post.ptY}" x2="${bx}" y2="${by}" stroke="#ef4444" stroke-width="${1.3 * fs}" stroke-dasharray="3,3" opacity="0.9" />
+
+              <!-- 精緻平行對齊 (11px) 大門門柱座標，安放於 392.5px 環形幾何中軸 -->
+              <g transform="rotate(${textAngle}, ${bx}, ${by})">
+                <rect x="${bx - bw/2}" y="${by - bh/2}" width="${bw}" height="${bh}" rx="${3.5 * fs}" 
+                      fill="rgba(15, 23, 42, 0.96)" stroke="#ef4444" stroke-width="${1.2 * fs}" />
+                <text x="${bx}" y="${by + 4 * fs}" font-size="${11 * fs}" font-weight="700" fill="#f59e0b" text-anchor="middle" font-family="Segoe UI, Consolas, monospace">(${post.x.toFixed(2)}m, ${post.y.toFixed(2)}m)</text>
+              </g>
+              <title>🚪 大門${post.label} (${doorFrameInfo.wallName})\n牆心座標 (X, Y) = (${post.x.toFixed(2)}m, ${post.y.toFixed(2)}m)</title>
+            </g>
+          `;
+        });
+
+        houseRotGroup.appendChild(doorDimG);
+        compassG.appendChild(coordG);
+      }
+
       let doorSpatialLocAngle = getDoorSpatialLocAngle(cx, cy, housePxW, housePxL);
       let doorLocMnt = getMountain(doorSpatialLocAngle);
       let doorLocBagua = getBagua(doorSpatialLocAngle);
@@ -1751,25 +2477,70 @@
       let doorVisFacingAngle = wallBaseAngle + state.doorAngleOffset;
       let doorFacingAngleVal = getDoorFacingAngle();
 
-      // 更新 UI 最左上角 HUD 資訊 (面寬、進深、門位)
+      // 更新 UI 側邊欄標籤與最左上角 HUD 資訊 (面寬、進深、牆厚、門位)
+      state.wallThickness = parseFloat(document.getElementById('wallThickness').value) || 40;
+      let lblLengthEl = document.getElementById('lblLength');
+      let lblWidthEl = document.getElementById('lblWidth');
+      let lblWallEl = document.getElementById('lblWallThickness');
+      if (lblLengthEl) lblLengthEl.innerText = `${state.length.toFixed(1)} m`;
+      if (lblWidthEl) lblWidthEl.innerText = `${state.width.toFixed(1)} m`;
+      if (lblWallEl) lblWallEl.innerText = `${state.wallThickness} cm`;
+
+      let doorWidthPx = doorFrameInfo.doorWidth * scalePPM; // 動態對齊真實門寬 1.2m (像素)
+      let halfDoorPx = doorWidthPx / 2;
+
       document.getElementById('hudWidth').innerText = `${state.width.toFixed(1)} m`;
       document.getElementById('hudLength').innerText = `${state.length.toFixed(1)} m`;
-      document.getElementById('hudDoorInfo').innerText = `${doorLocBagua.name} ${doorSpatialLocAngle.toFixed(1)}° (門向:${doorFacingAngleVal.toFixed(1)}°)`;
+      document.getElementById('hudWall').innerText = `${state.wallThickness} cm`;
+      document.getElementById('hudDoorInfo').innerText = `${doorLocBagua.name} ${doorSpatialLocAngle.toFixed(1)}° (寬:${doorFrameInfo.doorWidth.toFixed(2)}m, 門框:${doorFrameInfo.frameDist1.toFixed(2)}m~${doorFrameInfo.frameDist2.toFixed(2)}m)`;
+
+      // 動態判定大門門位與門向偏角吉凶論斷 (Door Feng Shui Evaluation)
+      let doorStarInfo = getNineStar(sitMnt.gua, doorLocBagua.code);
+      let isDoorGoodStar = doorStarInfo.type.includes("吉");
+
+      let doorEvalTitle = isDoorGoodStar
+        ? `🟢 納氣吉門 (${doorLocBagua.name}宮・${doorStarInfo.star.split(" ")[0]})`
+        : `🔴 納煞門 (${doorLocBagua.name}宮・${doorStarInfo.star.split(" ")[0]})`;
+
+      let offsetDegree = state.doorAngleOffset || 0;
+      let offsetText = offsetDegree === 0
+        ? "門向順氣"
+        : `門向偏 ${offsetDegree > 0 ? '+' : ''}${offsetDegree.toFixed(1)}°`;
+
+      let doorEvalDesc = isDoorGoodStar
+        ? `納${doorStarInfo.star.split(" ")[0]}吉氣，開門納福；門寬 ${doorFrameInfo.doorWidth.toFixed(2)}m (門框放樣 左柱${doorFrameInfo.frameDist2.toFixed(2)}m~右柱${doorFrameInfo.frameDist1.toFixed(2)}m)；${offsetText}。`
+        : `落${doorStarInfo.star.split(" ")[0]}凶方，宜設屏風/玄關遮煞；門寬 ${doorFrameInfo.doorWidth.toFixed(2)}m (門框放樣 左柱${doorFrameInfo.frameDist2.toFixed(2)}m~右柱${doorFrameInfo.frameDist1.toFixed(2)}m)；${offsetText}。`;
+
+      let evalTitleEl = document.getElementById('hudDoorEvalTitle');
+      let evalDescEl = document.getElementById('hudDoorEvalDesc');
+
+      if (evalTitleEl && evalDescEl) {
+        evalTitleEl.innerText = doorEvalTitle;
+        evalTitleEl.style.color = isDoorGoodStar ? "#10b981" : "#ef4444";
+        evalDescEl.innerText = doorEvalDesc;
+      }
 
       houseRotGroup.innerHTML += `
-        <!-- Door Ray from Taiji Center -->
+        <!-- 太極中心指向門心中軸之射線 -->
         <line x1="${cx}" y1="${cy}" x2="${doorX}" y2="${doorY}" stroke="#eab308" stroke-width="2.5" stroke-dasharray="4,3" />
         
-        <!-- Door Symbol Container with Dynamic Facing Rotation -->
+        <!-- 大門符號與門框兩端放樣圓點 (Door Symbol Container) -->
         <g transform="translate(${doorX}, ${doorY})">
-          <circle cx="0" cy="0" r="6" fill="#ef4444" stroke="#ffffff" stroke-width="1.5" />
+          <circle cx="0" cy="0" r="5" fill="#ef4444" stroke="#ffffff" stroke-width="1.5" />
 
           <g transform="rotate(${doorVisFacingAngle})">
-            <rect x="-18" y="-3.5" width="36" height="7" fill="#ef4444" rx="2" opacity="0.9" />
-            <path d="M -16 0 A 16 16 0 0 1 0 -16" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,2" />
-            <line x1="-16" y1="0" x2="0" y2="-16" stroke="#fbbf24" stroke-width="2.5" />
-            <line x1="0" y1="0" x2="0" y2="-32" stroke="#ef4444" stroke-width="2.5" />
-            <polygon points="0,-38 -5,-28 5,-28" fill="#ef4444" />
+            <!-- 依真實 1.2m 門寬繪製之門框紅盒 -->
+            <rect x="${-halfDoorPx}" y="-4" width="${doorWidthPx}" height="8" fill="#ef4444" rx="2" opacity="0.95" stroke="#ffffff" stroke-width="1" />
+            
+            <!-- 門框兩端金黃/紅色點位界線 (在牆心線上) -->
+            <circle cx="${-halfDoorPx}" cy="0" r="3.5" fill="#ef4444" stroke="#ffffff" stroke-width="1" />
+            <circle cx="${halfDoorPx}" cy="0" r="3.5" fill="#ef4444" stroke="#ffffff" stroke-width="1" />
+
+            <!-- 開門弧線與門扇 -->
+            <path d="M ${-halfDoorPx} 0 A ${doorWidthPx * 0.8} ${doorWidthPx * 0.8} 0 0 1 0 ${-doorWidthPx * 0.8}" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,2" />
+            <line x1="${-halfDoorPx}" y1="0" x2="0" y2="${-doorWidthPx * 0.8}" stroke="#fbbf24" stroke-width="2.5" />
+            <line x1="0" y1="0" x2="0" y2="-34" stroke="#ef4444" stroke-width="2.5" />
+            <polygon points="0,-40 -5,-30 5,-30" fill="#ef4444" />
           </g>
         </g>
       `;
@@ -1831,6 +2602,24 @@
 
     function setupHoverInfo(svg, compassRotation, sitGuaCode) {
       svg.onmousemove = (e) => {
+        let dotG = e.target.closest('.intersection-dot-group');
+        if (dotG) {
+          let dName = dotG.getAttribute('data-name');
+          let dWall = dotG.getAttribute('data-wall');
+          let dX = dotG.getAttribute('data-x');
+          let dY = dotG.getAttribute('data-y');
+          let dNet = dotG.getAttribute('data-distnet');
+
+          document.getElementById('hoverAngle').innerText = `📌 ${dName}`;
+          document.getElementById('hoverMountain').innerText = `牆面: ${dWall}`;
+          document.getElementById('hoverGua').innerText = `牆心座標(X,Y): (${dX}m, ${dY}m)`;
+          document.getElementById('hoverPerson').innerText = `室內淨距: ${dNet}m`;
+          document.getElementById('hoverStar').innerText = `放樣基準: 右上牆心(0,0)`;
+          document.getElementById('hoverWater').innerText = `已扣20cm牆厚`;
+          document.getElementById('hoverWater').style.color = '#38bdf8';
+          return;
+        }
+
         let rect = svg.getBoundingClientRect();
         let mouseX = e.clientX - rect.left;
         let mouseY = e.clientY - rect.top;
@@ -1874,6 +2663,37 @@
       const scalePPM = 48;
       const housePxL = state.length * scalePPM;
       const housePxW = state.width * scalePPM;
+
+      // 動態更新「施工現場牆心丈量對照表」
+      let baguaIntersections = calculateBaguaIntersections();
+      let tblEl = document.getElementById('tblBaguaIntersections');
+      if (tblEl) {
+        tblEl.innerHTML = '';
+        baguaIntersections.forEach(item => {
+          let tr = document.createElement('tr');
+          tr.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+          tr.innerHTML = `
+            <td style="padding: 0.25rem 0.2rem; font-weight: 500; color: #fbbf24;">${item.name}</td>
+            <td style="padding: 0.25rem 0.2rem; color: #cbd5e1;">${item.wall}</td>
+            <td style="padding: 0.25rem 0.2rem; text-align: right; font-family: var(--font-mono); color: #f59e0b;">${item.distCenter.toFixed(2)} m</td>
+            <td style="padding: 0.25rem 0.2rem; text-align: right; font-family: var(--font-mono); color: #38bdf8; font-weight: 500;">${item.distNet.toFixed(2)} m</td>
+          `;
+          tblEl.appendChild(tr);
+        });
+
+          // 大門門框施工放樣區間列
+          let doorFrameInfo = getDoorFrameCoordinates();
+          let trDoor = document.createElement('tr');
+          trDoor.style.borderTop = '1.5px solid #f59e0b';
+          trDoor.style.background = 'rgba(245, 158, 11, 0.12)';
+          trDoor.innerHTML = `
+            <td style="padding: 0.3rem 0.2rem; font-weight: 700; color: #f59e0b;">🚪 大門門框 (${doorFrameInfo.doorWidth.toFixed(2)}m)</td>
+            <td style="padding: 0.3rem 0.2rem; color: #fbbf24; font-weight: 500;">${doorFrameInfo.wallName}</td>
+            <td style="padding: 0.3rem 0.2rem; text-align: right; font-family: var(--font-mono); color: #f59e0b; font-weight: 700;">左柱${doorFrameInfo.frameDist2.toFixed(2)}m ~ 右柱${doorFrameInfo.frameDist1.toFixed(2)}m</td>
+            <td style="padding: 0.3rem 0.2rem; text-align: right; font-family: var(--font-mono); color: #38bdf8; font-weight: 700;">淨${doorFrameInfo.net2.toFixed(2)}m ~ 淨${doorFrameInfo.net1.toFixed(2)}m</td>
+          `;
+          tblEl.appendChild(trDoor);
+        }
 
       document.getElementById('reportHouseGua').innerText = sitMnt.gua + "宅 (" + sitMnt.name + "山)";
       
@@ -2012,8 +2832,9 @@
     function resetAllInputs() {
       document.getElementById('houseLength').value = 6.3;
       document.getElementById('houseWidth').value = 11.0;
+      document.getElementById('wallThickness').value = 40;
       document.getElementById('periodSelect').value = '9';
-      document.getElementById('facingAngle').value = 307.0;
+      document.getElementById('facingAngle').value = 306.0;
       document.getElementById('doorWall').value = 'front';
       document.getElementById('doorPos').value = 75;
       document.getElementById('doorAngleOffset').value = 0;
@@ -2023,6 +2844,17 @@
       state.fontScale = 1.0;
       state.panX = 0;
       state.panY = 0;
+
+      palaceCardOffsets = {
+        "坎": { dx: 0, dy: 0 },
+        "艮": { dx: 0, dy: 0 },
+        "震": { dx: 0, dy: 0 },
+        "巽": { dx: 0, dy: 0 },
+        "離": { dx: 0, dy: 0 },
+        "坤": { dx: 0, dy: 0 },
+        "兌": { dx: 0, dy: 0 },
+        "乾": { dx: 0, dy: 0 }
+      };
 
       updateCalculations();
     }
@@ -2414,8 +3246,10 @@
 
       bindWheel('groupLength', 'houseLength', 0.1, 3.0, 35.0);
       bindWheel('groupWidth', 'houseWidth', 0.1, 3.0, 30.0);
+      bindWheel('groupWallThickness', 'wallThickness', 5, 10, 100);
       bindWheel('groupFacing', 'facingAngle', 0.5, 0, 359.9);
       bindWheel('groupDoorPos', 'doorPos', 1, 10, 90);
+      bindWheel('groupDoorWidth', 'doorWidth', 0.05, 0.6, 3.0);
       bindWheel('groupDoorAngle', 'doorAngleOffset', 0.5, -45, 45);
 
       // 三元九運滑鼠滾輪向上/向下切換事件
@@ -2456,10 +3290,73 @@
       }
     }
 
+    let cardDragState = {
+      isDragging: false,
+      guaCode: null,
+      startMouseX: 0,
+      startMouseY: 0,
+      startDx: 0,
+      startDy: 0
+    };
+
+    function setupPalaceCardDrag() {
+      const svg = document.getElementById('mainSvg');
+      if (!svg) return;
+
+      svg.addEventListener('mousedown', (e) => {
+        let cardG = e.target.closest('.palace-card-g');
+        if (!cardG) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        let guaCode = cardG.getAttribute('data-gua');
+        let currentOff = palaceCardOffsets[guaCode] || { dx: 0, dy: 0 };
+
+        cardDragState.isDragging = true;
+        cardDragState.guaCode = guaCode;
+        cardDragState.startMouseX = e.clientX;
+        cardDragState.startMouseY = e.clientY;
+        cardDragState.startDx = currentOff.dx;
+        cardDragState.startDy = currentOff.dy;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!cardDragState.isDragging || !cardDragState.guaCode) return;
+        e.preventDefault();
+
+        let rect = svg.getBoundingClientRect();
+        let svgScale = 1100 / rect.width;
+        let zoom = state.zoomScale || 1.0;
+
+        let deltaX = (e.clientX - cardDragState.startMouseX) * svgScale / zoom;
+        let deltaY = (e.clientY - cardDragState.startMouseY) * svgScale / zoom;
+
+        let compassRotation = state.rotateMode === 'houseUp' ? -state.facingAngle : 0;
+        let rotRad = (-compassRotation) * Math.PI / 180;
+        let rotDx = deltaX * Math.cos(rotRad) - deltaY * Math.sin(rotRad);
+        let rotDy = deltaX * Math.sin(rotRad) + deltaY * Math.cos(rotRad);
+
+        palaceCardOffsets[cardDragState.guaCode] = {
+          dx: cardDragState.startDx + rotDx,
+          dy: cardDragState.startDy + rotDy
+        };
+
+        updateCalculations();
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (cardDragState.isDragging) {
+          cardDragState.isDragging = false;
+          cardDragState.guaCode = null;
+        }
+      });
+    }
+
     window.onload = () => {
       attachWheelListeners();
       setupPasteListener();
       setupSatCanvasDrag();
+      setupPalaceCardDrag();
       updateCalculations();
     };
   </script>
