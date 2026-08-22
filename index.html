@@ -298,6 +298,69 @@
       margin: 0;
     }
 
+    .custom-room-item {
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.45rem;
+      padding: 0.45rem 0.55rem;
+      margin-top: 0.45rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .custom-room-item:hover {
+      border-color: rgba(245, 158, 11, 0.45);
+      background: rgba(30, 41, 59, 0.95);
+    }
+    .custom-room-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.35rem;
+    }
+    .custom-room-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn-delete-room {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      border-radius: 0.25rem;
+      padding: 0.1rem 0.35rem;
+      cursor: pointer;
+      font-size: 0.72rem;
+      transition: all 0.15s;
+    }
+    .btn-delete-room:hover {
+      background: rgba(239, 68, 68, 0.35);
+      color: #ffffff;
+    }
+    .color-swatch-picker {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+    .color-swatch {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: inline-block;
+      border: 1.5px solid rgba(255, 255, 255, 0.6);
+      opacity: 0.75;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .color-swatch:hover, .color-swatch.active {
+      opacity: 1.0;
+      transform: scale(1.2);
+      border-color: #ffffff;
+      box-shadow: 0 0 5px currentColor;
+    }
+
     .form-group:hover .val-badge {
       background: rgba(245, 158, 11, 0.25);
       border-color: var(--accent-gold);
@@ -434,7 +497,55 @@
       pointer-events: none;
     }
 
-    .viewport-hud-topleft .hud-row {
+    .viewport-hud-bottomleft {
+      position: absolute;
+      bottom: 0.6rem;
+      left: 0.6rem;
+      background: rgba(15, 23, 42, 0.90);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 0.45rem;
+      padding: 0.45rem 0.65rem;
+      color: var(--text-main);
+      font-size: 0.72rem;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      max-width: 280px;
+      pointer-events: auto;
+    }
+
+    .viewport-hud-bottomright {
+      position: absolute;
+      bottom: 0.6rem;
+      right: 0.6rem;
+      background: rgba(15, 23, 42, 0.90);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 0.45rem;
+      padding: 0.45rem 0.65rem;
+      color: var(--text-main);
+      font-size: 0.72rem;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      max-width: 295px;
+      pointer-events: auto;
+    }
+
+    .hud-title-bar {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding-bottom: 0.2rem;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
       display: flex;
       align-items: center;
       gap: 0.75rem;
@@ -931,6 +1042,31 @@
         </div>
       </div>
 
+      <!-- Card 5: Custom Indoor Rooms (Kitchen, Bathroom, Bedrooms) -->
+      <div class="card">
+        <div class="card-title">
+          <span>5. 廚房、衛浴與室內空間放樣</span>
+          <i>🏠</i>
+        </div>
+        <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.35rem; line-height: 1.4;">
+          自訂廚房、衛浴或各房間長寬 (m) 與右上角原點 (0,0) 的距離，亦可在畫面上直接拖曳位置。
+        </div>
+
+        <div class="form-group">
+          <label>快速新增區域 (Presets)</label>
+          <div class="preset-chips" style="gap: 0.3rem;">
+            <div class="chip" onclick="addCustomRoom('🍳 廚房 (灶位)', 4.0, 0.6, '#f97316')" style="background: rgba(249, 115, 22, 0.15); border-color: #f97316; color: #fb923c;">+ 🍳 廚房</div>
+            <div class="chip" onclick="addCustomRoom('🛁 衛浴 (廁所)', 1.8, 2.2, '#0284c7')" style="background: rgba(2, 132, 199, 0.15); border-color: #0284c7; color: #38bdf8;">+ 🛁 衛浴</div>
+            <div class="chip" onclick="addCustomRoom('📦 衣', 1.8, 1.2, '#10b981')" style="background: rgba(16, 185, 129, 0.15); border-color: #10b981; color: #34d399;">+ 📦 衣</div>
+            <div class="chip" onclick="addCustomRoom('🛏️ 主臥室', 3.6, 4.0, '#a855f7')" style="background: rgba(168, 85, 247, 0.15); border-color: #a855f7; color: #c084fc;">+ 🛏️ 主臥</div>
+          </div>
+        </div>
+
+        <div id="customRoomsListContainer">
+          <!-- Room item controls rendered dynamically -->
+        </div>
+      </div>
+
     </div>
 
     <!-- Center Viewport Canvas (Windows 11 Dark Canvas - Maximized) -->
@@ -973,6 +1109,44 @@
         </svg>
       </div>
 
+      <!-- Bottom-Left HUD: Outdoor Water & Trench Guidelines -->
+      <div class="viewport-hud-bottomleft" id="viewportBottomLeftHud">
+        <div class="hud-title-bar" style="color: #38bdf8;">
+          <span>🌊 屋外水法與排水溝指南</span>
+          <span style="font-size: 0.65rem; color: #94a3b8; font-weight: 400;">專指屋外露天【明水】</span>
+        </div>
+        <div style="line-height: 1.35; margin-top: 0.15rem;">
+          <div style="color: #34d399; font-weight: 600; margin-bottom: 0.1rem;">
+            🟢 吉水放水溝推薦：<span id="hudOutdoorSafeWater" style="color: #fef08a; font-weight: 500;">--</span>
+          </div>
+          <div style="color: #f87171; font-weight: 600; margin-bottom: 0.1rem;">
+            🔴 禁水路黃泉煞警示：<span id="hudOutdoorDangerWater" style="color: #fca5a5; font-weight: 500;">--</span>
+          </div>
+          <div style="font-size: 0.63rem; color: #94a3b8; line-height: 1.25; margin-top: 0.15rem; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 0.15rem;">
+            💡 <strong>水法劃分要訣</strong>：黃泉消亡煞專指屋外<strong>「露天明水溝渠/明路氣」</strong>；地下密閉水管（暗水）穿過無妨。
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom-Right HUD: Indoor Water & Kitchen Stove Guidelines -->
+      <div class="viewport-hud-bottomright" id="viewportBottomRightHud">
+        <div class="hud-title-bar" style="color: #fbbf24;">
+          <span>🏠 室內水法與灶位排污指南</span>
+          <span style="font-size: 0.65rem; color: #94a3b8; font-weight: 400;">明水與暗管劃分</span>
+        </div>
+        <div style="line-height: 1.35; margin-top: 0.15rem;">
+          <div style="color: #60a5fa; margin-bottom: 0.1rem;">
+            🚰 <strong>淨水進水/魚缸水景</strong> ➔ 【<strong>明水</strong>】必須置吉位 <span id="hudIndoorCleanWater" style="color: #34d399; font-weight: 600;">--</span> <span style="font-size: 0.62rem; color: #94a3b8;">(牆內暗管無妨)</span>
+          </div>
+          <div style="color: #f87171; margin-bottom: 0.1rem;">
+            🚽 <strong>黑水排污/化糞池</strong> ➔ 必須壓凶位 <span id="hudIndoorBlackWater" style="color: #fbbf24; font-weight: 600;">--</span> <span style="font-size: 0.62rem; color: #34d399;">(隨暗水排煞；露天明溝忌落吉位)</span>
+          </div>
+          <div style="color: #fb923c;">
+            🍳 <strong>廚房灶位/火頭</strong> ➔ 必須壓凶位 <span id="hudIndoorStove" style="color: #fbbf24; font-weight: 600;">--</span> <span style="font-size: 0.62rem; color: #34d399;">(火燒凶煞)</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- Right Panel: Reports & Rules -->
@@ -1000,6 +1174,29 @@
               </tr>
             </thead>
             <tbody id="tblBaguaIntersections">
+              <!-- Dynamically populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Card: Custom Rooms (Kitchen, Bathroom, Bedroom) Feng Shui Report Table -->
+      <div class="card">
+        <div class="card-title">
+          <span>🏠 室內空間 (廚房/衛浴) 尺寸與風水對照表</span>
+          <i>📋</i>
+        </div>
+        <div style="margin-top: 0.35rem; max-height: 220px; overflow-y: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.70rem; text-align: left; color: var(--text-main);">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.15); color: #94a3b8;">
+                <th style="padding: 0.25rem 0.2rem;">區域</th>
+                <th style="padding: 0.25rem 0.2rem;">尺寸 (長×寬)</th>
+                <th style="padding: 0.25rem 0.2rem;">原點位置 (X, Y)</th>
+                <th style="padding: 0.25rem 0.2rem; text-align: right;">宮位與風水判定</th>
+              </tr>
+            </thead>
+            <tbody id="tblCustomRoomsReport">
               <!-- Dynamically populated by JS -->
             </tbody>
           </table>
@@ -1368,7 +1565,12 @@
       zoomScale: 1.18,
       fontScale: 1.0,
       panX: 0,
-      panY: 0
+      panY: 0,
+      customRooms: [
+        { id: 'room_kitchen', name: '🍳 廚房 (灶位)', x: 6.77, y: 0.15, width: 4.00, length: 0.60, color: '#f97316' },
+        { id: 'room_bath', name: '🛁 衛浴 (廁所)', x: 0.21, y: 2.59, width: 1.80, length: 2.20, color: '#0284c7' },
+        { id: 'room_closet', name: '📦 衣', x: 0.20, y: 4.82, width: 1.80, length: 1.20, color: '#10b981' }
+      ]
     };
 
     // 宮位風水指南卡自訂拖曳偏移量 (Custom Interactive Offsets for Palace Cards)
@@ -1547,6 +1749,150 @@
         x1: x1, y1: y1, net1: net1,
         x2: x2, y2: y2, net2: net2
       };
+    }
+
+    // --- 自訂室內空間區域管理 (Custom Room Zones Management) ---
+    function addCustomRoom(name = '📦 新區域', width = 2.5, length = 2.5, color = '#f97316') {
+      let id = 'room_' + Date.now();
+      let roomCount = state.customRooms ? state.customRooms.length : 0;
+      let nextX = Math.min(state.width - width, 0.8 + (roomCount % 3) * 1.5);
+      let nextY = Math.min(state.length - length, 0.6 + Math.floor(roomCount / 3) * 1.5);
+
+      if (!state.customRooms) state.customRooms = [];
+      state.customRooms.push({
+        id,
+        name,
+        width: Math.min(width, state.width),
+        length: Math.min(length, state.length),
+        x: Math.max(0, parseFloat(nextX.toFixed(2))),
+        y: Math.max(0, parseFloat(nextY.toFixed(2))),
+        color
+      });
+
+      renderCustomRoomsUI();
+      updateCalculations();
+    }
+
+    function removeCustomRoom(id) {
+      if (!state.customRooms) return;
+      state.customRooms = state.customRooms.filter(r => r.id !== id);
+      renderCustomRoomsUI();
+      updateCalculations();
+    }
+
+    function updateRoomProp(id, prop, val) {
+      if (!state.customRooms) return;
+      let room = state.customRooms.find(r => r.id === id);
+      if (!room) return;
+
+      if (prop === 'name' || prop === 'color') {
+        room[prop] = val;
+      } else {
+        let num = parseFloat(val);
+        if (!isNaN(num)) {
+          room[prop] = num;
+        }
+      }
+      renderCustomRoomsUI();
+      updateCalculations();
+    }
+
+    function renderCustomRoomsUI() {
+      let container = document.getElementById('customRoomsListContainer');
+      if (!container) return;
+
+      if (!state.customRooms || state.customRooms.length === 0) {
+        container.innerHTML = `<div style="font-size: 0.72rem; color: #64748b; text-align: center; padding: 0.6rem 0;">點擊上方快捷按鈕新增廚房、衛浴或臥室</div>`;
+        return;
+      }
+
+      let html = '';
+      state.customRooms.forEach((room) => {
+        html += `
+          <div class="custom-room-item" style="border-left: 3.5px solid ${room.color};">
+            <div class="custom-room-header">
+              <div class="custom-room-title">
+                <input type="text" value="${room.name}" 
+                       style="background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.2); color: #f3f4f6; font-size: 0.75rem; font-weight: 600; width: 130px; outline: none;" 
+                       onchange="updateRoomProp('${room.id}', 'name', this.value)">
+              </div>
+              <button class="btn-delete-room" onclick="removeCustomRoom('${room.id}')" title="刪除此區域">🗑️ 刪除</button>
+            </div>
+
+            <!-- 長寬尺寸 (支援直接鍵盤輸入數字與拉桿) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin-top: 0.25rem;">
+              <div class="form-group" style="margin-bottom: 0.2rem;">
+                <div class="form-row" style="margin-bottom: 0.15rem;">
+                  <label style="font-size: 0.68rem;">寬度 W</label>
+                  <div class="val-badge-input-wrap" style="padding: 0.05rem 0.2rem;">
+                    <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem;" 
+                           min="0.1" max="${Math.max(10.0, state.width)}" step="0.01" value="${room.width.toFixed(2)}" 
+                           onchange="updateRoomProp('${room.id}', 'width', this.value)">
+                    <span style="font-size: 0.62rem; color: #94a3b8;">m</span>
+                  </div>
+                </div>
+                <input type="range" min="0.3" max="${Math.max(5.0, state.width)}" step="0.05" value="${room.width}" 
+                       oninput="updateRoomProp('${room.id}', 'width', this.value)">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0.2rem;">
+                <div class="form-row" style="margin-bottom: 0.15rem;">
+                  <label style="font-size: 0.68rem;">進深 L</label>
+                  <div class="val-badge-input-wrap" style="padding: 0.05rem 0.2rem;">
+                    <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem;" 
+                           min="0.1" max="${Math.max(10.0, state.length)}" step="0.01" value="${room.length.toFixed(2)}" 
+                           onchange="updateRoomProp('${room.id}', 'length', this.value)">
+                    <span style="font-size: 0.62rem; color: #94a3b8;">m</span>
+                  </div>
+                </div>
+                <input type="range" min="0.3" max="${Math.max(5.0, state.length)}" step="0.05" value="${room.length}" 
+                       oninput="updateRoomProp('${room.id}', 'length', this.value)">
+              </div>
+            </div>
+
+            <!-- 原點 (0,0) 位置 (支援直接鍵盤輸入數字與拉桿) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin-top: 0.2rem;">
+              <div class="form-group" style="margin-bottom: 0.2rem;">
+                <div class="form-row" style="margin-bottom: 0.15rem;">
+                  <label style="font-size: 0.68rem; color: #93c5fd;">原點向左 X</label>
+                  <div class="val-badge-input-wrap" style="padding: 0.05rem 0.2rem;">
+                    <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem; color: #93c5fd;" 
+                           min="0" max="${Math.max(0.1, state.width)}" step="0.01" value="${room.x.toFixed(2)}" 
+                           onchange="updateRoomProp('${room.id}', 'x', this.value)">
+                    <span style="font-size: 0.62rem; color: #93c5fd;">m</span>
+                  </div>
+                </div>
+                <input type="range" min="0" max="${Math.max(0.1, state.width - room.width)}" step="0.05" value="${room.x}" 
+                       oninput="updateRoomProp('${room.id}', 'x', this.value)">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0.2rem;">
+                <div class="form-row" style="margin-bottom: 0.15rem;">
+                  <label style="font-size: 0.68rem; color: #93c5fd;">原點向下 Y</label>
+                  <div class="val-badge-input-wrap" style="padding: 0.05rem 0.2rem;">
+                    <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem; color: #93c5fd;" 
+                           min="0" max="${Math.max(0.1, state.length)}" step="0.01" value="${room.y.toFixed(2)}" 
+                           onchange="updateRoomProp('${room.id}', 'y', this.value)">
+                    <span style="font-size: 0.62rem; color: #93c5fd;">m</span>
+                  </div>
+                </div>
+                <input type="range" min="0" max="${Math.max(0.1, state.length - room.length)}" step="0.05" value="${room.y}" 
+                       oninput="updateRoomProp('${room.id}', 'y', this.value)">
+              </div>
+            </div>
+
+            <!-- Color swatches -->
+            <div class="color-swatch-picker">
+              <span style="font-size: 0.65rem; color: #94a3b8;">顏色:</span>
+              ${['#f97316', '#0284c7', '#a855f7', '#10b981', '#eab308', '#ef4444'].map(c => `
+                <span class="color-swatch ${room.color === c ? 'active' : ''}" style="background: ${c};" onclick="updateRoomProp('${room.id}', 'color', '${c}')"></span>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
     }
 
     // 計算 8 個八卦宮位邊界線（卦界線）相交於外牆牆心之精確尺寸座標 (以右上角牆心為 0,0 原點)
@@ -2321,6 +2667,50 @@
         `;
       }
 
+      // 繪製自訂室內空間區域 (廚房、衛浴、臥室等半透明方塊與長寬放樣尺寸)
+      if (state.customRooms && state.customRooms.length > 0) {
+        let customRoomsG = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        let trX = cx + housePxW / 2;
+        let trY = cy - housePxL / 2;
+
+        state.customRooms.forEach(room => {
+          let roomSvgX = trX - (room.x + room.width) * scalePPM;
+          let roomSvgY = trY + room.y * scalePPM;
+          let roomSvgW = room.width * scalePPM;
+          let roomSvgH = room.length * scalePPM;
+
+          let roomCenterX = roomSvgX + roomSvgW / 2;
+          let roomCenterY = roomSvgY + roomSvgH / 2;
+
+          let rxRel = (roomCenterX - cx) / scalePPM;
+          let ryRel = (roomCenterY - cy) / scalePPM;
+          let roomAngle = (Math.atan2(ryRel, rxRel) * 180 / Math.PI + 90 + 360) % 360;
+          let roomBagua = getBagua(roomAngle);
+          let roomStar = getNineStar(sitMnt.gua, roomBagua.code);
+
+          let textAngle = -houseRotation;
+
+          customRoomsG.innerHTML += `
+            <g class="custom-room-node" data-id="${room.id}">
+              <!-- 區域半透明彩色框 -->
+              <rect x="${roomSvgX}" y="${roomSvgY}" width="${roomSvgW}" height="${roomSvgH}" 
+                    fill="${room.color}" fill-opacity="0.28" stroke="${room.color}" stroke-width="${1.8 * fs}" rx="${5 * fs}" stroke-dasharray="3,2" />
+              
+              <!-- 尺寸放樣標籤框 (圖面僅簡潔顯示區域名稱與尺寸 W × L) -->
+              <g transform="rotate(${textAngle}, ${roomCenterX}, ${roomCenterY})">
+                <rect x="${roomCenterX - 55 * fs}" y="${roomCenterY - 20 * fs}" width="${110 * fs}" height="${40 * fs}" rx="${5 * fs}" 
+                      fill="rgba(15, 23, 42, 0.94)" stroke="${room.color}" stroke-width="${1.3 * fs}" />
+                <text x="${roomCenterX}" y="${roomCenterY - 5 * fs}" font-size="${12 * fs}" font-weight="700" fill="#ffffff" text-anchor="middle">${room.name}</text>
+                <text x="${roomCenterX}" y="${roomCenterY + 12 * fs}" font-size="${11 * fs}" font-weight="600" fill="#fbbf24" text-anchor="middle">${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m</text>
+              </g>
+              <title>🏠 ${room.name}\n尺寸長寬: ${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m (面積 ${(room.width * room.length).toFixed(2)}m²)\n右上角原點位置: 向左 ${room.x.toFixed(2)}m / 向下 ${room.y.toFixed(2)}m\n宮位方位: ${roomBagua.name}宮 (${roomStar.star})</title>
+            </g>
+          `;
+        });
+
+        houseRotGroup.appendChild(customRoomsG);
+      }
+
       // 繪製大門與施工牆心放樣尺寸標註 (Door & Construction Dimension Markers)
       let doorFrameInfo = getDoorFrameCoordinates();
       let { doorX, doorY } = getDoorUnrotatedCoords(cx, cy, housePxW, housePxL);
@@ -2695,6 +3085,44 @@
           tblEl.appendChild(trDoor);
         }
 
+      // 室內空間 (廚房/衛浴/臥室) 尺寸放樣與風水對照表動態填入
+      let tblCustomEl = document.getElementById('tblCustomRoomsReport');
+      if (tblCustomEl) {
+        tblCustomEl.innerHTML = '';
+        if (state.customRooms && state.customRooms.length > 0) {
+          let trX = cx + housePxW / 2;
+          let trY = cy - housePxL / 2;
+
+          state.customRooms.forEach(room => {
+            let roomSvgX = trX - (room.x + room.width) * scalePPM;
+            let roomSvgY = trY + room.y * scalePPM;
+            let roomSvgW = room.width * scalePPM;
+            let roomSvgH = room.length * scalePPM;
+
+            let roomCenterX = roomSvgX + roomSvgW / 2;
+            let roomCenterY = roomSvgY + roomSvgH / 2;
+            let rxRel = (roomCenterX - cx) / scalePPM;
+            let ryRel = (roomCenterY - cy) / scalePPM;
+            let roomAngle = (Math.atan2(ryRel, rxRel) * 180 / Math.PI + 90 + 360) % 360;
+            let roomBagua = getBagua(roomAngle);
+            let roomStar = getNineStar(sitMnt.gua, roomBagua.code);
+            let isGoodStar = roomStar.type.includes("吉");
+
+            let tr = document.createElement('tr');
+            tr.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+            tr.innerHTML = `
+              <td style="padding: 0.3rem 0.2rem; font-weight: 600; color: ${room.color};">${room.name}</td>
+              <td style="padding: 0.3rem 0.2rem; font-family: var(--font-mono); color: #fbbf24;">${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m <span style="font-size: 0.65rem; color: #94a3b8;">(${(room.width * room.length).toFixed(2)}m²)</span></td>
+              <td style="padding: 0.3rem 0.2rem; font-family: var(--font-mono); color: #38bdf8;">左${room.x.toFixed(2)}m / 下${room.y.toFixed(2)}m</td>
+              <td style="padding: 0.3rem 0.2rem; text-align: right; font-weight: 600; color: ${isGoodStar ? '#10b981' : '#ef4444'};">${roomBagua.name}宮・${roomStar.star.split(" ")[0]}</td>
+            `;
+            tblCustomEl.appendChild(tr);
+          });
+        } else {
+          tblCustomEl.innerHTML = `<tr><td colspan="4" style="padding: 0.5rem; text-align: center; color: #64748b;">點擊左側「5. 廚房、衛浴與室內空間放樣」新增區域標示</td></tr>`;
+        }
+      }
+
       document.getElementById('reportHouseGua').innerText = sitMnt.gua + "宅 (" + sitMnt.name + "山)";
       
       let doorSpatialLocAngle = getDoorSpatialLocAngle(cx, cy, housePxW, housePxL);
@@ -2764,6 +3192,57 @@
 
       document.getElementById('descDoorAir').innerText = doorDescText;
       document.getElementById('doorAirAdvice').innerHTML = doorAdviceText;
+
+      // 動態更新畫面上左下角 (屋外水法) 與右下角 (室內水法/灶位) 浮動 HUD 面板
+      let elOutdoorSafe = document.getElementById('hudOutdoorSafeWater');
+      let elOutdoorDanger = document.getElementById('hudOutdoorDangerWater');
+      let elIndoorClean = document.getElementById('hudIndoorCleanWater');
+      let elIndoorBlack = document.getElementById('hudIndoorBlackWater');
+      let elIndoorStove = document.getElementById('hudIndoorStove');
+
+      if (elOutdoorSafe && elOutdoorDanger) {
+        let safeNamesSet = new Set();
+        let dangerNamesSet = new Set();
+
+        (waterAnalysis.safeSectors || []).forEach(s => {
+          let nameStr = s.name || s.gua || "";
+          let match = nameStr.match(/([坎坤震巽乾兌艮離])/);
+          if (match) safeNamesSet.add(match[1] + "卦");
+        });
+
+        (waterAnalysis.forbiddenSectors || []).forEach(s => {
+          let nameStr = s.name || s.type || "";
+          let match = nameStr.match(/([坎坤震巽乾兌艮離])/);
+          if (match) dangerNamesSet.add(match[1] + "卦");
+        });
+
+        let safeArr = Array.from(safeNamesSet);
+        let dangerArr = Array.from(dangerNamesSet);
+
+        elOutdoorSafe.innerText = safeArr.length > 0 ? safeArr.join('、') : "坎卦、震卦、巽卦、離卦";
+        elOutdoorDanger.innerText = dangerArr.length > 0 ? dangerArr.join('、') : "乾卦、坤卦、艮卦";
+      }
+
+      if (elIndoorClean && elIndoorBlack && elIndoorStove) {
+        let goodGuas = [];
+        let badGuas = [];
+
+        BAGUA.forEach(b => {
+          let starInfo = getNineStar(sitMnt.gua, b.code);
+          if (starInfo.type.includes("吉")) {
+            goodGuas.push(b.name + "宮");
+          } else {
+            badGuas.push(b.name + "宮");
+          }
+        });
+
+        let goodStr = goodGuas.join('、');
+        let badStr = badGuas.join('、');
+
+        elIndoorClean.innerText = goodStr;
+        elIndoorBlack.innerText = badStr;
+        elIndoorStove.innerText = badStr;
+      }
 
       // Populate Nine Stars List
       let starContainer = document.getElementById('nineStarsList');
@@ -3352,11 +3831,86 @@
       });
     }
 
+    let roomDragState = {
+      isDragging: false,
+      roomId: null,
+      startMouseX: 0,
+      startMouseY: 0,
+      startX: 0,
+      startY: 0
+    };
+
+    function setupRoomDrag() {
+      const svg = document.getElementById('mainSvg');
+      if (!svg) return;
+
+      svg.addEventListener('mousedown', (e) => {
+        let roomNode = e.target.closest('.custom-room-node');
+        if (!roomNode) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        let id = roomNode.getAttribute('data-id');
+        let room = state.customRooms ? state.customRooms.find(r => r.id === id) : null;
+        if (!room) return;
+
+        roomDragState.isDragging = true;
+        roomDragState.roomId = id;
+        roomDragState.startMouseX = e.clientX;
+        roomDragState.startMouseY = e.clientY;
+        roomDragState.startX = room.x;
+        roomDragState.startY = room.y;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!roomDragState.isDragging || !roomDragState.roomId) return;
+        e.preventDefault();
+
+        let room = state.customRooms ? state.customRooms.find(r => r.id === roomDragState.roomId) : null;
+        if (!room) return;
+
+        let rect = svg.getBoundingClientRect();
+        let svgScale = 1100 / rect.width;
+        let zoom = state.zoomScale || 1.0;
+        let scalePPM = 48.0;
+
+        let mouseDeltaSvgX = (e.clientX - roomDragState.startMouseX) * svgScale / zoom;
+        let mouseDeltaSvgY = (e.clientY - roomDragState.startMouseY) * svgScale / zoom;
+
+        let houseRot = state.rotateMode === 'houseUp' ? 0 : state.facingAngle;
+        let rotRad = (-houseRot) * Math.PI / 180;
+        let houseDeltaX = mouseDeltaSvgX * Math.cos(rotRad) - mouseDeltaSvgY * Math.sin(rotRad);
+        let houseDeltaY = mouseDeltaSvgX * Math.sin(rotRad) + mouseDeltaSvgY * Math.cos(rotRad);
+
+        // Convert SVG pixel deltas to meters (Top-Right origin: X increases to Left, Y increases Down)
+        let deltaMetersX = -houseDeltaX / scalePPM;
+        let deltaMetersY = houseDeltaY / scalePPM;
+
+        let newX = Math.max(0, Math.min(state.width - room.width, roomDragState.startX + deltaMetersX));
+        let newY = Math.max(0, Math.min(state.length - room.length, roomDragState.startY + deltaMetersY));
+
+        room.x = parseFloat(newX.toFixed(2));
+        room.y = parseFloat(newY.toFixed(2));
+
+        renderCustomRoomsUI();
+        updateCalculations();
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (roomDragState.isDragging) {
+          roomDragState.isDragging = false;
+          roomDragState.roomId = null;
+        }
+      });
+    }
+
     window.onload = () => {
       attachWheelListeners();
       setupPasteListener();
       setupSatCanvasDrag();
       setupPalaceCardDrag();
+      setupRoomDrag();
+      renderCustomRoomsUI();
       updateCalculations();
     };
   </script>
