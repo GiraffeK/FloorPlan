@@ -349,6 +349,34 @@
       z-index: 20;
     }
 
+    /* Top-Left HUD Info Panel */
+    .viewport-hud-topleft {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      background: rgba(24, 24, 27, 0.92);
+      border: 1px solid var(--border-color);
+      border-radius: 0.375rem;
+      padding: 0.45rem 0.75rem;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      font-weight: 300;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      pointer-events: none;
+    }
+
+    .viewport-hud-topleft .hud-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      white-space: nowrap;
+    }
+
     .viewport-controls-row {
       display: flex;
       align-items: center;
@@ -792,6 +820,17 @@
     <!-- Center Viewport Canvas (Windows 11 Dark Canvas - Maximized) -->
     <div class="viewport" id="viewportArea" title="在羅盤圖上滾動滾輪可微調字體大小 (Scroll Up/Down to Adjust Font Size)">
       
+      <!-- Top-Left HUD Info Panel (面寬、進深、門位資訊) -->
+      <div class="viewport-hud-topleft" id="viewportTopLeftHud">
+        <div class="hud-row">
+          <span>📐 <strong>面寬 (W):</strong> <span id="hudWidth" style="color: #60a5fa;">-- m</span></span>
+          <span><strong>進深 (L):</strong> <span id="hudLength" style="color: #60a5fa;">-- m</span></span>
+        </div>
+        <div class="hud-row">
+          <span>🚪 <strong>門位:</strong> <span id="hudDoorInfo" style="color: #facc15;">--</span></span>
+        </div>
+      </div>
+
       <!-- Viewport Controls -->
       <div class="viewport-controls">
         <button class="control-icon-btn" id="btnRotateMode" onclick="toggleMapOrientation()" title="切換視角視圖">
@@ -1586,13 +1625,13 @@
           let color = starInfo.type.includes("吉") ? "#10b981" : "#ef4444";
           let textAngle = -compassRotation;
 
-          let rw = 84 * fs;
-          let rh = 24 * fs;
+          let rw = 67.2 * fs;
+          let rh = 19.2 * fs;
 
           starG.innerHTML += `
             <g transform="rotate(${textAngle}, ${tx}, ${ty})">
-              <rect x="${tx - rw/2}" y="${ty - rh/2}" width="${rw}" height="${rh}" rx="${4 * fs}" fill="rgba(32, 32, 32, 0.95)" stroke="${color}" stroke-width="${1.2 * fs}" />
-              <text x="${tx}" y="${ty + 4 * fs}" font-size="${11 * fs}" font-weight="300" fill="${color}" text-anchor="middle">${starInfo.star.split(" ")[0]}・${b.gate.split(" ")[0]}</text>
+              <rect x="${tx - rw/2}" y="${ty - rh/2}" width="${rw}" height="${rh}" rx="${3.2 * fs}" fill="rgba(32, 32, 32, 0.95)" stroke="${color}" stroke-width="${1.2 * fs}" />
+              <text x="${tx}" y="${ty + 3.5 * fs}" font-size="${11 * fs}" font-weight="300" fill="${color}" text-anchor="middle">${starInfo.star.split(" ")[0]}・${b.gate.split(" ")[0]}</text>
             </g>
           `;
         });
@@ -1718,17 +1757,11 @@
           <line x1="${ix + iw * 0.5}" y1="${iy}" x2="${ix + iw * 0.5}" y2="${iy + ih}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" />
           <line x1="${ix}" y1="${iy + ih * 0.5}" x2="${ix + iw}" y2="${iy + ih * 0.5}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" />
           
-          ${renderQuadrantText(ix + iw * 0.25, iy + ih * 0.25, "前左區域", q1)}
           ${renderQuadrantText(ix + iw * 0.75, iy + ih * 0.25, "前右區域", q2)}
           ${renderQuadrantText(ix + iw * 0.25, iy + ih * 0.75, "後左區域", q3)}
           ${renderQuadrantText(ix + iw * 0.75, iy + ih * 0.75, "後右區域", q4)}
         `;
       }
-
-      houseRotGroup.innerHTML += `
-        <text x="${cx}" y="${houseTop - 14 * fs}" font-size="${14 * fs}" fill="#60a5fa" font-weight="300" text-anchor="middle">面寬 (W): ${state.width.toFixed(1)} m</text>
-        <text x="${houseLeft - 16 * fs}" y="${cy}" font-size="${14 * fs}" fill="#60a5fa" font-weight="300" text-anchor="middle" transform="rotate(-90, ${houseLeft - 16 * fs}, ${cy})">進深 (L): ${state.length.toFixed(1)} m</text>
-      `;
 
       let { doorX, doorY } = getDoorUnrotatedCoords(cx, cy, housePxW, housePxL);
       let doorSpatialLocAngle = getDoorSpatialLocAngle(cx, cy, housePxW, housePxL);
@@ -1738,6 +1771,11 @@
       let wallBaseAngle = getWallBaseNormalRelAngle();
       let doorVisFacingAngle = wallBaseAngle + state.doorAngleOffset;
       let doorFacingAngleVal = getDoorFacingAngle();
+
+      // 更新 UI 最左上角 HUD 資訊 (面寬、進深、門位)
+      document.getElementById('hudWidth').innerText = `${state.width.toFixed(1)} m`;
+      document.getElementById('hudLength').innerText = `${state.length.toFixed(1)} m`;
+      document.getElementById('hudDoorInfo').innerText = `${doorLocBagua.name} ${doorSpatialLocAngle.toFixed(1)}° (門向:${doorFacingAngleVal.toFixed(1)}°)`;
 
       houseRotGroup.innerHTML += `
         <!-- Door Ray from Taiji Center -->
@@ -1754,10 +1792,6 @@
             <line x1="0" y1="0" x2="0" y2="-32" stroke="#ef4444" stroke-width="2.5" />
             <polygon points="0,-38 -5,-28 5,-28" fill="#ef4444" />
           </g>
-
-          <text x="0" y="${26 * fs}" font-size="${12 * fs}" font-weight="300" fill="#facc15" text-anchor="middle">
-            門位:${doorLocBagua.name} ${doorSpatialLocAngle.toFixed(1)}° (門向:${doorFacingAngleVal.toFixed(1)}°)
-          </text>
         </g>
       `;
 
@@ -1772,7 +1806,6 @@
       taijiG.innerHTML = `
         <circle cx="${taijiX}" cy="${taijiY}" r="9" fill="#f59e0b" />
         <circle cx="${taijiX}" cy="${taijiY}" r="20" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2" />
-        <text x="${taijiX}" y="${taijiY + 32 * fs}" font-size="${13 * fs}" font-weight="300" fill="#fbbf24" text-anchor="middle">中心太極點</text>
       `;
       rootG.appendChild(taijiG);
 
