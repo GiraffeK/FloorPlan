@@ -1736,30 +1736,9 @@
         let ix = houseLeft + innerPadding;
         let iy = houseTop + innerPadding;
 
-        // 計算 4 個實體分區實際落入的動態八卦、九星與親人安床建議
-        let q1 = getQuadrantDynamicGua(-iw * 0.25, -ih * 0.25, housePxW, housePxL, sitMnt.gua); // 前左分區
-        let q2 = getQuadrantDynamicGua(iw * 0.25, -ih * 0.25, housePxW, housePxL, sitMnt.gua);  // 前右分區
-        let q3 = getQuadrantDynamicGua(-iw * 0.25, ih * 0.25, housePxW, housePxL, sitMnt.gua);  // 後左分區
-        let q4 = getQuadrantDynamicGua(iw * 0.25, ih * 0.25, housePxW, housePxL, sitMnt.gua);   // 後右分區
-
-        const renderQuadrantText = (qx, qy, title, qData) => {
-          let starName = qData.starInfo.star.split(" ")[0];
-          let isGood = qData.starInfo.type.includes("吉");
-          let color = isGood ? "#10b981" : "#ef4444";
-
-          return `
-            <text x="${qx}" y="${qy - 8 * fs}" font-size="${12 * fs}" font-weight="300" fill="#ffffff" text-anchor="middle">${title}：${qData.bagua.name}</text>
-            <text x="${qx}" y="${qy + 8 * fs}" font-size="${11 * fs}" font-weight="300" fill="${color}" text-anchor="middle">${starName} ${qData.sleepAdvice}</text>
-          `;
-        };
-
         houseRotGroup.innerHTML += `
           <line x1="${ix + iw * 0.5}" y1="${iy}" x2="${ix + iw * 0.5}" y2="${iy + ih}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" />
           <line x1="${ix}" y1="${iy + ih * 0.5}" x2="${ix + iw}" y2="${iy + ih * 0.5}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" />
-          
-          ${renderQuadrantText(ix + iw * 0.75, iy + ih * 0.25, "前右區域", q2)}
-          ${renderQuadrantText(ix + iw * 0.25, iy + ih * 0.75, "後左區域", q3)}
-          ${renderQuadrantText(ix + iw * 0.75, iy + ih * 0.75, "後右區域", q4)}
         `;
       }
 
