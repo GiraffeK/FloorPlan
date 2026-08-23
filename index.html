@@ -10,25 +10,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Outfit:wght@300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
   
   <style>
-    /* Windows 11 Light Font & Dark Theme Palette */
+    /* High Contrast Light Theme Palette */
     :root {
-      --bg-primary: #1c1c1c;             /* Windows 11 Dark System Background */
-      --bg-secondary: #242424;           /* Windows 11 Panel Background */
-      --bg-card: rgba(36, 36, 36, 0.92);    /* Windows 11 Card Surface */
-      --bg-card-hover: #2f2f2f;          /* Windows 11 Interactive Hover Surface */
-      --accent-gold: #f59e0b;
-      --accent-gold-light: #fbbf24;
-      --accent-red: #ef4444;
-      --accent-red-bg: rgba(239, 68, 68, 0.15);
-      --accent-green: #10b981;
-      --accent-green-bg: rgba(16, 185, 129, 0.15);
-      --accent-orange: #f97316;          /* 艮位專屬橘橙色 Warning Color */
-      --accent-orange-bg: rgba(249, 115, 22, 0.18);
-      --accent-blue: #0078d4;             /* Windows 11 Signature Accent Blue */
-      --accent-purple: #a855f7;
-      --text-main: #f1f5f9;              /* Light Clean Text */
-      --text-muted: #94a3b8;             /* Muted Secondary Text */
-      --border-color: #383838;           /* Windows 11 Subtle Border */
+      --bg-primary: #faf8f5;             /* Soft Xuan Paper Canvas Background */
+      --bg-secondary: #f1f5f9;           /* Clean Light Slate Panel Sidebar */
+      --bg-card: #ffffff;                /* Crisp White Surface */
+      --bg-card-hover: #f8fafc;          /* Hover Surface */
+      --accent-gold: #b45309;            /* Deep Amber Gold */
+      --accent-gold-light: #92400e;      /* Deep Gold Text */
+      --accent-red: #dc2626;
+      --accent-red-bg: #fee2e2;
+      --accent-green: #047857;
+      --accent-green-bg: #d1fae5;
+      --accent-orange: #c2410c;          /* 艮位專屬警告色 */
+      --accent-orange-bg: #ffedd5;
+      --accent-blue: #0284c7;             /* Accent Blue */
+      --accent-purple: #7e22ce;
+      --text-main: #0f172a;              /* Ultra-Dark Slate Black Text - High Contrast */
+      --text-muted: #334155;             /* High-Contrast Secondary Text */
+      --border-color: #cbd5e1;           /* Crisp Slate Border */
       --font-serif: 'Noto Serif TC', serif;
       --font-sans: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
       --font-mono: 'Cascadia Code', 'Roboto Mono', monospace;
@@ -55,8 +55,8 @@
 
     /* Header */
     header {
-      background: #202020;
-      border-bottom: 1px solid var(--border-color);
+      background: #ffffff;
+      border-bottom: 1.5px solid var(--border-color);
       padding: 0.4rem 1.25rem;
       height: 48px;
       display: flex;
@@ -74,24 +74,24 @@
 
     .header-title h1 {
       font-family: var(--font-serif);
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--accent-gold);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
       letter-spacing: 0.5px;
       white-space: nowrap;
     }
 
     /* Top Bar Floating Hover Overlay */
     .hover-info-box {
-      background: rgba(32, 32, 32, 0.95);
-      border: 1px solid var(--accent-gold);
+      background: #ffffff;
+      border: 1.5px solid var(--accent-gold);
       border-radius: 0.375rem;
       padding: 0.25rem 0.85rem;
       font-size: 0.775rem;
-      font-weight: 300;
-      color: var(--text-main);
+      font-weight: 600;
+      color: #0f172a;
       backdrop-filter: blur(12px);
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       display: flex;
       gap: 0.8rem;
       align-items: center;
@@ -105,13 +105,13 @@
     }
 
     .btn {
-      background: #2d2d2d;
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: #0f172a;
+      border: 1.5px solid var(--border-color);
       padding: 0.35rem 0.75rem;
       border-radius: 0.375rem;
       font-size: 0.8rem;
-      font-weight: 300;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -121,16 +121,16 @@
     }
 
     .btn:hover {
-      background: #383838;
+      background: #f1f5f9;
       border-color: var(--accent-gold);
-      color: var(--accent-gold-light);
+      color: var(--accent-gold);
     }
 
     .btn-primary {
       background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
       color: #fff;
       border: none;
-      font-weight: 400;
+      font-weight: 600;
     }
 
     .btn-primary:hover {
@@ -155,7 +155,7 @@
     /* Sidebar Panels */
     .panel {
       background: var(--bg-secondary);
-      border-right: 1px solid var(--border-color);
+      border-right: 1.5px solid var(--border-color);
       overflow-y: auto;
       padding: 0.65rem;
       display: flex;
@@ -166,28 +166,29 @@
 
     .panel-right {
       border-right: none;
-      border-left: 1px solid var(--border-color);
+      border-left: 1.5px solid var(--border-color);
     }
 
     .card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      border: 1.5px solid var(--border-color);
       border-radius: 0.45rem;
       padding: 0.6rem 0.65rem;
       display: flex;
       flex-direction: column;
       gap: 0.45rem;
       backdrop-filter: blur(12px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
     .card-title {
-      font-size: 0.8rem;
-      font-weight: 400;
-      color: var(--accent-gold-light);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #0f172a;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px dashed var(--border-color);
+      border-bottom: 1.5px solid var(--border-color);
       padding-bottom: 0.35rem;
     }
 
@@ -207,7 +208,7 @@
     }
 
     .form-group:hover {
-      background: rgba(245, 158, 11, 0.06);
+      background: rgba(180, 83, 9, 0.06);
     }
 
     .form-row {
@@ -218,20 +219,20 @@
     }
 
     label {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      font-weight: 300;
+      font-size: 0.76rem;
+      color: #0f172a;
+      font-weight: 600;
     }
 
     .val-badge {
       font-family: var(--font-mono);
-      font-size: 0.73rem;
-      font-weight: 300;
-      color: var(--accent-gold);
-      background: rgba(245, 158, 11, 0.12);
-      padding: 0.08rem 0.3rem;
-      border-radius: 0.2rem;
-      border: 1px solid rgba(245, 158, 11, 0.25);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #b45309;
+      background: #fffbe6;
+      padding: 0.08rem 0.35rem;
+      border-radius: 0.25rem;
+      border: 1.5px solid #b45309;
       transition: all 0.15s ease;
     }
 
@@ -240,20 +241,21 @@
       align-items: center;
       gap: 0.15rem;
       font-family: var(--font-mono);
-      font-size: 0.73rem;
-      color: var(--accent-gold);
-      background: rgba(245, 158, 11, 0.12);
-      padding: 0.04rem 0.25rem;
-      border-radius: 0.2rem;
-      border: 1px solid rgba(245, 158, 11, 0.25);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #b45309;
+      background: #fffbe6;
+      padding: 0.04rem 0.3rem;
+      border-radius: 0.25rem;
+      border: 1.5px solid #b45309;
       transition: all 0.15s ease;
     }
 
     .val-badge-input-wrap:focus-within,
     .form-group:hover .val-badge-input-wrap {
-      background: rgba(245, 158, 11, 0.25);
+      background: #fff3c4;
       border-color: var(--accent-gold);
-      box-shadow: 0 0 6px rgba(245, 158, 11, 0.3);
+      box-shadow: 0 0 6px rgba(180, 83, 9, 0.2);
     }
 
     .intersection-dot-group {
@@ -262,14 +264,14 @@
 
     .intersection-dot-group:hover .dot-circle {
       r: 7.5;
-      fill: #f59e0b;
-      stroke: #38bdf8;
+      fill: #b45309;
+      stroke: #0284c7;
       stroke-width: 2.5;
       transition: all 0.15s ease;
     }
 
     .intersection-dot-group:hover .dot-hover-badge rect {
-      stroke: #f59e0b;
+      stroke: #b45309;
       stroke-width: 2.5;
       transition: all 0.15s ease;
     }
@@ -282,10 +284,10 @@
     .num-input-badge {
       background: transparent;
       border: none;
-      color: var(--accent-gold);
+      color: #92400e;
       font-family: var(--font-mono);
-      font-size: 0.73rem;
-      font-weight: 400;
+      font-size: 0.75rem;
+      font-weight: 700;
       width: 3.0rem;
       text-align: right;
       outline: none;
@@ -299,16 +301,16 @@
     }
 
     .custom-room-item {
-      background: rgba(30, 41, 59, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
       border-radius: 0.45rem;
       padding: 0.45rem 0.55rem;
       margin-top: 0.45rem;
       transition: border-color 0.2s, background 0.2s;
     }
     .custom-room-item:hover {
-      border-color: rgba(245, 158, 11, 0.45);
-      background: rgba(30, 41, 59, 0.95);
+      border-color: rgba(180, 83, 9, 0.45);
+      background: #fcfaf7;
     }
     .custom-room-header {
       display: flex;
@@ -318,25 +320,26 @@
     }
     .custom-room-title {
       font-size: 0.75rem;
-      font-weight: 600;
-      color: #f3f4f6;
+      font-weight: 700;
+      color: #0f172a;
       display: flex;
       align-items: center;
       gap: 0.35rem;
     }
     .btn-delete-room {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
+      background: rgba(220, 38, 38, 0.1);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      color: #dc2626;
       border-radius: 0.25rem;
       padding: 0.1rem 0.35rem;
       cursor: pointer;
       font-size: 0.72rem;
+      font-weight: 600;
       transition: all 0.15s;
     }
     .btn-delete-room:hover {
-      background: rgba(239, 68, 68, 0.35);
-      color: #ffffff;
+      background: rgba(220, 38, 38, 0.25);
+      color: #991b1b;
     }
     .color-swatch-picker {
       display: flex;
@@ -350,21 +353,21 @@
       border-radius: 50%;
       cursor: pointer;
       display: inline-block;
-      border: 1.5px solid rgba(255, 255, 255, 0.6);
+      border: 1.5px solid rgba(0, 0, 0, 0.2);
       opacity: 0.75;
       transition: transform 0.15s, opacity 0.15s;
     }
     .color-swatch:hover, .color-swatch.active {
       opacity: 1.0;
       transform: scale(1.2);
-      border-color: #ffffff;
+      border-color: #1c1917;
       box-shadow: 0 0 5px currentColor;
     }
 
     .form-group:hover .val-badge {
-      background: rgba(245, 158, 11, 0.25);
+      background: #fff3c4;
       border-color: var(--accent-gold);
-      box-shadow: 0 0 6px rgba(245, 158, 11, 0.3);
+      box-shadow: 0 0 6px rgba(180, 83, 9, 0.2);
     }
 
     input[type="range"] {
@@ -375,14 +378,14 @@
     }
 
     select {
-      background: #181818;
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
+      background: #ffffff;
+      border: 1.5px solid #94a3b8;
+      color: #0f172a;
       padding: 0.25rem 0.4rem;
       border-radius: 0.25rem;
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
-      font-weight: 300;
+      font-size: 0.76rem;
+      font-family: var(--font-sans);
+      font-weight: 600;
       outline: none;
       width: 100%;
     }
@@ -394,12 +397,12 @@
     }
 
     .chip {
-      background: #181818;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      font-size: 0.675rem;
-      font-weight: 300;
-      padding: 0.15rem 0.35rem;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      color: #0f172a;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.18rem 0.4rem;
       border-radius: 0.2rem;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -407,17 +410,17 @@
 
     .chip:hover, .chip.active {
       border-color: var(--accent-gold);
-      color: var(--accent-gold-light);
-      background: rgba(245, 158, 11, 0.15);
+      color: #b45309;
+      background: #fffbe6;
     }
 
     .toggle-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.74rem;
-      font-weight: 300;
-      color: var(--text-main);
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #0f172a;
       cursor: pointer;
     }
 
@@ -425,7 +428,7 @@
       position: relative;
       width: 32px;
       height: 16px;
-      background: #383838;
+      background: #cbd5e1;
       border-radius: 8px;
       transition: background 0.2s;
     }
@@ -450,9 +453,9 @@
       transform: translateX(16px);
     }
 
-    /* Center Viewport Canvas (Windows 11 Dark Canvas - Maximized) */
+    /* Center Viewport Canvas (Antique Xuan Paper White Canvas) */
     .viewport {
-      background: #181818;
+      background: #f9f7f2;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -475,7 +478,7 @@
       z-index: 20;
     }
 
-    /* Top-Left HUD Info Panel (Fully Transparent Mode) */
+    /* Top-Left HUD Info Panel */
     .viewport-hud-topleft {
       position: absolute;
       top: 0.5rem;
@@ -489,7 +492,7 @@
       font-weight: 400;
       backdrop-filter: none;
       box-shadow: none;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
+      text-shadow: none;
       z-index: 20;
       display: flex;
       flex-direction: column;
@@ -501,14 +504,14 @@
       position: absolute;
       bottom: 0.6rem;
       left: 0.6rem;
-      background: rgba(15, 23, 42, 0.90);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(2, 132, 199, 0.4);
       border-radius: 0.45rem;
       padding: 0.45rem 0.65rem;
       color: var(--text-main);
       font-size: 0.72rem;
       backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       z-index: 20;
       display: flex;
       flex-direction: column;
@@ -521,14 +524,14 @@
       position: absolute;
       bottom: 0.6rem;
       right: 0.6rem;
-      background: rgba(15, 23, 42, 0.90);
-      border: 1px solid rgba(245, 158, 11, 0.35);
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(180, 83, 9, 0.4);
       border-radius: 0.45rem;
       padding: 0.45rem 0.65rem;
       color: var(--text-main);
       font-size: 0.72rem;
       backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       z-index: 20;
       display: flex;
       flex-direction: column;
@@ -541,18 +544,13 @@
       font-size: 0.75rem;
       font-weight: 700;
       padding-bottom: 0.2rem;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      white-space: nowrap;
-    }
-
-    /* Door Feng Shui Evaluation (Borderless Floating Text Mode - Strictly locked to 180px width for both green title and white desc) */
+    
+    /* Door Feng Shui Evaluation */
     .hud-door-eval-box {
       margin-top: 0.1rem;
       padding: 0;
@@ -567,14 +565,14 @@
       box-sizing: border-box;
       backdrop-filter: none;
       box-shadow: none;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
+      text-shadow: none;
       pointer-events: none;
     }
 
     .hud-door-eval-box .eval-title {
       font-size: 0.76rem;
-      font-weight: 500;
-      color: #10b981;
+      font-weight: 600;
+      color: #047857;
       width: 180px;
       max-width: 180px;
       white-space: normal;
@@ -584,8 +582,8 @@
 
     .hud-door-eval-box .eval-desc {
       font-size: 0.70rem;
-      font-weight: 300;
-      color: rgba(235, 235, 235, 0.88);
+      font-weight: 400;
+      color: rgba(28, 25, 23, 0.85);
       line-height: 1.25;
       width: 150px;
       max-width: 150px;
@@ -604,7 +602,7 @@
       height: 30px;
       padding: 0 0.55rem;
       border-radius: 0.375rem;
-      background: rgba(36, 36, 36, 0.95);
+      background: rgba(255, 255, 255, 0.95);
       border: 1px solid var(--border-color);
       color: var(--text-main);
       display: flex;
@@ -613,16 +611,16 @@
       gap: 0.25rem;
       cursor: pointer;
       backdrop-filter: blur(12px);
-      font-weight: 300;
+      font-weight: 400;
       font-size: 0.75rem;
       transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       white-space: nowrap;
     }
 
     .control-icon-btn:hover {
       background: var(--accent-gold);
-      color: #000;
+      color: #fff;
       border-color: var(--accent-gold);
     }
 
@@ -646,7 +644,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(10px);
       z-index: 100;
       display: none;
@@ -655,7 +653,7 @@
     }
 
     .sat-modal-container {
-      background: #242424;
+      background: #ffffff;
       border: 1px solid var(--accent-gold);
       border-radius: 0.75rem;
       width: 92vw;
@@ -663,11 +661,11 @@
       display: grid;
       grid-template-columns: 1fr 340px;
       overflow: hidden;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     }
 
     .sat-canvas-area {
-      background: #121212;
+      background: #f5f2eb;
       position: relative;
       display: flex;
       justify-content: center;
@@ -679,11 +677,11 @@
       max-width: 100%;
       max-height: 100%;
       cursor: crosshair;
-      box-shadow: 0 0 16px rgba(0,0,0,0.6);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.15);
     }
 
     .sat-sidebar {
-      background: #1c1c1c;
+      background: #f7f5f0;
       border-left: 1px solid var(--border-color);
       padding: 1rem;
       display: flex;
@@ -700,35 +698,36 @@
       padding: 0.12rem 0.4rem;
       border-radius: 0.2rem;
       font-size: 0.68rem;
-      font-weight: 300;
+      font-weight: 500;
     }
 
     .status-danger {
       background: var(--accent-red-bg);
       color: var(--accent-red);
-      border: 1px solid rgba(239, 68, 68, 0.4);
+      border: 1px solid rgba(220, 38, 38, 0.4);
     }
 
     .status-gen-warning {
       background: var(--accent-orange-bg);
       color: var(--accent-orange);
-      border: 1px solid rgba(249, 115, 22, 0.5);
+      border: 1px solid rgba(194, 65, 12, 0.5);
     }
 
     .status-safe {
       background: var(--accent-green-bg);
       color: var(--accent-green);
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      border: 1px solid rgba(4, 120, 87, 0.4);
     }
 
     .star-item {
-      background: #1e1e1e;
+      background: #ffffff;
       border-left: 3px solid var(--accent-gold);
       border-radius: 0.3rem;
       padding: 0.4rem 0.55rem;
       display: flex;
       flex-direction: column;
       gap: 0.12rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     }
 
     .star-item.bad {
@@ -736,13 +735,14 @@
     }
 
     .water-path-item {
-      background: #1e1e1e;
+      background: #ffffff;
       border-left: 3px solid var(--accent-red);
       border-radius: 0.3rem;
       padding: 0.45rem 0.6rem;
       display: flex;
       flex-direction: column;
       gap: 0.12rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     }
 
     .water-path-item.gen-warning {
@@ -757,13 +757,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 400;
+      font-weight: 500;
       font-size: 0.78rem;
     }
 
     .water-path-desc {
       font-size: 0.72rem;
-      font-weight: 300;
+      font-weight: 400;
       color: var(--text-muted);
       line-height: 1.35;
     }
@@ -775,7 +775,7 @@
     }
 
     .summary-box {
-      background: #1e1e1e;
+      background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: 0.3rem;
       padding: 0.4rem;
@@ -820,7 +820,7 @@
       <div><strong id="hoverAngle" style="font-weight: 400;">方位: --°</strong></div>
       <div><span id="hoverMountain">二十四山: --</span></div>
       <div><span id="hoverGua">八卦: --</span></div>
-      <div><span id="hoverPerson" style="color: #60a5fa; font-weight: 400;">人丁: --</span></div>
+      <div><span id="hoverPerson" style="color: #0284c7; font-weight: 500;">人丁: --</span></div>
       <div><span id="hoverStar">九星八門: --</span></div>
       <div><span id="hoverWater">水路狀態: --</span></div>
     </div>
@@ -884,6 +884,16 @@
             <div class="toggle-switch"></div>
           </label>
         </div>
+
+        <div class="form-group" style="margin-top: 0.15rem;">
+          <label for="originCorner">放樣基準原點 (0,0)</label>
+          <select id="originCorner" onchange="updateCalculations()">
+            <option value="topRight" selected>右上角牆心 (0,0) [預設]</option>
+            <option value="bottomRight">右下角牆心 (0,0)</option>
+            <option value="topLeft">左上角牆心 (0,0)</option>
+            <option value="bottomLeft">左下角牆心 (0,0)</option>
+          </select>
+        </div>
       </div>
 
       <!-- Card 2: Door Position & Facing -->
@@ -906,9 +916,9 @@
         <div class="form-group" id="groupDoorPos" title="滾輪向上/向下微調位置比例">
           <div class="form-row">
             <label for="doorPos">牆面位置比例 (%)</label>
-            <span class="val-badge" id="lblDoorPos">75%</span>
+            <span class="val-badge" id="lblDoorPos">73%</span>
           </div>
-          <input type="range" id="doorPos" min="10" max="90" step="1" value="75" oninput="updateCalculations()">
+          <input type="range" id="doorPos" min="10" max="90" step="0.5" value="73" oninput="updateCalculations()">
         </div>
 
         <div class="form-group" id="groupDoorWidth" title="大門門框總淨寬度 (預設 1.2m)，滾輪向上/向下微調">
@@ -1055,10 +1065,10 @@
         <div class="form-group">
           <label>快速新增區域 (Presets)</label>
           <div class="preset-chips" style="gap: 0.3rem;">
-            <div class="chip" onclick="addCustomRoom('🍳 廚房 (灶位)', 4.0, 0.6, '#f97316')" style="background: rgba(249, 115, 22, 0.15); border-color: #f97316; color: #fb923c;">+ 🍳 廚房</div>
-            <div class="chip" onclick="addCustomRoom('🛁 衛浴 (廁所)', 1.8, 2.2, '#0284c7')" style="background: rgba(2, 132, 199, 0.15); border-color: #0284c7; color: #38bdf8;">+ 🛁 衛浴</div>
-            <div class="chip" onclick="addCustomRoom('📦 衣', 1.8, 1.2, '#10b981')" style="background: rgba(16, 185, 129, 0.15); border-color: #10b981; color: #34d399;">+ 📦 衣</div>
-            <div class="chip" onclick="addCustomRoom('🛏️ 主臥室', 3.6, 4.0, '#a855f7')" style="background: rgba(168, 85, 247, 0.15); border-color: #a855f7; color: #c084fc;">+ 🛏️ 主臥</div>
+            <div class="chip" onclick="addCustomRoom('🍳 廚房 (灶位)', 4.0, 0.6, '#f97316')" style="background: rgba(249, 115, 22, 0.12); border-color: #f97316; color: #c2410c; font-weight: 500;">+ 🍳 廚房</div>
+            <div class="chip" onclick="addCustomRoom('🛁 衛浴 (廁所)', 1.8, 2.2, '#0284c7')" style="background: rgba(2, 132, 199, 0.12); border-color: #0284c7; color: #0284c7; font-weight: 500;">+ 🛁 衛浴</div>
+            <div class="chip" onclick="addCustomRoom('📦 衣', 1.8, 1.2, '#10b981')" style="background: rgba(16, 185, 129, 0.12); border-color: #10b981; color: #047857; font-weight: 500;">+ 📦 衣</div>
+            <div class="chip" onclick="addCustomRoom('🛏️ 主臥室', 3.6, 4.0, '#a855f7')" style="background: rgba(168, 85, 247, 0.12); border-color: #a855f7; color: #7e22ce; font-weight: 500;">+ 🛏️ 主臥</div>
           </div>
         </div>
 
@@ -1111,18 +1121,18 @@
 
       <!-- Bottom-Left HUD: Outdoor Water & Trench Guidelines -->
       <div class="viewport-hud-bottomleft" id="viewportBottomLeftHud">
-        <div class="hud-title-bar" style="color: #38bdf8;">
+        <div class="hud-title-bar" style="color: #0284c7; font-weight: 700;">
           <span>🌊 屋外水法與排水溝指南</span>
-          <span style="font-size: 0.65rem; color: #94a3b8; font-weight: 400;">專指屋外露天【明水】</span>
+          <span style="font-size: 0.65rem; color: #57534e; font-weight: 600;">專指屋外露天【明水】</span>
         </div>
         <div style="line-height: 1.35; margin-top: 0.15rem;">
-          <div style="color: #34d399; font-weight: 600; margin-bottom: 0.1rem;">
-            🟢 吉水放水溝推薦：<span id="hudOutdoorSafeWater" style="color: #fef08a; font-weight: 500;">--</span>
+          <div style="color: #047857; font-weight: 700; margin-bottom: 0.1rem;">
+            🟢 吉水放水溝推薦：<span id="hudOutdoorSafeWater" style="color: #047857; font-weight: 700;">--</span>
           </div>
-          <div style="color: #f87171; font-weight: 600; margin-bottom: 0.1rem;">
-            🔴 禁水路黃泉煞警示：<span id="hudOutdoorDangerWater" style="color: #fca5a5; font-weight: 500;">--</span>
+          <div style="color: #dc2626; font-weight: 700; margin-bottom: 0.1rem;">
+            🔴 禁水路黃泉煞警示：<span id="hudOutdoorDangerWater" style="color: #dc2626; font-weight: 700;">--</span>
           </div>
-          <div style="font-size: 0.63rem; color: #94a3b8; line-height: 1.25; margin-top: 0.15rem; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 0.15rem;">
+          <div style="font-size: 0.63rem; color: #57534e; line-height: 1.25; margin-top: 0.15rem; border-top: 1px dashed #cbd5e1; padding-top: 0.15rem;">
             💡 <strong>水法劃分要訣</strong>：黃泉消亡煞專指屋外<strong>「露天明水溝渠/明路氣」</strong>；地下密閉水管（暗水）穿過無妨。
           </div>
         </div>
@@ -1130,19 +1140,19 @@
 
       <!-- Bottom-Right HUD: Indoor Water & Kitchen Stove Guidelines -->
       <div class="viewport-hud-bottomright" id="viewportBottomRightHud">
-        <div class="hud-title-bar" style="color: #fbbf24;">
+        <div class="hud-title-bar" style="color: #b45309; font-weight: 700;">
           <span>🏠 室內水法與灶位排污指南</span>
-          <span style="font-size: 0.65rem; color: #94a3b8; font-weight: 400;">明水與暗管劃分</span>
+          <span style="font-size: 0.65rem; color: #57534e; font-weight: 600;">明水與暗管劃分</span>
         </div>
         <div style="line-height: 1.35; margin-top: 0.15rem;">
-          <div style="color: #60a5fa; margin-bottom: 0.1rem;">
-            🚰 <strong>淨水進水/魚缸水景</strong> ➔ 【<strong>明水</strong>】必須置吉位 <span id="hudIndoorCleanWater" style="color: #34d399; font-weight: 600;">--</span> <span style="font-size: 0.62rem; color: #94a3b8;">(牆內暗管無妨)</span>
+          <div style="color: #0284c7; font-weight: 600; margin-bottom: 0.1rem;">
+            🚰 <strong>淨水進水/魚缸水景</strong> ➔ 【<strong>明水</strong>】必須置吉位 <span id="hudIndoorCleanWater" style="color: #047857; font-weight: 700;">--</span> <span style="font-size: 0.62rem; color: #57534e;">(牆內暗管無妨)</span>
           </div>
-          <div style="color: #f87171; margin-bottom: 0.1rem;">
-            🚽 <strong>黑水排污/化糞池</strong> ➔ 必須壓凶位 <span id="hudIndoorBlackWater" style="color: #fbbf24; font-weight: 600;">--</span> <span style="font-size: 0.62rem; color: #34d399;">(隨暗水排煞；露天明溝忌落吉位)</span>
+          <div style="color: #dc2626; font-weight: 600; margin-bottom: 0.1rem;">
+            🚽 <strong>黑水排污/化糞池</strong> ➔ 必須壓凶位 <span id="hudIndoorBlackWater" style="color: #b45309; font-weight: 700;">--</span> <span style="font-size: 0.62rem; color: #047857;">(隨暗水排煞；露天明溝忌落吉位)</span>
           </div>
-          <div style="color: #fb923c;">
-            🍳 <strong>廚房灶位/火頭</strong> ➔ 必須壓凶位 <span id="hudIndoorStove" style="color: #fbbf24; font-weight: 600;">--</span> <span style="font-size: 0.62rem; color: #34d399;">(火燒凶煞)</span>
+          <div style="color: #c2410c; font-weight: 600;">
+            🍳 <strong>廚房灶位/火頭</strong> ➔ 必須壓凶位 <span id="hudIndoorStove" style="color: #b45309; font-weight: 700;">--</span> <span style="font-size: 0.62rem; color: #047857;">(火燒凶煞)</span>
           </div>
         </div>
       </div>
@@ -1155,22 +1165,18 @@
       <!-- Card: Construction Bagua Boundary Centerline Dimension Table -->
       <div class="card">
         <div class="card-title">
-          <span>📐 施工現場牆心丈量對照表 (0,0右上角原點)</span>
+          <span id="titleConstructionTable">📐 丈量對照表</span>
           <i>📏</i>
         </div>
-        <div style="font-size: 0.72rem; color: #fbbf24; line-height: 1.45; background: rgba(245, 158, 11, 0.08); padding: 0.4rem; border-radius: 0.3rem; border: 1px solid rgba(245, 158, 11, 0.25);">
-          <strong>【放樣基準】：以「右上角牆心 (0.00, 0.00)」為原點！</strong><br/>
-          扣除 1/2 牆厚 (20cm) 即為現場內牆面淨丈量尺寸。
-        </div>
 
-        <div style="margin-top: 0.35rem; max-height: 240px; overflow-y: auto;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.70rem; text-align: left; color: var(--text-main);">
+        <div style="margin-top: 0.2rem; overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.67rem; text-align: left; color: var(--text-main); white-space: nowrap;">
             <thead>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.15); color: #94a3b8;">
-                <th style="padding: 0.25rem 0.2rem;">卦界名稱</th>
-                <th style="padding: 0.25rem 0.2rem;">牆面</th>
-                <th style="padding: 0.25rem 0.2rem; text-align: right;">牆心距離</th>
-                <th style="padding: 0.25rem 0.2rem; text-align: right; color: #38bdf8;">室內淨距離</th>
+              <tr style="border-bottom: 2px solid #cbd5e1; color: #0f172a; background: #e2e8f0; font-weight: 700;">
+                <th style="padding: 0.2rem 0.1rem; color: #0f172a; white-space: nowrap;">卦界</th>
+                <th style="padding: 0.2rem 0.1rem; color: #0f172a; white-space: nowrap;">牆心座標 (X,Y)</th>
+                <th style="padding: 0.2rem 0.1rem; text-align: right; color: #0f172a; white-space: nowrap;">牆心距</th>
+                <th style="padding: 0.2rem 0.1rem; text-align: right; color: #0284c7; white-space: nowrap;">室內淨距</th>
               </tr>
             </thead>
             <tbody id="tblBaguaIntersections">
@@ -1183,17 +1189,16 @@
       <!-- Card: Custom Rooms (Kitchen, Bathroom, Bedroom) Feng Shui Report Table -->
       <div class="card">
         <div class="card-title">
-          <span>🏠 室內空間 (廚房/衛浴) 尺寸與風水對照表</span>
+          <span id="titleCustomRoomsTable">🏠 空間對照表</span>
           <i>📋</i>
         </div>
-        <div style="margin-top: 0.35rem; max-height: 220px; overflow-y: auto;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.70rem; text-align: left; color: var(--text-main);">
+        <div style="margin-top: 0.2rem; overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.67rem; text-align: left; color: var(--text-main); white-space: nowrap;">
             <thead>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.15); color: #94a3b8;">
-                <th style="padding: 0.25rem 0.2rem;">區域</th>
-                <th style="padding: 0.25rem 0.2rem;">尺寸 (長×寬)</th>
-                <th style="padding: 0.25rem 0.2rem;">原點位置 (X, Y)</th>
-                <th style="padding: 0.25rem 0.2rem; text-align: right;">宮位與風水判定</th>
+              <tr style="border-bottom: 2px solid #cbd5e1; color: #0f172a; background: #e2e8f0; font-weight: 700;">
+                <th style="padding: 0.2rem 0.1rem; color: #0f172a; white-space: nowrap;">區域</th>
+                <th style="padding: 0.2rem 0.1rem; color: #0f172a; white-space: nowrap;">放樣座標 (X,Y)</th>
+                <th style="padding: 0.2rem 0.1rem; text-align: right; color: #0f172a; white-space: nowrap;">宮位風水</th>
               </tr>
             </thead>
             <tbody id="tblCustomRoomsReport">
@@ -1549,9 +1554,10 @@
       period: '9',
       facingAngle: 307.0,
       doorWall: 'front',
-      doorPosPct: 75,
+      doorPosPct: 73,
       doorWidth: 1.2,
       doorAngleOffset: 0,
+      originCorner: 'topRight',
       taijiXPct: 50,
       taijiYPct: 50,
       showRooms: true,
@@ -1679,6 +1685,77 @@
       return 0;
     }
 
+    // 計算自訂室內空間 (房間/衛浴/廚房) 相對於太極中心之真實羅盤卦位與九星八門
+    function getRoomBaguaAndStar(room, sitGua) {
+      let W = state.width;
+      let L = state.length;
+      let xTaiji = W * (1 - (state.taijiXPct || 50) / 100);
+      let yTaiji = L * ((state.taijiYPct || 50) / 100);
+
+      let rx = room.x + room.width / 2;
+      let ry = room.y + room.length / 2;
+
+      let dx = -(rx - xTaiji);
+      let dy = ry - yTaiji;
+
+      let screenRelAngle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+      screenRelAngle = normalizeAngle(screenRelAngle);
+
+      let compassAngle = normalizeAngle(screenRelAngle + state.facingAngle);
+      let roomBagua = getBagua(compassAngle);
+      let roomStar = getNineStar(sitGua || '坎', roomBagua.code);
+
+      return { compassAngle, bagua: roomBagua, star: roomStar };
+    }
+
+    // 依據選定之放樣原點 (右上角、右下角、左上角、左下角) 轉換對應之 2D (X, Y) 座標
+    function getTransformedCoords(xTR, yTR) {
+      let W = state.width;
+      let L = state.length;
+      let corner = state.originCorner || 'topRight';
+
+      if (corner === 'bottomRight') {
+        return { x: xTR, y: Math.abs(L - yTR) };
+      } else if (corner === 'topLeft') {
+        return { x: Math.abs(W - xTR), y: yTR };
+      } else if (corner === 'bottomLeft') {
+        return { x: Math.abs(W - xTR), y: Math.abs(L - yTR) };
+      } else {
+        return { x: xTR, y: yTR };
+      }
+    }
+
+    // 將使用者在選定原點下輸入的 2D (X, Y) 座標逆向轉換回內部右上角絕對座標 (xTR, yTR)
+    function getInverseTransformedCoords(X, Y) {
+      let W = state.width;
+      let L = state.length;
+      let corner = state.originCorner || 'topRight';
+
+      if (corner === 'bottomRight') {
+        return { x: X, y: Math.abs(L - Y) };
+      } else if (corner === 'topLeft') {
+        return { x: Math.abs(W - X), y: Y };
+      } else if (corner === 'bottomLeft') {
+        return { x: Math.abs(W - X), y: Math.abs(L - Y) };
+      } else {
+        return { x: X, y: Y };
+      }
+    }
+
+    // 取得當前選定原點的中文標籤與文字說明
+    function getOriginLabels() {
+      let corner = state.originCorner || 'topRight';
+      if (corner === 'bottomRight') {
+        return { xLabel: '原點向左 X', yLabel: '原點向上 Y', name: '右下牆心' };
+      } else if (corner === 'topLeft') {
+        return { xLabel: '原點向右 X', yLabel: '原點向下 Y', name: '左上牆心' };
+      } else if (corner === 'bottomLeft') {
+        return { xLabel: '原點向右 X', yLabel: '原點向上 Y', name: '左下牆心' };
+      } else {
+        return { xLabel: '原點向左 X', yLabel: '原點向下 Y', name: '右上牆心' };
+      }
+    }
+
     // 計算大門門框兩端點位座標與長度 (精確以右上角外牆牆心 0,0 為原點)
     function getDoorFrameCoordinates() {
       let W = state.width;
@@ -1693,7 +1770,7 @@
       let x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 
       if (state.doorWall === 'front') {
-        wallName = "前牆 (Top)";
+        wallName = "前牆";
         // 在前牆，右上角 x=0，左上角 x=W。SVG 門位置 doorPosPct 是自 Left 起算，因此自 Right (0,0) 原點距離為 W * (1 - doorPosPct/100)
         centerDistFromOrigin = W * (1 - state.doorPosPct / 100);
         let d1 = centerDistFromOrigin - halfDoor;
@@ -1703,7 +1780,7 @@
         y1 = 0;
         y2 = 0;
       } else if (state.doorWall === 'right') {
-        wallName = "右牆 (Right)";
+        wallName = "右牆";
         // 在右牆，右上角 y=0，右下角 y=L。門位置是自 Top (0,0) 原點起算 L * (doorPosPct/100)
         centerDistFromOrigin = L * (state.doorPosPct / 100);
         let d1 = centerDistFromOrigin - halfDoor;
@@ -1713,7 +1790,7 @@
         x1 = 0;
         x2 = 0;
       } else if (state.doorWall === 'back') {
-        wallName = "後牆 (Bottom)";
+        wallName = "後牆";
         // 在後牆，右下角 (0,L)，左下角 (W,L)。SVG 門位置是自 Bottom-Right 起算 W * (doorPosPct/100)
         centerDistFromOrigin = W * (state.doorPosPct / 100);
         let d1 = centerDistFromOrigin - halfDoor;
@@ -1723,7 +1800,7 @@
         y1 = L;
         y2 = L;
       } else if (state.doorWall === 'left') {
-        wallName = "左牆 (Left)";
+        wallName = "左牆";
         // 在左牆，左上角 (W,0)，左下角 (W,L)。SVG 門位置是自 Top (0,0) 起算 L * (1 - doorPosPct/100)
         centerDistFromOrigin = L * (1 - state.doorPosPct / 100);
         let d1 = centerDistFromOrigin - halfDoor;
@@ -1787,6 +1864,16 @@
 
       if (prop === 'name' || prop === 'color') {
         room[prop] = val;
+      } else if (prop === 'x' || prop === 'y') {
+        let num = parseFloat(val);
+        if (!isNaN(num)) {
+          let curPt = getTransformedCoords(room.x, room.y);
+          let newX = prop === 'x' ? num : curPt.x;
+          let newY = prop === 'y' ? num : curPt.y;
+          let internalPt = getInverseTransformedCoords(newX, newY);
+          room.x = internalPt.x;
+          room.y = internalPt.y;
+        }
       } else {
         let num = parseFloat(val);
         if (!isNaN(num)) {
@@ -1802,18 +1889,20 @@
       if (!container) return;
 
       if (!state.customRooms || state.customRooms.length === 0) {
-        container.innerHTML = `<div style="font-size: 0.72rem; color: #64748b; text-align: center; padding: 0.6rem 0;">點擊上方快捷按鈕新增廚房、衛浴或臥室</div>`;
+        container.innerHTML = `<div style="font-size: 0.72rem; color: #57534e; text-align: center; padding: 0.6rem 0;">點擊上方快捷按鈕新增廚房、衛浴或臥室</div>`;
         return;
       }
 
+      let labels = getOriginLabels();
       let html = '';
       state.customRooms.forEach((room) => {
+        let rPt = getTransformedCoords(room.x, room.y);
         html += `
           <div class="custom-room-item" style="border-left: 3.5px solid ${room.color};">
             <div class="custom-room-header">
               <div class="custom-room-title">
                 <input type="text" value="${room.name}" 
-                       style="background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.2); color: #f3f4f6; font-size: 0.75rem; font-weight: 600; width: 130px; outline: none;" 
+                       style="background: transparent; border: none; border-bottom: 1px solid rgba(0,0,0,0.2); color: #1c1917; font-size: 0.75rem; font-weight: 600; width: 130px; outline: none;" 
                        onchange="updateRoomProp('${room.id}', 'name', this.value)">
               </div>
               <button class="btn-delete-room" onclick="removeCustomRoom('${room.id}')" title="刪除此區域">🗑️ 刪除</button>
@@ -1828,7 +1917,7 @@
                     <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem;" 
                            min="0.1" max="${Math.max(10.0, state.width)}" step="0.01" value="${room.width.toFixed(2)}" 
                            onchange="updateRoomProp('${room.id}', 'width', this.value)">
-                    <span style="font-size: 0.62rem; color: #94a3b8;">m</span>
+                    <span style="font-size: 0.62rem; color: #57534e;">m</span>
                   </div>
                 </div>
                 <input type="range" min="0.3" max="${Math.max(5.0, state.width)}" step="0.05" value="${room.width}" 
@@ -1842,7 +1931,7 @@
                     <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem;" 
                            min="0.1" max="${Math.max(10.0, state.length)}" step="0.01" value="${room.length.toFixed(2)}" 
                            onchange="updateRoomProp('${room.id}', 'length', this.value)">
-                    <span style="font-size: 0.62rem; color: #94a3b8;">m</span>
+                    <span style="font-size: 0.62rem; color: #57534e;">m</span>
                   </div>
                 </div>
                 <input type="range" min="0.3" max="${Math.max(5.0, state.length)}" step="0.05" value="${room.length}" 
@@ -1850,40 +1939,40 @@
               </div>
             </div>
 
-            <!-- 原點 (0,0) 位置 (支援直接鍵盤輸入數字與拉桿) -->
+            <!-- 原點 (0,0) 位置 (依選定之放樣原點動態顯示) -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin-top: 0.2rem;">
               <div class="form-group" style="margin-bottom: 0.2rem;">
                 <div class="form-row" style="margin-bottom: 0.15rem;">
-                  <label style="font-size: 0.68rem; color: #93c5fd;">原點向左 X</label>
+                  <label style="font-size: 0.68rem; color: #0284c7;">${labels.xLabel}</label>
                   <div class="val-badge-input-wrap" style="padding: 0.05rem 0.2rem;">
-                    <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem; color: #93c5fd;" 
-                           min="0" max="${Math.max(0.1, state.width)}" step="0.01" value="${room.x.toFixed(2)}" 
+                    <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem; color: #0284c7;" 
+                           min="0" max="${Math.max(0.1, state.width)}" step="0.01" value="${rPt.x.toFixed(2)}" 
                            onchange="updateRoomProp('${room.id}', 'x', this.value)">
-                    <span style="font-size: 0.62rem; color: #93c5fd;">m</span>
+                    <span style="font-size: 0.62rem; color: #0284c7;">m</span>
                   </div>
                 </div>
-                <input type="range" min="0" max="${Math.max(0.1, state.width - room.width)}" step="0.05" value="${room.x}" 
+                <input type="range" min="0" max="${Math.max(0.1, state.width - room.width)}" step="0.05" value="${rPt.x}" 
                        oninput="updateRoomProp('${room.id}', 'x', this.value)">
               </div>
 
               <div class="form-group" style="margin-bottom: 0.2rem;">
                 <div class="form-row" style="margin-bottom: 0.15rem;">
-                  <label style="font-size: 0.68rem; color: #93c5fd;">原點向下 Y</label>
+                  <label style="font-size: 0.68rem; color: #0284c7;">${labels.yLabel}</label>
                   <div class="val-badge-input-wrap" style="padding: 0.05rem 0.2rem;">
-                    <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem; color: #93c5fd;" 
-                           min="0" max="${Math.max(0.1, state.length)}" step="0.01" value="${room.y.toFixed(2)}" 
+                    <input type="number" class="num-input-badge" style="width: 2.8rem; font-size: 0.68rem; color: #0284c7;" 
+                           min="0" max="${Math.max(0.1, state.length)}" step="0.01" value="${rPt.y.toFixed(2)}" 
                            onchange="updateRoomProp('${room.id}', 'y', this.value)">
-                    <span style="font-size: 0.62rem; color: #93c5fd;">m</span>
+                    <span style="font-size: 0.62rem; color: #0284c7;">m</span>
                   </div>
                 </div>
-                <input type="range" min="0" max="${Math.max(0.1, state.length - room.length)}" step="0.05" value="${room.y}" 
+                <input type="range" min="0" max="${Math.max(0.1, state.length - room.length)}" step="0.05" value="${rPt.y}" 
                        oninput="updateRoomProp('${room.id}', 'y', this.value)">
               </div>
             </div>
 
             <!-- Color swatches -->
             <div class="color-swatch-picker">
-              <span style="font-size: 0.65rem; color: #94a3b8;">顏色:</span>
+              <span style="font-size: 0.65rem; color: #57534e;">顏色:</span>
               ${['#f97316', '#0284c7', '#a855f7', '#10b981', '#eab308', '#ef4444'].map(c => `
                 <span class="color-swatch ${room.color === c ? 'active' : ''}" style="background: ${c};" onclick="updateRoomProp('${room.id}', 'color', '${c}')"></span>
               `).join('')}
@@ -1909,8 +1998,8 @@
       // 八卦 8 個邊界分界角度在羅盤上的角度
       let bCompassAngles = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5];
       let boundaryNames = [
-        "癸丑界 (坎/艮)", "甲寅界 (艮/震)", "乙辰界 (震/巽)", "丙巳界 (巽/離)",
-        "丁未界 (離/坤)", "庚申界 (坤/兌)", "辛戌界 (兌/乾)", "壬亥界 (乾/坎)"
+        "坎艮界", "艮震界", "震巽界", "巽離界",
+        "離坤界", "坤兌界", "兌乾界", "乾坎界"
       ];
 
       let results = [];
@@ -1930,7 +2019,7 @@
             let x = xTaiji + t * dx;
             if (x >= -0.01 && x <= W + 0.01) {
               let clampedX = Math.max(0, Math.min(W, x));
-              intersections.push({ wall: "前牆 (Top)", x: clampedX, y: 0, t: t });
+              intersections.push({ wall: "前牆", x: clampedX, y: 0, t: t });
             }
           }
         }
@@ -1942,7 +2031,7 @@
             let y = yTaiji + t * dy;
             if (y >= -0.01 && y <= L + 0.01) {
               let clampedY = Math.max(0, Math.min(L, y));
-              intersections.push({ wall: "右牆 (Right)", x: 0, y: clampedY, t: t });
+              intersections.push({ wall: "右牆", x: 0, y: clampedY, t: t });
             }
           }
         }
@@ -1954,7 +2043,7 @@
             let x = xTaiji + t * dx;
             if (x >= -0.01 && x <= W + 0.01) {
               let clampedX = Math.max(0, Math.min(W, x));
-              intersections.push({ wall: "後牆 (Bottom)", x: clampedX, y: L, t: t });
+              intersections.push({ wall: "後牆", x: clampedX, y: L, t: t });
             }
           }
         }
@@ -1966,7 +2055,7 @@
             let y = yTaiji + t * dy;
             if (y >= -0.01 && y <= L + 0.01) {
               let clampedY = Math.max(0, Math.min(L, y));
-              intersections.push({ wall: "左牆 (Left)", x: W, y: clampedY, t: t });
+              intersections.push({ wall: "左牆", x: W, y: clampedY, t: t });
             }
           }
         }
@@ -1975,7 +2064,8 @@
           intersections.sort((a, b) => a.t - b.t);
           let p = intersections[0];
 
-          let distWallCenter = (p.wall.includes("前牆") || p.wall.includes("後牆")) ? p.x : p.y;
+          let pt = getTransformedCoords(p.x, p.y);
+          let distWallCenter = (p.wall.includes("前牆") || p.wall.includes("後牆")) ? pt.x : pt.y;
           let distNet = Math.max(0, distWallCenter - halfWall);
 
           results.push({
@@ -2011,6 +2101,9 @@
       state.showForbiddenWater = document.getElementById('showForbiddenWater').checked;
       state.showSafeWater = document.getElementById('showSafeWater').checked;
       state.showBaguaDimensions = document.getElementById('showBaguaDimensions') ? document.getElementById('showBaguaDimensions').checked : true;
+      if (document.getElementById('originCorner')) {
+        state.originCorner = document.getElementById('originCorner').value;
+      }
 
       document.getElementById('lblLength').innerText = state.length.toFixed(1) + " m";
       document.getElementById('lblWidth').innerText = state.width.toFixed(1) + " m";
@@ -2033,6 +2126,7 @@
 
       renderSvg(sitMnt, facingMnt, waterAnalysis);
       renderReport(sitMnt, facingMnt, waterAnalysis);
+      renderCustomRoomsUI();
     }
 
     function analyzeWaterRules(sitMnt, facingMnt) {
@@ -2310,12 +2404,12 @@
       svg.innerHTML = `
         <defs>
           <pattern id="brickPattern" width="20" height="10" patternUnits="userSpaceOnUse">
-            <rect width="20" height="10" fill="rgba(194, 65, 12, 0.16)" />
-            <line x1="0" y1="5" x2="20" y2="5" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
-            <line x1="0" y1="10" x2="20" y2="10" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
-            <line x1="10" y1="0" x2="10" y2="5" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
-            <line x1="0" y1="5" x2="0" y2="10" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
-            <line x1="20" y1="5" x2="20" y2="10" stroke="rgba(255, 255, 255, 0.22)" stroke-width="0.8" />
+            <rect width="20" height="10" fill="rgba(194, 65, 12, 0.12)" />
+            <line x1="0" y1="5" x2="20" y2="5" stroke="rgba(180, 83, 9, 0.2)" stroke-width="0.8" />
+            <line x1="0" y1="10" x2="20" y2="10" stroke="rgba(180, 83, 9, 0.2)" stroke-width="0.8" />
+            <line x1="10" y1="0" x2="10" y2="5" stroke="rgba(180, 83, 9, 0.2)" stroke-width="0.8" />
+            <line x1="0" y1="5" x2="0" y2="10" stroke="rgba(180, 83, 9, 0.2)" stroke-width="0.8" />
+            <line x1="20" y1="5" x2="20" y2="10" stroke="rgba(180, 83, 9, 0.2)" stroke-width="0.8" />
           </pattern>
         </defs>
       `;
@@ -2341,7 +2435,7 @@
 
       // Grid Background
       let gridG = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      gridG.setAttribute("stroke", "#333333");
+      gridG.setAttribute("stroke", "#e2e8f0");
       gridG.setAttribute("stroke-width", "1");
       for (let i = 100; i < 1100; i += 100) {
         gridG.innerHTML += `<line x1="${i}" y1="0" x2="${i}" y2="1100" />`;
@@ -2357,13 +2451,13 @@
 
       let circlesG = document.createElementNS("http://www.w3.org/2000/svg", "g");
       circlesG.setAttribute("fill", "none");
-      circlesG.setAttribute("stroke", "#444444");
+      circlesG.setAttribute("stroke", "#cbd5e1");
       circlesG.innerHTML = `
         <circle cx="${cx}" cy="${cy}" r="240" stroke-width="1" stroke-dasharray="4,4" />
         <circle cx="${cx}" cy="${cy}" r="${radiusMnt}" stroke-width="1.5" />
         <circle cx="${cx}" cy="${cy}" r="${radiusCompass}" stroke-width="1.5" />
-        <circle cx="${cx}" cy="${cy}" r="${radiusBagua}" stroke-width="2" stroke="#555555" />
-        ${state.showSevenStars ? `<circle cx="${cx}" cy="${cy}" r="${radiusSevenStars}" stroke-width="1.5" stroke="#f59e0b" stroke-dasharray="6,3" />` : ''}
+        <circle cx="${cx}" cy="${cy}" r="${radiusBagua}" stroke-width="2" stroke="#94a3b8" />
+        ${state.showSevenStars ? `<circle cx="${cx}" cy="${cy}" r="${radiusSevenStars}" stroke-width="1.5" stroke="#b45309" stroke-dasharray="6,3" />` : ''}
       `;
       compassG.appendChild(circlesG);
 
@@ -2374,17 +2468,17 @@
 
       let periodHighlightG = document.createElementNS("http://www.w3.org/2000/svg", "g");
       if (lingBagua) {
-        periodHighlightG.appendChild(createSectorPath(cx, cy, 200, 240, lingBagua.min, lingBagua.max, "rgba(56, 189, 248, 0.35)", "#38bdf8"));
+        periodHighlightG.appendChild(createSectorPath(cx, cy, 200, 240, lingBagua.min, lingBagua.max, "rgba(2, 132, 199, 0.15)", "#0284c7"));
       }
       if (zhengBagua) {
-        periodHighlightG.appendChild(createSectorPath(cx, cy, 200, 240, zhengBagua.min, zhengBagua.max, "rgba(245, 158, 11, 0.35)", "#f59e0b"));
+        periodHighlightG.appendChild(createSectorPath(cx, cy, 200, 240, zhengBagua.min, zhengBagua.max, "rgba(180, 83, 9, 0.15)", "#b45309"));
       }
       compassG.appendChild(periodHighlightG);
 
       if (state.showSafeWater) {
         let safeG = document.createElementNS("http://www.w3.org/2000/svg", "g");
         waterAnalysis.safeSectors.forEach(sec => {
-          safeG.appendChild(createSectorPath(cx, cy, 220, radiusBagua, sec.min, sec.max, "rgba(16, 185, 129, 0.15)", "rgba(16, 185, 129, 0.4)"));
+          safeG.appendChild(createSectorPath(cx, cy, 220, radiusBagua, sec.min, sec.max, "rgba(4, 120, 87, 0.12)", "rgba(4, 120, 87, 0.4)"));
         });
         compassG.appendChild(safeG);
       }
@@ -2393,8 +2487,8 @@
         let forbG = document.createElementNS("http://www.w3.org/2000/svg", "g");
         waterAnalysis.forbiddenSectors.forEach(sec => {
           if (sec.type !== "卦界空亡") {
-            let fillColor = sec.isGenSpecial ? "rgba(249, 115, 22, 0.35)" : "rgba(239, 68, 68, 0.25)";
-            let strokeColor = sec.isGenSpecial ? "rgba(249, 115, 22, 0.85)" : "rgba(239, 68, 68, 0.6)";
+            let fillColor = sec.isGenSpecial ? "rgba(194, 65, 12, 0.2)" : "rgba(220, 38, 38, 0.15)";
+            let strokeColor = sec.isGenSpecial ? "rgba(194, 65, 12, 0.7)" : "rgba(220, 38, 38, 0.6)";
             forbG.appendChild(createSectorPath(cx, cy, 220, radiusBagua, sec.min, sec.max, fillColor, strokeColor));
           }
         });
@@ -2412,17 +2506,17 @@
           let tx = cx + rMid * Math.cos(rad);
           let ty = cy + rMid * Math.sin(rad);
 
-          let color = b.code === "艮" ? "#f97316" : "#fbbf24";
+          let color = b.code === "艮" ? "#c2410c" : "#b45309";
           let extraTag = b.code === pData.lingGua ? `💧${state.period}運零神` : (b.code === pData.zhengGua ? `⛰️${state.period}運正神` : '');
 
           let textHtml = extraTag ? `
             <g transform="rotate(${textAngle}, ${tx}, ${ty})">
-              <text x="${tx}" y="${ty - 4 * fs}" font-size="${24 * fs}" font-weight="500" fill="${color}" text-anchor="middle" font-family="Noto Serif TC">${b.name}</text>
-              <text x="${tx}" y="${ty + 16 * fs}" font-size="${15 * fs}" font-weight="400" fill="#38bdf8" text-anchor="middle">${extraTag}</text>
+              <text x="${tx}" y="${ty - 4 * fs}" font-size="${24 * fs}" font-weight="600" fill="${color}" text-anchor="middle" font-family="Noto Serif TC">${b.name}</text>
+              <text x="${tx}" y="${ty + 16 * fs}" font-size="${15 * fs}" font-weight="500" fill="#0284c7" text-anchor="middle">${extraTag}</text>
             </g>
           ` : `
             <g transform="rotate(${textAngle}, ${tx}, ${ty})">
-              <text x="${tx}" y="${ty + 8 * fs}" font-size="${26 * fs}" font-weight="500" fill="${color}" text-anchor="middle" font-family="Noto Serif TC">${b.name}</text>
+              <text x="${tx}" y="${ty + 8 * fs}" font-size="${26 * fs}" font-weight="600" fill="${color}" text-anchor="middle" font-family="Noto Serif TC">${b.name}</text>
             </g>
           `;
 
@@ -2436,13 +2530,13 @@
           let rules = getPalaceRules(b, sitMnt.gua, state.period, waterAnalysis);
           let lines = [];
           if (rules.yi.length > 0) {
-            rules.yi.forEach(item => lines.push({ tag: `納吉:${item}`, color: "#10b981" }));
+            rules.yi.forEach(item => lines.push({ tag: `納吉:${item}`, color: "#047857" }));
           }
           if (rules.huasha.length > 0) {
-            rules.huasha.forEach(item => lines.push({ tag: `化煞:${item}`, color: "#f59e0b" }));
+            rules.huasha.forEach(item => lines.push({ tag: `化煞:${item}`, color: "#b45309" }));
           }
           if (rules.bisha.length > 0) {
-            rules.bisha.forEach(item => lines.push({ tag: `避煞:${item}`, color: "#ef4444" }));
+            rules.bisha.forEach(item => lines.push({ tag: `避煞:${item}`, color: "#dc2626" }));
           }
 
           if (lines.length > 0) {
@@ -2467,12 +2561,12 @@
 
             let linesHtml = lines.map((l, idx) => {
               let lineY = rectY + padY + (idx + 0.75) * lh;
-              return `<text x="${sx}" y="${lineY}" font-size="${fontSz}" font-weight="500" fill="${l.color}" opacity="0.88" text-anchor="middle" style="pointer-events: none;">${l.tag}</text>`;
+              return `<text x="${sx}" y="${lineY}" font-size="${fontSz}" font-weight="600" fill="${l.color}" text-anchor="middle" style="pointer-events: none;">${l.tag}</text>`;
             }).join("");
 
             baguaG.innerHTML += `
               <g class="palace-card-g" data-gua="${b.code}" style="cursor: move; pointer-events: all;" transform="rotate(${textAngle}, ${sx}, ${sy})">
-                <rect x="${rectX}" y="${rectY}" width="${blockW}" height="${blockH}" rx="${5 * fs}" fill="rgba(15, 23, 42, 0.78)" stroke="rgba(59, 130, 246, 0.45)" stroke-width="${1.2 * fs}" />
+                <rect x="${rectX}" y="${rectY}" width="${blockW}" height="${blockH}" rx="${5 * fs}" fill="rgba(255, 255, 255, 0.95)" stroke="rgba(2, 132, 199, 0.45)" stroke-width="${1.2 * fs}" />
                 ${linesHtml}
               </g>
             `;
@@ -2489,7 +2583,7 @@
           let ty = cy + radiusSevenStars * Math.sin(rad);
 
           let starInfo = getNineStar(sitMnt.gua, b.code);
-          let color = starInfo.type.includes("吉") ? "#10b981" : "#ef4444";
+          let color = starInfo.type.includes("吉") ? "#047857" : "#dc2626";
           let textAngle = -compassRotation;
 
           let rw = 82 * fs;
@@ -2497,8 +2591,8 @@
 
           starG.innerHTML += `
             <g transform="rotate(${textAngle}, ${tx}, ${ty})">
-              <rect x="${tx - rw/2}" y="${ty - rh/2}" width="${rw}" height="${rh}" rx="${4 * fs}" fill="rgba(32, 32, 32, 0.50)" stroke="${color}" stroke-width="${1.6 * fs}" />
-              <text x="${tx}" y="${ty + 5 * fs}" font-size="${16 * fs}" font-weight="500" fill="${color}" text-anchor="middle">${starInfo.star.split(" ")[0]}・${b.gate.split(" ")[0]}</text>
+              <rect x="${tx - rw/2}" y="${ty - rh/2}" width="${rw}" height="${rh}" rx="${4 * fs}" fill="rgba(255, 255, 255, 0.95)" stroke="${color}" stroke-width="${1.6 * fs}" />
+              <text x="${tx}" y="${ty + 5 * fs}" font-size="${16 * fs}" font-weight="600" fill="${color}" text-anchor="middle">${starInfo.star.split(" ")[0]}・${b.gate.split(" ")[0]}</text>
             </g>
           `;
         });
@@ -2512,16 +2606,16 @@
           let lx2 = cx + radiusCompass * Math.cos(lineRad);
           let ly2 = cy + radiusCompass * Math.sin(lineRad);
 
-          mntG.innerHTML += `<line x1="${cx}" y1="${cy}" x2="${lx2}" y2="${ly2}" stroke="#444444" stroke-width="1" />`;
+          mntG.innerHTML += `<line x1="${cx}" y1="${cy}" x2="${lx2}" y2="${ly2}" stroke="#cbd5e1" stroke-width="1" />`;
 
           let textRad = (m.angle - 90) * Math.PI / 180;
           let tx = cx + (radiusMnt + 25) * Math.cos(textRad);
           let ty = cy + (radiusMnt + 25) * Math.sin(textRad);
-          let color = m.nature === "陽" ? "#ef4444" : "#e0e0e0";
+          let color = m.nature === "陽" ? "#dc2626" : "#475569";
           let textAngle = -compassRotation;
 
           mntG.innerHTML += `
-            <text x="${tx}" y="${ty + 7 * fs}" font-size="${22 * fs}" font-weight="400" fill="${color}" text-anchor="middle" transform="rotate(${textAngle}, ${tx}, ${ty})">${m.name}</text>
+            <text x="${tx}" y="${ty + 7 * fs}" font-size="${22 * fs}" font-weight="500" fill="${color}" text-anchor="middle" transform="rotate(${textAngle}, ${tx}, ${ty})">${m.name}</text>
           `;
         });
         compassG.appendChild(mntG);
@@ -2536,21 +2630,21 @@
           let ly2 = cy + (radiusBagua + 15) * Math.sin(rad);
 
           boundG.innerHTML += `
-            <line x1="${cx}" y1="${cy}" x2="${lx2}" y2="${ly2}" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6,4" />
+            <line x1="${cx}" y1="${cy}" x2="${lx2}" y2="${ly2}" stroke="#0284c7" stroke-width="2" stroke-dasharray="6,4" />
           `;
         });
 
         // 動態推算與目前朝向 (state.facingAngle) 最接近的危險大空亡/卦界分金線
         const DANGEROUS_BOUNDARIES = [
-          { angle: 22.5,  name: "22.5° 癸丑卦界" },
-          { angle: 67.5,  name: "67.5° 寅甲卦界" },
-          { angle: 112.5, name: "112.5° 乙辰卦界" },
-          { angle: 157.5, name: "157.5° 巳丙卦界" },
-          { angle: 202.5, name: "202.5° 丁未卦界" },
-          { angle: 247.5, name: "247.5° 申庚卦界" },
-          { angle: 292.5, name: "292.5° 辛戌卦界" },
+          { angle: 22.5,  name: "22.5° 坎艮界" },
+          { angle: 67.5,  name: "67.5° 艮震界" },
+          { angle: 112.5, name: "112.5° 震巽界" },
+          { angle: 157.5, name: "157.5° 巽離界" },
+          { angle: 202.5, name: "202.5° 離坤界" },
+          { angle: 247.5, name: "247.5° 坤兌界" },
+          { angle: 292.5, name: "292.5° 兌乾界" },
           { angle: 307.5, name: "307.5° 戌乾陰陽界" },
-          { angle: 337.5, name: "337.5° 乾亥卦界" }
+          { angle: 337.5, name: "337.5° 乾坎界" }
         ];
 
         let facing = normalizeAngle(state.facingAngle);
@@ -2572,16 +2666,16 @@
         let textAngle = -compassRotation;
 
         let isDangerous = minDiff < 2.0;
-        let lineColor = isDangerous ? "#ef4444" : "#0284c7";
-        let badgeStroke = isDangerous ? "#ef4444" : "#38bdf8";
+        let lineColor = isDangerous ? "#dc2626" : "#0284c7";
+        let badgeStroke = isDangerous ? "#dc2626" : "#0284c7";
         let badgeText = `${nearestBoundary.name} (偏 ${minDiff.toFixed(1)}°)`;
         let rw = 155 * fs;
 
         boundG.innerHTML += `
           <line x1="${cx}" y1="${cy}" x2="${lx}" y2="${ly}" stroke="${lineColor}" stroke-width="${isDangerous ? 3 : 2.5}" stroke-dasharray="4,2" />
           <g transform="rotate(${textAngle}, ${lx}, ${ly})">
-            <rect x="${lx - rw/2}" y="${ly - 11 * fs}" width="${rw}" height="${20 * fs}" rx="${3 * fs}" fill="rgba(32, 32, 32, 0.95)" stroke="${badgeStroke}" stroke-width="1.2" />
-            <text x="${lx}" y="${ly + 3.5 * fs}" font-size="${11 * fs}" fill="${badgeStroke}" text-anchor="middle" font-weight="400">${badgeText}</text>
+            <rect x="${lx - rw/2}" y="${ly - 11 * fs}" width="${rw}" height="${20 * fs}" rx="${3 * fs}" fill="rgba(255, 255, 255, 0.95)" stroke="${badgeStroke}" stroke-width="1.2" />
+            <text x="${lx}" y="${ly + 3.5 * fs}" font-size="${11 * fs}" fill="${badgeStroke}" text-anchor="middle" font-weight="500">${badgeText}</text>
           </g>
         `;
 
@@ -2599,16 +2693,16 @@
       let textAngle = -compassRotation;
 
       axisG.innerHTML = `
-        <line x1="${cx}" y1="${cy}" x2="${sitX}" y2="${sitY}" stroke="#a855f7" stroke-width="2.5" stroke-dasharray="6,4" />
+        <line x1="${cx}" y1="${cy}" x2="${sitX}" y2="${sitY}" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="6,4" />
         <g transform="rotate(${textAngle}, ${sitX}, ${sitY})">
-          <rect x="${sitX - 55 * fs}" y="${sitY - 12 * fs}" width="${110 * fs}" height="${22 * fs}" rx="${3 * fs}" fill="rgba(32, 32, 32, 0.9)" stroke="#c084fc" stroke-width="1.2" />
-          <text x="${sitX}" y="${sitY + 4 * fs}" font-size="${12 * fs}" font-weight="400" fill="#c084fc" text-anchor="middle">${sitMnt.name}山 (坐山位)</text>
+          <rect x="${sitX - 55 * fs}" y="${sitY - 12 * fs}" width="${110 * fs}" height="${22 * fs}" rx="${3 * fs}" fill="rgba(255, 255, 255, 0.95)" stroke="#7e22ce" stroke-width="1.2" />
+          <text x="${sitX}" y="${sitY + 4 * fs}" font-size="${12 * fs}" font-weight="500" fill="#7e22ce" text-anchor="middle">${sitMnt.name}山 (坐山位)</text>
         </g>
 
-        <line x1="${cx}" y1="${cy}" x2="${facingX}" y2="${facingY}" stroke="#a855f7" stroke-width="2.5" stroke-dasharray="6,4" />
+        <line x1="${cx}" y1="${cy}" x2="${facingX}" y2="${facingY}" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="6,4" />
         <g transform="rotate(${textAngle}, ${facingX}, ${facingY})">
-          <rect x="${facingX - 55 * fs}" y="${facingY - 12 * fs}" width="${110 * fs}" height="${22 * fs}" rx="${3 * fs}" fill="rgba(32, 32, 32, 0.9)" stroke="#c084fc" stroke-width="1.2" />
-          <text x="${facingX}" y="${facingY + 4 * fs}" font-size="${12 * fs}" font-weight="400" fill="#c084fc" text-anchor="middle">${facingMnt.name}向 (朝向線)</text>
+          <rect x="${facingX - 55 * fs}" y="${facingY - 12 * fs}" width="${110 * fs}" height="${22 * fs}" rx="${3 * fs}" fill="rgba(255, 255, 255, 0.95)" stroke="#7e22ce" stroke-width="1.2" />
+          <text x="${facingX}" y="${facingY + 4 * fs}" font-size="${12 * fs}" font-weight="500" fill="#7e22ce" text-anchor="middle">${facingMnt.name}向 (朝向線)</text>
         </g>
       `;
       compassG.appendChild(axisG);
@@ -2642,17 +2736,17 @@
       `;
 
       houseRotGroup.innerHTML += `
-        <!-- 房屋內部深邃半透明藍底 -->
+        <!-- 房屋內部柔和藍底 -->
         <rect x="${inX}" y="${inY}" width="${inW}" height="${inH}" 
-              fill="rgba(0, 120, 212, 0.16)" style="pointer-events: none;" />
+              fill="rgba(2, 132, 199, 0.08)" style="pointer-events: none;" />
 
-        <!-- 牆體本體：極細緻高透明磚頭紋理 (rgba(194, 65, 12, 0.16) + 白灰色淡磚縫) -->
+        <!-- 牆體本體：極細緻磚頭紋理 -->
         <path d="${wallPathD}" fill="url(#brickPattern)" fill-rule="evenodd" 
-              stroke="rgba(234, 88, 12, 0.45)" stroke-width="1" style="pointer-events: none;" />
+              stroke="rgba(194, 65, 12, 0.45)" stroke-width="1" style="pointer-events: none;" />
 
         <!-- 牆心線參考虛線 (Golden Centerline) -->
         <rect x="${houseLeft}" y="${houseTop}" width="${housePxW}" height="${housePxL}" 
-              fill="none" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,4" style="pointer-events: none;" />
+              fill="none" stroke="#b45309" stroke-width="1" stroke-dasharray="4,4" style="pointer-events: none;" />
       `;
 
       if (state.showRooms) {
@@ -2662,8 +2756,8 @@
         let iy = inY;
 
         houseRotGroup.innerHTML += `
-          <line x1="${ix + iw * 0.5}" y1="${iy}" x2="${ix + iw * 0.5}" y2="${iy + ih}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" style="pointer-events: none;" />
-          <line x1="${ix}" y1="${iy + ih * 0.5}" x2="${ix + iw}" y2="${iy + ih * 0.5}" stroke="rgba(0, 120, 212, 0.45)" stroke-width="1.5" stroke-dasharray="4,4" style="pointer-events: none;" />
+          <line x1="${ix + iw * 0.5}" y1="${iy}" x2="${ix + iw * 0.5}" y2="${iy + ih}" stroke="rgba(2, 132, 199, 0.35)" stroke-width="1.5" stroke-dasharray="4,4" style="pointer-events: none;" />
+          <line x1="${ix}" y1="${iy + ih * 0.5}" x2="${ix + iw}" y2="${iy + ih * 0.5}" stroke="rgba(2, 132, 199, 0.35)" stroke-width="1.5" stroke-dasharray="4,4" style="pointer-events: none;" />
         `;
       }
 
@@ -2682,28 +2776,24 @@
           let roomCenterX = roomSvgX + roomSvgW / 2;
           let roomCenterY = roomSvgY + roomSvgH / 2;
 
-          let rxRel = (roomCenterX - cx) / scalePPM;
-          let ryRel = (roomCenterY - cy) / scalePPM;
-          let roomAngle = (Math.atan2(ryRel, rxRel) * 180 / Math.PI + 90 + 360) % 360;
-          let roomBagua = getBagua(roomAngle);
-          let roomStar = getNineStar(sitMnt.gua, roomBagua.code);
+          let { bagua: roomBagua, star: roomStar } = getRoomBaguaAndStar(room, sitMnt.gua);
+          let rPt = getTransformedCoords(room.x, room.y);
+          let labels = getOriginLabels();
 
           let textAngle = -houseRotation;
 
           customRoomsG.innerHTML += `
-            <g class="custom-room-node" data-id="${room.id}">
-              <!-- 區域半透明彩色框 -->
+            <g class="custom-room-node" data-id="${room.id}" style="cursor: move;">
+              <!-- 單一真實尺寸放樣框 (結合文字與真實房間尺寸邊框) -->
               <rect x="${roomSvgX}" y="${roomSvgY}" width="${roomSvgW}" height="${roomSvgH}" 
-                    fill="${room.color}" fill-opacity="0.28" stroke="${room.color}" stroke-width="${1.8 * fs}" rx="${5 * fs}" stroke-dasharray="3,2" />
+                    fill="${room.color}" fill-opacity="0.25" stroke="${room.color}" stroke-width="${2.2 * fs}" rx="${5 * fs}" />
               
-              <!-- 尺寸放樣標籤框 (圖面僅簡潔顯示區域名稱與尺寸 W × L) -->
+              <!-- 房名與尺寸文字 (直接居中於尺寸框內，並帶白色描邊提亮) -->
               <g transform="rotate(${textAngle}, ${roomCenterX}, ${roomCenterY})">
-                <rect x="${roomCenterX - 55 * fs}" y="${roomCenterY - 20 * fs}" width="${110 * fs}" height="${40 * fs}" rx="${5 * fs}" 
-                      fill="rgba(15, 23, 42, 0.94)" stroke="${room.color}" stroke-width="${1.3 * fs}" />
-                <text x="${roomCenterX}" y="${roomCenterY - 5 * fs}" font-size="${12 * fs}" font-weight="700" fill="#ffffff" text-anchor="middle">${room.name}</text>
-                <text x="${roomCenterX}" y="${roomCenterY + 12 * fs}" font-size="${11 * fs}" font-weight="600" fill="#fbbf24" text-anchor="middle">${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m</text>
+                <text x="${roomCenterX}" y="${roomCenterY - 6 * fs}" font-size="${13 * fs}" font-weight="700" fill="#0f172a" text-anchor="middle" paint-order="stroke fill" stroke="#ffffff" stroke-width="${3.5 * fs}" stroke-linejoin="round">${room.name}</text>
+                <text x="${roomCenterX}" y="${roomCenterY + 12 * fs}" font-size="${11 * fs}" font-weight="700" fill="#b45309" text-anchor="middle" paint-order="stroke fill" stroke="#ffffff" stroke-width="${3.5 * fs}" stroke-linejoin="round">${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m</text>
               </g>
-              <title>🏠 ${room.name}\n尺寸長寬: ${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m (面積 ${(room.width * room.length).toFixed(2)}m²)\n右上角原點位置: 向左 ${room.x.toFixed(2)}m / 向下 ${room.y.toFixed(2)}m\n宮位方位: ${roomBagua.name}宮 (${roomStar.star})</title>
+              <title>🏠 ${room.name}\n尺寸長寬: ${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m (面積 ${(room.width * room.length).toFixed(2)}m²)\n${labels.name}放樣座標: (${rPt.x.toFixed(2)}m, ${rPt.y.toFixed(2)}m)\n宮位方位: ${roomBagua.name}宮 (${roomStar.star})</title>
             </g>
           `;
         });
@@ -2720,143 +2810,58 @@
         let trX = cx + housePxW / 2;
         let trY = cy - housePxL / 2;
 
-        // 1. 右上角牆心 (0,0) 原點標記
+        // 1. (0,0) 放樣原點標記 (動態定位於選定之牆心角落)
         let textAngle = -houseRotation;
+        let originPtX = trX;
+        let originPtY = trY;
+        let originLabel = "原點 (0,0) 右上牆心";
+
+        if (state.originCorner === 'bottomRight') {
+          originPtX = trX;
+          originPtY = trY + housePxL;
+          originLabel = "原點 (0,0) 右下牆心";
+        } else if (state.originCorner === 'topLeft') {
+          originPtX = trX - housePxW;
+          originPtY = trY;
+          originLabel = "原點 (0,0) 左上牆心";
+        } else if (state.originCorner === 'bottomLeft') {
+          originPtX = trX - housePxW;
+          originPtY = trY + housePxL;
+          originLabel = "原點 (0,0) 左下牆心";
+        }
+
         dimG.innerHTML += `
-          <circle cx="${trX}" cy="${trY}" r="6" fill="#f59e0b" stroke="#ffffff" stroke-width="1.8" />
-          <g transform="rotate(${textAngle}, ${trX + 8}, ${trY - 14})">
-            <rect x="${trX + 2}" y="${trY - 24}" width="105" height="18" rx="3" fill="rgba(32, 32, 32, 0.92)" stroke="#f59e0b" stroke-width="1" />
-            <text x="${trX + 54.5}" y="${trY - 11}" font-size="10" font-weight="500" fill="#f59e0b" text-anchor="middle">原點 (0,0) 右上牆心</text>
+          <circle cx="${originPtX}" cy="${originPtY}" r="6" fill="#b45309" stroke="#ffffff" stroke-width="1.8" />
+          <g transform="rotate(${textAngle}, ${originPtX + 8}, ${originPtY - 14})">
+            <rect x="${originPtX + 2}" y="${originPtY - 24}" width="105" height="18" rx="3" fill="rgba(255, 255, 255, 0.95)" stroke="#b45309" stroke-width="1" />
+            <text x="${originPtX + 54.5}" y="${originPtY - 11}" font-size="10" font-weight="600" fill="#b45309" text-anchor="middle">${originLabel}</text>
           </g>
         `;
 
         // 2. 牆心交點亮藍圓點 (在房屋外牆上)
         let bIntersections = calculateBaguaIntersections();
+        let labels = getOriginLabels();
         bIntersections.forEach(item => {
           let ptX = trX - item.x * scalePPM;
           let ptY = trY + item.y * scalePPM;
+          let pt = getTransformedCoords(item.x, item.y);
 
           dimG.innerHTML += `
             <g class="intersection-dot-group" 
                data-name="${item.name}" 
                data-wall="${item.wall}" 
-               data-x="${item.x.toFixed(2)}" 
-               data-y="${item.y.toFixed(2)}" 
+               data-x="${pt.x.toFixed(2)}" 
+               data-y="${pt.y.toFixed(2)}" 
                data-distnet="${item.distNet.toFixed(2)}">
               
               <circle cx="${ptX}" cy="${ptY}" r="${14 * fs}" fill="transparent" />
-              <circle cx="${ptX}" cy="${ptY}" r="${5 * fs}" fill="#38bdf8" stroke="#ffffff" stroke-width="${1.5 * fs}" class="dot-circle" />
-              <title>📌 ${item.name} (${item.wall})\n牆心座標 (X, Y) = (${item.x.toFixed(2)}m, ${item.y.toFixed(2)}m)\n室內牆面淨距離 = ${item.distNet.toFixed(2)}m (已扣 20cm 牆厚)</title>
+              <circle cx="${ptX}" cy="${ptY}" r="${5 * fs}" fill="#0284c7" stroke="#ffffff" stroke-width="${1.5 * fs}" class="dot-circle" />
+              <title>📌 ${item.name} (${item.wall})\n放樣牆心座標 (X, Y) = (${pt.x.toFixed(2)}m, ${pt.y.toFixed(2)}m) [${labels.name}]\n沿牆牆心距 = ${item.distCenter.toFixed(2)}m | 室內牆面淨距離 = ${item.distNet.toFixed(2)}m (已扣 20cm 牆厚)</title>
             </g>
           `;
         });
 
         houseRotGroup.appendChild(dimG);
-
-        // 3. 3x 特大號 (X,Y) 牆心座標標籤：精確安放於【八卦層 r=370】與【九星八門層 r=415】之間的環形空間 (R_mid = 392.5px)
-        let coordG = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        let rCoordMid = (radiusBagua + radiusSevenStars) / 2; // 392.5px
-        let compassTextAngle = -compassRotation;
-
-        bIntersections.forEach(item => {
-          let rad = (item.compassDeg - 90) * Math.PI / 180;
-          let bx = cx + rCoordMid * Math.cos(rad);
-          let by = cy + rCoordMid * Math.sin(rad);
-
-          let bw = 175 * fs;
-          let bh = 34 * fs;
-
-          coordG.innerHTML += `
-            <g class="intersection-dot-group" 
-               data-name="${item.name}" 
-               data-wall="${item.wall}" 
-               data-x="${item.x.toFixed(2)}" 
-               data-y="${item.y.toFixed(2)}" 
-               data-distnet="${item.distNet.toFixed(2)}">
-              
-              <!-- 3 倍大字體 (X,Y) 牆心座標，安放於八卦與九星八門之間的 392.5px 環形幾何中軸 -->
-              <g transform="rotate(${compassTextAngle}, ${bx}, ${by})">
-                <rect x="${bx - bw/2}" y="${by - bh/2}" width="${bw}" height="${bh}" rx="${5 * fs}" 
-                      fill="rgba(15, 23, 42, 0.95)" stroke="#38bdf8" stroke-width="${1.8 * fs}" />
-                <text x="${bx}" y="${by + 7 * fs}" font-size="${24 * fs}" font-weight="700" fill="#f59e0b" text-anchor="middle" font-family="Segoe UI, Consolas, monospace">(${item.x.toFixed(2)}m, ${item.y.toFixed(2)}m)</text>
-              </g>
-              <title>📌 ${item.name} (${item.wall})\n牆心座標 (X, Y) = (${item.x.toFixed(2)}m, ${item.y.toFixed(2)}m)\n室內牆面淨距離 = ${item.distNet.toFixed(2)}m (已扣 20cm 牆厚)</title>
-            </g>
-          `;
-        });
-
-        // 4. 大門左右門柱 (X,Y) 牆心座標標籤：兩條紅虛線自牆面門柱點 100% 平行延伸至 392.5px 環中軸
-        let doorWidthPx = doorFrameInfo.doorWidth * scalePPM;
-        let halfDoorPx = doorWidthPx / 2;
-        let isFrontOrBack = (state.doorWall === 'front' || state.doorWall === 'back');
-
-        let pt1X = doorX, pt1Y = doorY;
-        let pt2X = doorX, pt2Y = doorY;
-
-        if (isFrontOrBack) {
-          pt1X = doorX + halfDoorPx; // 右門柱
-          pt2X = doorX - halfDoorPx; // 左門柱
-        } else {
-          pt1Y = doorY + halfDoorPx; // 下/右門柱
-          pt2Y = doorY - halfDoorPx; // 上/左門柱
-        }
-
-        let doorDimG = document.createElementNS("http://www.w3.org/2000/svg", "g");
-
-        let postsData = [
-          { ptX: pt2X, ptY: pt2Y, x: doorFrameInfo.x2, y: doorFrameInfo.y2, label: "左門柱" },
-          { ptX: pt1X, ptY: pt1Y, x: doorFrameInfo.x1, y: doorFrameInfo.y1, label: "右門柱" }
-        ];
-
-        postsData.forEach(post => {
-          let bx, by;
-
-          if (state.doorWall === 'front') {
-            bx = post.ptX;
-            let dy = Math.sqrt(Math.max(0, rCoordMid * rCoordMid - (bx - cx) * (bx - cx)));
-            by = cy - dy;
-          } else if (state.doorWall === 'back') {
-            bx = post.ptX;
-            let dy = Math.sqrt(Math.max(0, rCoordMid * rCoordMid - (bx - cx) * (bx - cx)));
-            by = cy + dy;
-          } else if (state.doorWall === 'left') {
-            by = post.ptY;
-            let dx = Math.sqrt(Math.max(0, rCoordMid * rCoordMid - (by - cy) * (by - cy)));
-            bx = cx - dx;
-          } else { // right wall
-            by = post.ptY;
-            let dx = Math.sqrt(Math.max(0, rCoordMid * rCoordMid - (by - cy) * (by - cy)));
-            bx = cx + dx;
-          }
-
-          let bw = 70 * fs;
-          let bh = 19 * fs;
-          let textAngle = -houseRotation;
-
-          doorDimG.innerHTML += `
-            <g class="intersection-dot-group" 
-               data-name="大門${post.label}" 
-               data-wall="${doorFrameInfo.wallName}" 
-               data-x="${post.x.toFixed(2)}" 
-               data-y="${post.y.toFixed(2)}" 
-               data-distnet="${Math.max(0, (isFrontOrBack?post.x:post.y)-wallPx/2/scalePPM).toFixed(2)}">
-              
-              <!-- 垂直牆面 100% 嚴格平行延伸至 392.5px 環中軸之指引紅虛線 -->
-              <line x1="${post.ptX}" y1="${post.ptY}" x2="${bx}" y2="${by}" stroke="#ef4444" stroke-width="${1.3 * fs}" stroke-dasharray="3,3" opacity="0.9" />
-
-              <!-- 精緻平行對齊 (11px) 大門門柱座標，安放於 392.5px 環形幾何中軸 -->
-              <g transform="rotate(${textAngle}, ${bx}, ${by})">
-                <rect x="${bx - bw/2}" y="${by - bh/2}" width="${bw}" height="${bh}" rx="${3.5 * fs}" 
-                      fill="rgba(15, 23, 42, 0.96)" stroke="#ef4444" stroke-width="${1.2 * fs}" />
-                <text x="${bx}" y="${by + 4 * fs}" font-size="${11 * fs}" font-weight="700" fill="#f59e0b" text-anchor="middle" font-family="Segoe UI, Consolas, monospace">(${post.x.toFixed(2)}m, ${post.y.toFixed(2)}m)</text>
-              </g>
-              <title>🚪 大門${post.label} (${doorFrameInfo.wallName})\n牆心座標 (X, Y) = (${post.x.toFixed(2)}m, ${post.y.toFixed(2)}m)</title>
-            </g>
-          `;
-        });
-
-        houseRotGroup.appendChild(doorDimG);
-        compassG.appendChild(coordG);
       }
 
       let doorSpatialLocAngle = getDoorSpatialLocAngle(cx, cy, housePxW, housePxL);
@@ -2906,7 +2911,7 @@
 
       if (evalTitleEl && evalDescEl) {
         evalTitleEl.innerText = doorEvalTitle;
-        evalTitleEl.style.color = isDoorGoodStar ? "#10b981" : "#ef4444";
+        evalTitleEl.style.color = isDoorGoodStar ? "#047857" : "#dc2626";
         evalDescEl.innerText = doorEvalDesc;
       }
 
@@ -3004,7 +3009,11 @@
           document.getElementById('hoverMountain').innerText = `牆面: ${dWall}`;
           document.getElementById('hoverGua').innerText = `牆心座標(X,Y): (${dX}m, ${dY}m)`;
           document.getElementById('hoverPerson').innerText = `室內淨距: ${dNet}m`;
-          document.getElementById('hoverStar').innerText = `放樣基準: 右上牆心(0,0)`;
+          let cornerText = "右上牆心";
+          if (state.originCorner === 'bottomRight') cornerText = "右下牆心";
+          else if (state.originCorner === 'topLeft') cornerText = "左上牆心";
+          else if (state.originCorner === 'bottomLeft') cornerText = "左下牆心";
+          document.getElementById('hoverStar').innerText = `放樣基準: ${cornerText}(0,0)`;
           document.getElementById('hoverWater').innerText = `已扣20cm牆厚`;
           document.getElementById('hoverWater').style.color = '#38bdf8';
           return;
@@ -3054,72 +3063,78 @@
       const housePxL = state.length * scalePPM;
       const housePxW = state.width * scalePPM;
 
+      let labels = getOriginLabels();
+      let titleConstructionEl = document.getElementById('titleConstructionTable');
+      let titleCustomRoomsEl = document.getElementById('titleCustomRoomsTable');
+      if (titleConstructionEl) titleConstructionEl.innerText = `📐 丈量對照表 (${labels.name} 0,0原點)`;
+      if (titleCustomRoomsEl) titleCustomRoomsEl.innerText = `🏠 空間對照表 (${labels.name} 0,0原點)`;
+
       // 動態更新「施工現場牆心丈量對照表」
       let baguaIntersections = calculateBaguaIntersections();
       let tblEl = document.getElementById('tblBaguaIntersections');
       if (tblEl) {
         tblEl.innerHTML = '';
         baguaIntersections.forEach(item => {
+          let pt = getTransformedCoords(item.x, item.y);
           let tr = document.createElement('tr');
-          tr.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+          tr.style.borderBottom = '1px solid #e2e8f0';
           tr.innerHTML = `
-            <td style="padding: 0.25rem 0.2rem; font-weight: 500; color: #fbbf24;">${item.name}</td>
-            <td style="padding: 0.25rem 0.2rem; color: #cbd5e1;">${item.wall}</td>
-            <td style="padding: 0.25rem 0.2rem; text-align: right; font-family: var(--font-mono); color: #f59e0b;">${item.distCenter.toFixed(2)} m</td>
-            <td style="padding: 0.25rem 0.2rem; text-align: right; font-family: var(--font-mono); color: #38bdf8; font-weight: 500;">${item.distNet.toFixed(2)} m</td>
+            <td style="padding: 0.12rem 0.1rem; font-weight: 700; color: #b45309; white-space: nowrap;">${item.name}</td>
+            <td style="padding: 0.12rem 0.1rem; font-family: var(--font-mono); color: #0f172a; font-weight: 600; white-space: nowrap;">(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})</td>
+            <td style="padding: 0.12rem 0.1rem; text-align: right; font-family: var(--font-mono); color: #b45309; font-weight: 600; white-space: nowrap;">${item.distCenter.toFixed(2)}m</td>
+            <td style="padding: 0.12rem 0.1rem; text-align: right; font-family: var(--font-mono); color: #0284c7; font-weight: 700; white-space: nowrap;">${item.distNet.toFixed(2)}m</td>
           `;
           tblEl.appendChild(tr);
         });
 
-          // 大門門框施工放樣區間列
-          let doorFrameInfo = getDoorFrameCoordinates();
-          let trDoor = document.createElement('tr');
-          trDoor.style.borderTop = '1.5px solid #f59e0b';
-          trDoor.style.background = 'rgba(245, 158, 11, 0.12)';
-          trDoor.innerHTML = `
-            <td style="padding: 0.3rem 0.2rem; font-weight: 700; color: #f59e0b;">🚪 大門門框 (${doorFrameInfo.doorWidth.toFixed(2)}m)</td>
-            <td style="padding: 0.3rem 0.2rem; color: #fbbf24; font-weight: 500;">${doorFrameInfo.wallName}</td>
-            <td style="padding: 0.3rem 0.2rem; text-align: right; font-family: var(--font-mono); color: #f59e0b; font-weight: 700;">左柱${doorFrameInfo.frameDist2.toFixed(2)}m ~ 右柱${doorFrameInfo.frameDist1.toFixed(2)}m</td>
-            <td style="padding: 0.3rem 0.2rem; text-align: right; font-family: var(--font-mono); color: #38bdf8; font-weight: 700;">淨${doorFrameInfo.net2.toFixed(2)}m ~ 淨${doorFrameInfo.net1.toFixed(2)}m</td>
-          `;
-          tblEl.appendChild(trDoor);
+        // 大門門框施工放樣區間列
+        let doorFrameInfo = getDoorFrameCoordinates();
+        let p1 = getTransformedCoords(doorFrameInfo.x2, doorFrameInfo.y2);
+        let p2 = getTransformedCoords(doorFrameInfo.x1, doorFrameInfo.y1);
+        let doorCoordStr = "";
+        if (state.doorWall === 'front' || state.doorWall === 'back') {
+          let minX = Math.min(p1.x, p2.x);
+          let maxX = Math.max(p1.x, p2.x);
+          doorCoordStr = `(${maxX.toFixed(2)}~${minX.toFixed(2)}, ${p1.y.toFixed(2)})`;
+        } else {
+          let minY = Math.min(p1.y, p2.y);
+          let maxY = Math.max(p1.y, p2.y);
+          doorCoordStr = `(${p1.x.toFixed(2)}, ${minY.toFixed(2)}~${maxY.toFixed(2)})`;
         }
+
+        let trDoor = document.createElement('tr');
+        trDoor.style.borderTop = '1.5px solid #b45309';
+        trDoor.style.background = '#fffbe6';
+        trDoor.innerHTML = `
+          <td style="padding: 0.15rem 0.1rem; font-weight: 700; color: #b45309; white-space: nowrap;">🚪大門 (${doorFrameInfo.doorWidth.toFixed(2)}m)</td>
+          <td style="padding: 0.15rem 0.1rem; font-family: var(--font-mono); color: #0f172a; font-weight: 600; white-space: nowrap;">${doorCoordStr}</td>
+          <td style="padding: 0.15rem 0.1rem; text-align: right; font-family: var(--font-mono); color: #b45309; font-weight: 700; white-space: nowrap;">${doorFrameInfo.frameDist2.toFixed(2)}~${doorFrameInfo.frameDist1.toFixed(2)}m</td>
+          <td style="padding: 0.15rem 0.15rem; text-align: right; font-family: var(--font-mono); color: #0284c7; font-weight: 700; white-space: nowrap;">淨${doorFrameInfo.net2.toFixed(2)}~${doorFrameInfo.net1.toFixed(2)}m</td>
+        `;
+        tblEl.appendChild(trDoor);
+      }
 
       // 室內空間 (廚房/衛浴/臥室) 尺寸放樣與風水對照表動態填入
       let tblCustomEl = document.getElementById('tblCustomRoomsReport');
       if (tblCustomEl) {
         tblCustomEl.innerHTML = '';
         if (state.customRooms && state.customRooms.length > 0) {
-          let trX = cx + housePxW / 2;
-          let trY = cy - housePxL / 2;
-
           state.customRooms.forEach(room => {
-            let roomSvgX = trX - (room.x + room.width) * scalePPM;
-            let roomSvgY = trY + room.y * scalePPM;
-            let roomSvgW = room.width * scalePPM;
-            let roomSvgH = room.length * scalePPM;
-
-            let roomCenterX = roomSvgX + roomSvgW / 2;
-            let roomCenterY = roomSvgY + roomSvgH / 2;
-            let rxRel = (roomCenterX - cx) / scalePPM;
-            let ryRel = (roomCenterY - cy) / scalePPM;
-            let roomAngle = (Math.atan2(ryRel, rxRel) * 180 / Math.PI + 90 + 360) % 360;
-            let roomBagua = getBagua(roomAngle);
-            let roomStar = getNineStar(sitMnt.gua, roomBagua.code);
+            let { bagua: roomBagua, star: roomStar } = getRoomBaguaAndStar(room, sitMnt.gua);
             let isGoodStar = roomStar.type.includes("吉");
+            let rPt = getTransformedCoords(room.x, room.y);
 
             let tr = document.createElement('tr');
-            tr.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+            tr.style.borderBottom = '1px solid #e2e8f0';
             tr.innerHTML = `
-              <td style="padding: 0.3rem 0.2rem; font-weight: 600; color: ${room.color};">${room.name}</td>
-              <td style="padding: 0.3rem 0.2rem; font-family: var(--font-mono); color: #fbbf24;">${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m <span style="font-size: 0.65rem; color: #94a3b8;">(${(room.width * room.length).toFixed(2)}m²)</span></td>
-              <td style="padding: 0.3rem 0.2rem; font-family: var(--font-mono); color: #38bdf8;">左${room.x.toFixed(2)}m / 下${room.y.toFixed(2)}m</td>
-              <td style="padding: 0.3rem 0.2rem; text-align: right; font-weight: 600; color: ${isGoodStar ? '#10b981' : '#ef4444'};">${roomBagua.name}宮・${roomStar.star.split(" ")[0]}</td>
+              <td style="padding: 0.12rem 0.1rem; font-weight: 700; color: ${room.color}; white-space: nowrap;">${room.name}</td>
+              <td style="padding: 0.12rem 0.1rem; font-family: var(--font-mono); color: #0f172a; font-weight: 600; white-space: nowrap;">(${rPt.x.toFixed(2)}, ${rPt.y.toFixed(2)})</td>
+              <td style="padding: 0.12rem 0.1rem; text-align: right; font-weight: 700; color: ${isGoodStar ? '#047857' : '#dc2626'}; white-space: nowrap;">${roomBagua.name}宮・${roomStar.star.split(" ")[0]}</td>
             `;
             tblCustomEl.appendChild(tr);
           });
         } else {
-          tblCustomEl.innerHTML = `<tr><td colspan="4" style="padding: 0.5rem; text-align: center; color: #64748b;">點擊左側「5. 廚房、衛浴與室內空間放樣」新增區域標示</td></tr>`;
+          tblCustomEl.innerHTML = `<tr><td colspan="3" style="padding: 0.3rem; text-align: center; color: #57534e; white-space: nowrap;">點擊左側「5. 廚房、衛浴與室內空間放樣」新增區域標示</td></tr>`;
         }
       }
 
@@ -3315,7 +3330,7 @@
       document.getElementById('periodSelect').value = '9';
       document.getElementById('facingAngle').value = 306.0;
       document.getElementById('doorWall').value = 'front';
-      document.getElementById('doorPos').value = 75;
+      document.getElementById('doorPos').value = 73;
       document.getElementById('doorAngleOffset').value = 0;
 
       state.rotateMode = 'houseUp';
@@ -3727,7 +3742,7 @@
       bindWheel('groupWidth', 'houseWidth', 0.1, 3.0, 30.0);
       bindWheel('groupWallThickness', 'wallThickness', 5, 10, 100);
       bindWheel('groupFacing', 'facingAngle', 0.5, 0, 359.9);
-      bindWheel('groupDoorPos', 'doorPos', 1, 10, 90);
+      bindWheel('groupDoorPos', 'doorPos', 0.5, 10, 90);
       bindWheel('groupDoorWidth', 'doorWidth', 0.05, 0.6, 3.0);
       bindWheel('groupDoorAngle', 'doorAngleOffset', 0.5, -45, 45);
 
