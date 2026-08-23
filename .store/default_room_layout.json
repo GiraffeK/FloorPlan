@@ -1,0 +1,13 @@
+{
+  "presetName": "標準預設空間放樣方案",
+  "savedAt": "2026-08-23T19:10:00.000Z",
+  "originCorner": "bottomRight",
+  "customRooms": [
+    { "id": "room_kitchen", "name": "🍳 廚房 (灶位)", "x": 6.45, "y": 0.35, "width": 4.20, "length": 0.60, "color": "#f97316" },
+    { "id": "room_bath", "name": "🛁 衛浴 (廁所)", "x": 0.02, "y": 3.30, "width": 2.10, "length": 1.80, "color": "#0284c7" },
+    { "id": "room_closet", "name": "📦 衣", "x": 0.03, "y": 5.10, "width": 2.10, "length": 0.90, "color": "#10b981" },
+    { "id": "room_bedroom", "name": "🛏️ 主臥室", "x": 0.00, "y": 0.225, "width": 2.40, "length": 2.75, "color": "#a855f7" },
+    { "id": "room_other1", "name": "其他", "x": 2.40, "y": 1.715, "width": 1.50, "length": 1.25, "color": "#a855f7" },
+    { "id": "room_other2", "name": "其他", "x": 0.00, "y": 3.00, "width": 2.40, "length": 3.10, "color": "#0284c7" }
+  ]
+}

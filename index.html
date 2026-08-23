@@ -548,52 +548,114 @@
 
     .viewport-hud-bottomleft {
       position: absolute;
-      bottom: 0.6rem;
-      left: 0.6rem;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(2, 132, 199, 0.4);
-      border-radius: 0.45rem;
+      bottom: 0.5rem;
+      left: 0.5rem;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1.5px solid rgba(2, 132, 199, 0.45);
+      border-radius: 0.6rem 2.8rem 0.6rem 0.6rem; /* Arc-curved top-right corner to hug outer compass ring */
       padding: 0.45rem 0.65rem;
       color: var(--text-main);
-      font-size: 0.72rem;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      font-size: 0.68rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.09);
       z-index: 20;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
-      max-width: 280px;
+      gap: 0.2rem;
+      width: 250px;
+      min-width: 160px;
+      min-height: 45px;
+      max-width: min(500px, 90vw);
+      max-height: min(500px, 90vh);
+      box-sizing: border-box;
       pointer-events: auto;
+      resize: both;
+      overflow: auto;
     }
 
     .viewport-hud-bottomright {
       position: absolute;
-      bottom: 0.6rem;
-      right: 0.6rem;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(180, 83, 9, 0.4);
-      border-radius: 0.45rem;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1.5px solid rgba(180, 83, 9, 0.45);
+      border-radius: 2.8rem 0.6rem 0.6rem 0.6rem; /* Arc-curved top-left corner to hug outer compass ring */
       padding: 0.45rem 0.65rem;
       color: var(--text-main);
-      font-size: 0.72rem;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      font-size: 0.68rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.09);
       z-index: 20;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
-      max-width: 295px;
+      gap: 0.2rem;
+      width: 250px;
+      min-width: 160px;
+      min-height: 45px;
+      max-width: min(500px, 90vw);
+      max-height: min(500px, 90vh);
+      box-sizing: border-box;
       pointer-events: auto;
+      resize: both;
+      overflow: auto;
+    }
+
+    .viewport-hud-bottomleft::-webkit-resizer,
+    .viewport-hud-bottomright::-webkit-resizer {
+      background-color: rgba(2, 132, 199, 0.3);
+      border-radius: 0.2rem;
     }
 
     .hud-title-bar {
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding-bottom: 0.2rem;
-      border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+      font-size: 0.72rem;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 0.15rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 0.3rem;
+      user-select: none;
+    }
+
+    .hud-toggle-btn {
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 0.2rem;
+      cursor: pointer;
+      font-size: 0.65rem;
+      padding: 0.05rem 0.25rem;
+      line-height: 1;
+      opacity: 0.85;
+      transition: all 0.15s;
+    }
+
+    .hud-toggle-btn:hover {
+      opacity: 1.0;
+      background: rgba(0, 0, 0, 0.12);
+    }
+
+    .viewport-hud-bottomleft.collapsed,
+    .viewport-hud-bottomright.collapsed {
+      border-radius: 0.8rem !important;
+      width: auto !important;
+      height: auto !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      max-width: 185px !important;
+      padding: 0.25rem 0.5rem !important;
+      resize: none !important;
+      overflow: hidden !important;
+    }
+
+    .viewport-hud-bottomleft.collapsed .hud-body,
+    .viewport-hud-bottomright.collapsed .hud-body {
+      display: none !important;
+    }
+
+    .viewport-hud-bottomleft.collapsed .hud-title-bar,
+    .viewport-hud-bottomright.collapsed .hud-title-bar {
+      border-bottom: none !important;
+      padding-bottom: 0 !important;
     }
     
     /* Door Feng Shui Evaluation */
@@ -1084,7 +1146,7 @@
           </div>
 
           <div class="toggle-row" style="margin-bottom: 0;">
-            <span style="font-size: 0.67rem; font-weight: 600;">標示【禁水路】</span>
+            <span style="font-size: 0.67rem; font-weight: 600;">屋外禁水路</span>
             <label class="toggle-row" style="margin-bottom: 0;">
               <input type="checkbox" id="showForbiddenWater" checked onchange="updateCalculations()" hidden>
               <div class="toggle-switch"></div>
@@ -1092,9 +1154,17 @@
           </div>
 
           <div class="toggle-row" style="margin-bottom: 0;">
-            <span style="font-size: 0.67rem; font-weight: 600;">標示【吉水溝】</span>
+            <span style="font-size: 0.67rem; font-weight: 600;">屋外吉水溝</span>
             <label class="toggle-row" style="margin-bottom: 0;">
               <input type="checkbox" id="showSafeWater" checked onchange="updateCalculations()" hidden>
+              <div class="toggle-switch"></div>
+            </label>
+          </div>
+
+          <div class="toggle-row" style="margin-bottom: 0;">
+            <span style="font-size: 0.67rem; font-weight: 600;">室內放樣</span>
+            <label class="toggle-row" style="margin-bottom: 0;">
+              <input type="checkbox" id="showCustomRooms" checked onchange="updateCalculations()" hidden>
               <div class="toggle-switch"></div>
             </label>
           </div>
@@ -1104,20 +1174,33 @@
       <!-- Card 5: Custom Indoor Rooms (Kitchen, Bathroom, Bedrooms) -->
       <div class="card card-theme-5">
         <div class="card-title">
-          <span>5. 室內空間放樣</span>
+          <div style="display: flex; align-items: center; gap: 0.35rem;">
+            <span>5. 室內空間放樣</span>
+            <button onclick="toggleAllRoomsVisibility()" style="padding: 0.08rem 0.35rem; font-size: 0.65rem; background: rgba(2, 132, 199, 0.12); color: #0284c7; border: 1px solid rgba(2, 132, 199, 0.35); border-radius: 0.2rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.15rem;" title="一鍵開關全區域放樣可視性">
+              👁️ 可視切換
+            </button>
+          </div>
           <i>🏠</i>
         </div>
-        <div style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 0.25rem; line-height: 1.35;">
-          自訂空間尺寸與原點距離，亦可直接畫面上拖曳。
+        <!-- Storage Controls: Save and Load -->
+        <div style="display: flex; gap: 0.35rem; align-items: center; margin-bottom: 0.45rem;">
+          <button onclick="exportStoreJson()" style="flex: 1; padding: 0.25rem 0.5rem; font-size: 0.72rem; background: #0284c7; color: #fff; border: none; border-radius: 0.25rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem;" title="跳出檔案儲存視窗，將放樣方案儲存至 ./.store/">
+            💾 儲存
+          </button>
+          <button onclick="triggerImportStoreJson()" style="flex: 1; padding: 0.25rem 0.5rem; font-size: 0.72rem; background: #047857; color: #fff; border: none; border-radius: 0.25rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem;" title="開啟檔案選取視窗，從 ./.store/ 載入 JSON 方案">
+            📂 載入
+          </button>
+          <input type="file" id="inputImportJson" accept=".json" style="display: none;" onchange="importStoreJson(event)">
         </div>
 
         <div class="form-group">
-          <label>快速新增區域</label>
+          <label style="font-size: 0.68rem; line-height: 1.35; color: #475569;">新增區域：自訂空間尺寸，可直接畫面上拖曳</label>
           <div class="preset-chips" style="gap: 0.3rem;">
             <div class="chip" onclick="addCustomRoom('🍳 廚房 (灶位)', 4.2, 0.6, '#f97316')" style="background: rgba(249, 115, 22, 0.12); border-color: #f97316; color: #c2410c; font-weight: 500;">+ 🍳 廚房</div>
             <div class="chip" onclick="addCustomRoom('🛁 衛浴 (廁所)', 1.8, 1.5, '#0284c7')" style="background: rgba(2, 132, 199, 0.12); border-color: #0284c7; color: #0284c7; font-weight: 500;">+ 🛁 衛浴</div>
             <div class="chip" onclick="addCustomRoom('📦 衣', 1.8, 1.2, '#10b981')" style="background: rgba(16, 185, 129, 0.12); border-color: #10b981; color: #047857; font-weight: 500;">+ 📦 衣</div>
             <div class="chip" onclick="addCustomRoom('🛏️ 主臥室', 2.2, 2.75, '#a855f7')" style="background: rgba(168, 85, 247, 0.12); border-color: #a855f7; color: #7e22ce; font-weight: 500;">+ 🛏️ 主臥</div>
+            <div class="chip" onclick="addCustomRoom('其他', 1.5, 1.5, '#eab308')" style="background: rgba(234, 179, 8, 0.12); border-color: #eab308; color: #a16207; font-weight: 500;">+ 🧩 其他</div>
           </div>
         </div>
 
@@ -1170,18 +1253,20 @@
 
       <!-- Bottom-Left HUD: Outdoor Water & Trench Guidelines -->
       <div class="viewport-hud-bottomleft" id="viewportBottomLeftHud">
-        <div class="hud-title-bar" style="color: #0284c7; font-weight: 700;">
+        <div class="hud-title-bar" style="color: #0284c7; font-weight: 700; cursor: move;" onmousedown="initHudDrag(event, 'viewportBottomLeftHud')" ondblclick="resetHudDock('viewportBottomLeftHud')" title="按住拖曳移動，雙擊重置貼角與尺寸">
           <span>🌊 屋外水法與排水溝指南</span>
-          <span style="font-size: 0.65rem; color: #57534e; font-weight: 600;">專指屋外露天【明水】</span>
+          <div style="display: flex; align-items: center; gap: 0.2rem;">
+            <button class="hud-toggle-btn" id="btnToggleHudLeft" onclick="toggleHudCard('left')" title="收合/展開指南">➖</button>
+          </div>
         </div>
-        <div style="line-height: 1.35; margin-top: 0.15rem;">
+        <div class="hud-body" id="hudBodyLeft" style="line-height: 1.3; margin-top: 0.15rem;">
           <div style="color: #047857; font-weight: 700; margin-bottom: 0.1rem;">
             🟢 吉水放水溝推薦：<span id="hudOutdoorSafeWater" style="color: #047857; font-weight: 700;">--</span>
           </div>
           <div style="color: #dc2626; font-weight: 700; margin-bottom: 0.1rem;">
             🔴 禁水路黃泉煞警示：<span id="hudOutdoorDangerWater" style="color: #dc2626; font-weight: 700;">--</span>
           </div>
-          <div style="font-size: 0.63rem; color: #57534e; line-height: 1.25; margin-top: 0.15rem; border-top: 1px dashed #cbd5e1; padding-top: 0.15rem;">
+          <div style="font-size: 0.62rem; color: #57534e; line-height: 1.2; margin-top: 0.15rem; border-top: 1px dashed #cbd5e1; padding-top: 0.15rem;">
             💡 <strong>水法劃分要訣</strong>：黃泉消亡煞專指屋外<strong>「露天明水溝渠/明路氣」</strong>；地下密閉水管（暗水）穿過無妨。
           </div>
         </div>
@@ -1189,19 +1274,21 @@
 
       <!-- Bottom-Right HUD: Indoor Water & Kitchen Stove Guidelines -->
       <div class="viewport-hud-bottomright" id="viewportBottomRightHud">
-        <div class="hud-title-bar" style="color: #b45309; font-weight: 700;">
+        <div class="hud-title-bar" style="color: #b45309; font-weight: 700; cursor: move;" onmousedown="initHudDrag(event, 'viewportBottomRightHud')" ondblclick="resetHudDock('viewportBottomRightHud')" title="按住拖曳移動，雙擊重置貼角與尺寸">
           <span>🏠 室內水法與灶位排污指南</span>
-          <span style="font-size: 0.65rem; color: #57534e; font-weight: 600;">明水與暗管劃分</span>
+          <div style="display: flex; align-items: center; gap: 0.2rem;">
+            <button class="hud-toggle-btn" id="btnToggleHudRight" onclick="toggleHudCard('right')" title="收合/展開指南">➖</button>
+          </div>
         </div>
-        <div style="line-height: 1.35; margin-top: 0.15rem;">
+        <div class="hud-body" id="hudBodyRight" style="line-height: 1.3; margin-top: 0.15rem;">
           <div style="color: #0284c7; font-weight: 600; margin-bottom: 0.1rem;">
-            🚰 <strong>淨水進水/魚缸水景</strong> ➔ 【<strong>明水</strong>】必須置吉位 <span id="hudIndoorCleanWater" style="color: #047857; font-weight: 700;">--</span> <span style="font-size: 0.62rem; color: #57534e;">(牆內暗管無妨)</span>
+            🚰 <strong>淨水進水/魚缸水景</strong> ➔ 【<strong>明水</strong>】必須置吉位 <span id="hudIndoorCleanWater" style="color: #047857; font-weight: 700;">--</span> <span style="font-size: 0.60rem; color: #57534e;">(牆內暗管無妨)</span>
           </div>
           <div style="color: #dc2626; font-weight: 600; margin-bottom: 0.1rem;">
-            🚽 <strong>黑水排污/化糞池</strong> ➔ 必須壓凶位 <span id="hudIndoorBlackWater" style="color: #b45309; font-weight: 700;">--</span> <span style="font-size: 0.62rem; color: #047857;">(隨暗水排煞；露天明溝忌落吉位)</span>
+            🚽 <strong>黑水排污/化糞池</strong> ➔ 必須壓凶位 <span id="hudIndoorBlackWater" style="color: #b45309; font-weight: 700;">--</span> <span style="font-size: 0.60rem; color: #047857;">(隨暗水排煞；露天明溝忌落吉位)</span>
           </div>
           <div style="color: #c2410c; font-weight: 600;">
-            🍳 <strong>廚房灶位/火頭</strong> ➔ 必須壓凶位 <span id="hudIndoorStove" style="color: #b45309; font-weight: 700;">--</span> <span style="font-size: 0.62rem; color: #047857;">(火燒凶煞)</span>
+            🍳 <strong>廚房灶位/火頭</strong> ➔ 必須壓凶位 <span id="hudIndoorStove" style="color: #b45309; font-weight: 700;">--</span> <span style="font-size: 0.60rem; color: #047857;">(火燒凶煞)</span>
           </div>
         </div>
       </div>
@@ -1623,9 +1710,11 @@
       panY: 0,
       customRooms: [
         { id: 'room_kitchen', name: '🍳 廚房 (灶位)', x: 6.45, y: 0.35, width: 4.20, length: 0.60, color: '#f97316' },
-        { id: 'room_bath', name: '🛁 衛浴 (廁所)', x: 0.28, y: 3.15, width: 1.80, length: 1.50, color: '#0284c7' },
-        { id: 'room_closet', name: '📦 衣', x: 0.30, y: 4.80, width: 1.80, length: 1.20, color: '#10b981' },
-        { id: 'room_bedroom', name: '🛏️ 主臥室', x: 0.22, y: 0.25, width: 2.20, length: 2.75, color: '#a855f7' }
+        { id: 'room_bath', name: '🛁 衛浴 (廁所)', x: 0.02, y: 3.30, width: 2.10, length: 1.80, color: '#0284c7' },
+        { id: 'room_closet', name: '📦 衣', x: 0.03, y: 5.10, width: 2.10, length: 0.90, color: '#10b981' },
+        { id: 'room_bedroom', name: '🛏️ 主臥室', x: 0.00, y: 0.225, width: 2.40, length: 2.75, color: '#a855f7' },
+        { id: 'room_other1', name: '其他', x: 2.40, y: 1.715, width: 1.50, length: 1.25, color: '#a855f7' },
+        { id: 'room_other2', name: '其他', x: 0.00, y: 3.00, width: 2.40, length: 3.10, color: '#0284c7' }
       ]
     };
 
@@ -1968,6 +2057,27 @@
       updateRoomProp(id, prop, newVal.toFixed(2));
     }
 
+    function toggleRoomVisibility(id) {
+      if (!state.customRooms) return;
+      let room = state.customRooms.find(r => r.id === id);
+      if (room) {
+        room.visible = room.visible === false ? true : false;
+        renderCustomRoomsUI();
+        updateCalculations();
+      }
+    }
+
+    function toggleAllRoomsVisibility() {
+      if (!state.customRooms || state.customRooms.length === 0) return;
+      let anyHidden = state.customRooms.some(r => r.visible === false);
+      let targetState = anyHidden ? true : false;
+      state.customRooms.forEach(r => {
+        r.visible = targetState;
+      });
+      renderCustomRoomsUI();
+      updateCalculations();
+    }
+
     function renderCustomRoomsUI() {
       let container = document.getElementById('customRoomsListContainer');
       if (!container) return;
@@ -1980,16 +2090,24 @@
       let labels = getOriginLabels();
       let html = '';
       state.customRooms.forEach((room) => {
+        let isVis = room.visible !== false;
         let rPt = getTransformedCoords(room.x + room.width / 2, room.y + room.length / 2);
         html += `
-          <div class="custom-room-item" style="border-left: 3.5px solid ${room.color};">
-            <div class="custom-room-header">
+          <div class="custom-room-item" style="border-left: 3.5px solid ${room.color}; opacity: ${isVis ? '1.0' : '0.6'};">
+            <div class="custom-room-header" style="display: flex; align-items: center; justify-content: space-between;">
               <div class="custom-room-title">
                 <input type="text" value="${room.name}" 
-                       style="background: transparent; border: none; border-bottom: 1px solid rgba(0,0,0,0.2); color: #1c1917; font-size: 0.75rem; font-weight: 600; width: 130px; outline: none;" 
+                       style="background: transparent; border: none; border-bottom: 1px solid rgba(0,0,0,0.2); color: #1c1917; font-size: 0.75rem; font-weight: 600; width: 110px; outline: none;" 
                        onchange="updateRoomProp('${room.id}', 'name', this.value)">
               </div>
-              <button class="btn-delete-room" onclick="removeCustomRoom('${room.id}')" title="刪除此區域">🗑️ 刪除</button>
+              <div style="display: flex; align-items: center; gap: 0.25rem;">
+                <button onclick="toggleRoomVisibility('${room.id}')" 
+                        style="padding: 0.15rem 0.35rem; font-size: 0.68rem; background: ${isVis ? 'rgba(2, 132, 199, 0.1)' : 'rgba(239, 68, 68, 0.1)'}; color: ${isVis ? '#0284c7' : '#ef4444'}; border: 1px solid ${isVis ? 'rgba(2, 132, 199, 0.3)' : 'rgba(239, 68, 68, 0.3)'}; border-radius: 0.25rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.12rem;" 
+                        title="${isVis ? '點擊隱藏此區域放樣' : '點擊顯示此區域放樣'}">
+                  ${isVis ? '👁️ 顯示' : '🙈 隱藏'}
+                </button>
+                <button class="btn-delete-room" onclick="removeCustomRoom('${room.id}')" title="刪除此區域">🗑️ 刪除</button>
+              </div>
             </div>
 
             <!-- 長寬尺寸 (支援鍵盤數字、拉桿與滑鼠滾輪向上/下微調) -->
@@ -2846,12 +2964,16 @@
       }
 
       // 繪製自訂室內空間區域 (廚房、衛浴、臥室等半透明方塊與長寬放樣尺寸)
-      if (state.customRooms && state.customRooms.length > 0) {
+      let showCustomRoomsEl = document.getElementById('showCustomRooms');
+      let isGlobalRoomsVisible = showCustomRoomsEl ? showCustomRoomsEl.checked : true;
+
+      if (isGlobalRoomsVisible && state.customRooms && state.customRooms.length > 0) {
         let customRoomsG = document.createElementNS("http://www.w3.org/2000/svg", "g");
         let trX = cx + housePxW / 2;
         let trY = cy - housePxL / 2;
 
         state.customRooms.forEach(room => {
+          if (room.visible === false) return;
           let roomSvgX = trX - (room.x + room.width) * scalePPM;
           let roomSvgY = trY + room.y * scalePPM;
           let roomSvgW = room.width * scalePPM;
@@ -2866,16 +2988,20 @@
 
           let textAngle = -houseRotation;
 
+          let isOther = room.name && (room.name.trim() === '其他' || room.name.trim() === '🧩 其他');
+          let nameSvgText = isOther ? '' : `<text x="${roomCenterX}" y="${roomCenterY - 7 * fs}" font-size="${14.5 * fs}" font-weight="700" fill="#0f172a" text-anchor="middle" paint-order="stroke fill" stroke="#ffffff" stroke-width="${3.8 * fs}" stroke-linejoin="round">${room.name}</text>`;
+          let dimY = isOther ? roomCenterY + 4 * fs : roomCenterY + 13 * fs;
+
           customRoomsG.innerHTML += `
             <g class="custom-room-node" data-id="${room.id}" style="cursor: move;">
               <!-- 單一真實尺寸放樣框 (結合文字與真實房間尺寸邊框) -->
               <rect x="${roomSvgX}" y="${roomSvgY}" width="${roomSvgW}" height="${roomSvgH}" 
                     fill="${room.color}" fill-opacity="0.25" stroke="${room.color}" stroke-width="${2.2 * fs}" rx="${5 * fs}" />
               
-              <!-- 房名與尺寸文字 (直接居中於尺寸框內，並帶白色描邊提亮，字體放大 10%) -->
+              <!-- 房名與尺寸文字 (如為「其他」則不繪製房名，僅置中呈現尺寸) -->
               <g transform="rotate(${textAngle}, ${roomCenterX}, ${roomCenterY})">
-                <text x="${roomCenterX}" y="${roomCenterY - 7 * fs}" font-size="${14.5 * fs}" font-weight="700" fill="#0f172a" text-anchor="middle" paint-order="stroke fill" stroke="#ffffff" stroke-width="${3.8 * fs}" stroke-linejoin="round">${room.name}</text>
-                <text x="${roomCenterX}" y="${roomCenterY + 13 * fs}" font-size="${12.2 * fs}" font-weight="700" fill="#b45309" text-anchor="middle" paint-order="stroke fill" stroke="#ffffff" stroke-width="${3.8 * fs}" stroke-linejoin="round">${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m</text>
+                ${nameSvgText}
+                <text x="${roomCenterX}" y="${dimY}" font-size="${12.2 * fs}" font-weight="700" fill="#b45309" text-anchor="middle" paint-order="stroke fill" stroke="#ffffff" stroke-width="${3.8 * fs}" stroke-linejoin="round">${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m</text>
               </g>
               <title>🏠 ${room.name}\n尺寸長寬: ${room.width.toFixed(2)}m × ${room.length.toFixed(2)}m (面積 ${(room.width * room.length).toFixed(2)}m²)\n${labels.name}放樣座標: (${rPt.x.toFixed(2)}m, ${rPt.y.toFixed(2)}m)\n宮位方位: ${roomBagua.name}宮 (${roomStar.star})</title>
             </g>
@@ -4001,6 +4127,172 @@
           roomDragState.roomId = null;
         }
       });
+    }
+
+    function toggleHudCard(side) {
+      if (side === 'left') {
+        let el = document.getElementById('viewportBottomLeftHud');
+        let btn = document.getElementById('btnToggleHudLeft');
+        if (el) {
+          el.classList.toggle('collapsed');
+          if (btn) btn.innerText = el.classList.contains('collapsed') ? '➕' : '➖';
+        }
+      } else if (side === 'right') {
+        let el = document.getElementById('viewportBottomRightHud');
+        let btn = document.getElementById('btnToggleHudRight');
+        if (el) {
+          el.classList.toggle('collapsed');
+          if (btn) btn.innerText = el.classList.contains('collapsed') ? '➕' : '➖';
+        }
+      }
+    }
+
+    let hudDragOffsets = {
+      viewportBottomLeftHud: { x: 0, y: 0 },
+      viewportBottomRightHud: { x: 0, y: 0 }
+    };
+
+    let hudDragState = {
+      isDragging: false,
+      hasMoved: false,
+      targetId: null,
+      startX: 0,
+      startY: 0,
+      initialDx: 0,
+      initialDy: 0
+    };
+
+    function initHudDrag(e, hudId) {
+      if (e.target.closest('button')) return;
+      let el = document.getElementById(hudId);
+      if (!el) return;
+
+      let currentOff = hudDragOffsets[hudId] || { x: 0, y: 0 };
+
+      hudDragState.isDragging = true;
+      hudDragState.hasMoved = false;
+      hudDragState.targetId = hudId;
+      hudDragState.startX = e.clientX;
+      hudDragState.startY = e.clientY;
+      hudDragState.initialDx = currentOff.x;
+      hudDragState.initialDy = currentOff.y;
+
+      const onMouseMove = (moveEvt) => {
+        if (!hudDragState.isDragging || hudDragState.targetId !== hudId) return;
+        let dx = moveEvt.clientX - hudDragState.startX;
+        let dy = moveEvt.clientY - hudDragState.startY;
+
+        if (!hudDragState.hasMoved && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
+          hudDragState.hasMoved = true;
+        }
+
+        if (hudDragState.hasMoved) {
+          moveEvt.preventDefault();
+          let rawDx = hudDragState.initialDx + dx;
+          let rawDy = hudDragState.initialDy + dy;
+
+          let viewportEl = document.getElementById('viewportArea');
+          let parentRect = viewportEl ? viewportEl.getBoundingClientRect() : { width: 800, height: 800 };
+          let elRect = el.getBoundingClientRect();
+
+          let newDx = rawDx;
+          let newDy = rawDy;
+
+          if (hudId === 'viewportBottomLeftHud') {
+            let maxRightShift = parentRect.width - elRect.width - 16;
+            let maxUpShift = -(parentRect.height - elRect.height - 16);
+            newDx = Math.max(-8, Math.min(maxRightShift, rawDx));
+            newDy = Math.max(maxUpShift, Math.min(8, rawDy));
+          } else if (hudId === 'viewportBottomRightHud') {
+            let maxLeftShift = -(parentRect.width - elRect.width - 16);
+            let maxUpShift = -(parentRect.height - elRect.height - 16);
+            newDx = Math.max(maxLeftShift, Math.min(8, rawDx));
+            newDy = Math.max(maxUpShift, Math.min(8, rawDy));
+          }
+
+          hudDragOffsets[hudId] = { x: newDx, y: newDy };
+          el.style.transform = `translate3d(${newDx}px, ${newDy}px, 0)`;
+        }
+      };
+
+      const onMouseUp = () => {
+        hudDragState.isDragging = false;
+        hudDragState.targetId = null;
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+      };
+
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    }
+
+    function resetHudDock(hudId) {
+      let el = document.getElementById(hudId);
+      if (el) {
+        hudDragOffsets[hudId] = { x: 0, y: 0 };
+        el.style.transform = '';
+        el.style.width = '';
+        el.style.height = '';
+      }
+    }
+
+    function exportStoreJson() {
+      let defaultFileName = `custom_room_preset_${new Date().toISOString().slice(0, 10)}.json`;
+      let exportObj = {
+        presetName: '空間放樣方案',
+        savedAt: new Date().toISOString(),
+        originCorner: state.originCorner,
+        customRooms: state.customRooms || []
+      };
+      let jsonStr = JSON.stringify(exportObj, null, 2);
+
+      let blob = new Blob([jsonStr], { type: 'application/json' });
+      let url = URL.createObjectURL(blob);
+      let a = document.createElement('a');
+      a.href = url;
+      a.download = defaultFileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function triggerImportStoreJson() {
+      let inputEl = document.getElementById('inputImportJson');
+      if (inputEl) {
+        inputEl.value = '';
+        inputEl.click();
+      }
+    }
+
+    function importStoreJson(event) {
+      let file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          let data = JSON.parse(e.target.result);
+          if (!data || !Array.isArray(data.customRooms)) {
+            alert('❌ 載入失敗：JSON 格式不符，缺少 customRooms 空間放樣資料。');
+            return;
+          }
+
+          if (data.originCorner) {
+            state.originCorner = data.originCorner;
+            let originEl = document.getElementById('originCorner');
+            if (originEl) originEl.value = data.originCorner;
+          }
+
+          state.customRooms = JSON.parse(JSON.stringify(data.customRooms));
+          renderCustomRoomsUI();
+          updateCalculations();
+          alert(`📂 已成功從「${file.name}」載入空間放樣資料！`);
+        } catch (err) {
+          alert('❌ 讀取 JSON 檔案時發生錯誤：' + err.message);
+        }
+      };
+      reader.readAsText(file);
     }
 
     window.onload = () => {
