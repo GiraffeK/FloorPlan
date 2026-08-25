@@ -1240,6 +1240,14 @@
             <input type="range" id="doorAngleOffset" min="-45" max="45" step="0.5" value="0" oninput="updateCalculations()">
           </div>
         </div>
+
+        <div class="toggle-row" style="margin-top: 0.35rem; margin-bottom: 0;">
+          <span style="font-size: 0.68rem; font-weight: 600;">🔄 鏡像門向 (左開/右開)</span>
+          <label class="toggle-row" style="margin-bottom: 0;">
+            <input type="checkbox" id="doorMirror" onchange="updateCalculations()" hidden>
+            <div class="toggle-switch"></div>
+          </label>
+        </div>
       </div>
 
       <!-- Card 3: Sitting & Facing & All 9 Periods -->
@@ -1906,6 +1914,11 @@
               <div>
                 <label style="font-size: 0.65rem; color: #94a3b8;">顏色 / 主題:</label>
                 <input type="color" id="fpEditColor" oninput="updateFpSelectedFromInputs()" style="width: 100%; height: 24px; background: #18181b; border: 1px solid #3f3f46; border-radius: 0.25rem; cursor: pointer;">
+              </div>
+              <div id="fpDoorMirrorGroup" style="display: none; margin-top: 0.2rem;">
+                <button class="fp-chip-btn" onclick="toggleFpSelectedDoorMirror()" style="width: 100%; justify-content: center; background: rgba(245, 158, 11, 0.15); border-color: #f59e0b; color: #f59e0b; font-weight: 600; padding: 0.35rem;">
+                  🔄 鏡像開門方向 (左開 ⇄ 右開)
+                </button>
               </div>
             </div>
           </div>
@@ -2663,6 +2676,7 @@
       state.doorPosPct = parseFloat(document.getElementById('doorPos').value);
       state.doorWidth = parseFloat(document.getElementById('doorWidth').value) || 1.2;
       state.doorAngleOffset = parseFloat(document.getElementById('doorAngleOffset').value);
+      state.doorMirror = document.getElementById('doorMirror') ? document.getElementById('doorMirror').checked : false;
 
       state.showRooms = document.getElementById('showRooms').checked;
       state.showSevenStars = document.getElementById('showSevenStars').checked;
@@ -3510,9 +3524,9 @@
             <circle cx="${-halfDoorPx}" cy="0" r="3.5" fill="#ef4444" stroke="#ffffff" stroke-width="1" />
             <circle cx="${halfDoorPx}" cy="0" r="3.5" fill="#ef4444" stroke="#ffffff" stroke-width="1" />
 
-            <!-- 開門弧線與門扇 -->
-            <path d="M ${-halfDoorPx} 0 A ${doorWidthPx * 0.8} ${doorWidthPx * 0.8} 0 0 1 0 ${-doorWidthPx * 0.8}" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,2" />
-            <line x1="${-halfDoorPx}" y1="0" x2="0" y2="${-doorWidthPx * 0.8}" stroke="#fbbf24" stroke-width="2.5" />
+            <!-- 開門弧線與門扇 (支援 doorMirror 鏡像開門方向) -->
+            <path d="M ${state.doorMirror ? halfDoorPx : -halfDoorPx} 0 A ${doorWidthPx * 0.8} ${doorWidthPx * 0.8} 0 0 ${state.doorMirror ? 0 : 1} 0 ${-doorWidthPx * 0.8}" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,2" />
+            <line x1="${state.doorMirror ? halfDoorPx : -halfDoorPx}" y1="0" x2="0" y2="${-doorWidthPx * 0.8}" stroke="#fbbf24" stroke-width="2.5" />
             <line x1="0" y1="0" x2="0" y2="-34" stroke="#ef4444" stroke-width="2.5" />
             <polygon points="0,-40 -5,-30 5,-30" fill="#ef4444" />
           </g>
@@ -3911,6 +3925,7 @@
       document.getElementById('doorWall').value = 'front';
       document.getElementById('doorPos').value = 73;
       document.getElementById('doorAngleOffset').value = 0;
+      if (document.getElementById('doorMirror')) document.getElementById('doorMirror').checked = false;
 
       state.rotateMode = 'houseUp';
       state.zoomScale = 1.18;
@@ -4802,9 +4817,23 @@
       document.getElementById('fpEditWidth').value = obj.width;
       document.getElementById('fpEditLength').value = obj.length;
       document.getElementById('fpEditX').value = obj.x;
-      document.getElementById('fpEditY').value = obj.y;
-      document.getElementById('fpEditColor').value = obj.color || '#3b82f6';
+      let doorMirrorBtnGroup = document.getElementById('fpDoorMirrorGroup');
+      if (doorMirrorBtnGroup) {
+        let isDoor = type === 'item' && (obj.category === 'door' || (obj.name && obj.name.includes('門')));
+        doorMirrorBtnGroup.style.display = isDoor ? 'block' : 'none';
+      }
+
       renderFpCanvas();
+    }
+
+    function toggleFpSelectedDoorMirror() {
+      if (!fpState.selectedId || fpState.selectedType !== 'item') return;
+      let obj = fpState.items.find(i => i.id === fpState.selectedId);
+      if (!obj) return;
+
+      obj.mirror = !obj.mirror;
+      renderFpCanvas();
+      updateFpAudit();
     }
 
     function updateFpSelectedFromInputs() {
