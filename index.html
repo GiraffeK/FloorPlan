@@ -1832,7 +1832,7 @@
             <div class="fp-section-title">
               <span>🏠 房屋外框規格</span>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.35rem;">
               <div>
                 <label style="font-size: 0.65rem; color: #94a3b8;">面寬 W (m):</label>
                 <input type="number" id="fpInputWidth" step="0.1" min="3" max="30" value="11.0" onchange="updateFpDimensionFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.75rem; font-weight: 600;">
@@ -1840,6 +1840,97 @@
               <div>
                 <label style="font-size: 0.65rem; color: #94a3b8;">進深 L (m):</label>
                 <input type="number" id="fpInputLength" step="0.1" min="3" max="30" value="6.3" onchange="updateFpDimensionFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.75rem; font-weight: 600;">
+              </div>
+              <div>
+                <label style="font-size: 0.65rem; color: #94a3b8;">牆厚 (cm):</label>
+                <input type="number" id="fpInputWallThickness" step="5" min="10" max="100" value="40" onchange="updateFpDimensionFromInputs()" style="width: 100%; background: #18181b; color: #f59e0b; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.75rem; font-weight: 600;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Merged Ultra-Compact Card: View Mode & Object Inspector Control -->
+          <div style="background: #27272a; padding: 0.55rem; border-radius: 0.4rem; border: 1px solid #3f3f46;">
+            <div class="fp-section-title" style="margin-bottom: 0.4rem;">
+              <span>⚙️ 畫板設定與選取物件放樣</span>
+              <button id="fpDeleteBtn" type="button" onclick="deleteFpSelected()" style="display: none; background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 0.2rem; padding: 0.08rem 0.3rem; font-size: 0.62rem; cursor: pointer;">🗑️ 刪除</button>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+              <!-- View & Snap Controls (Always visible top row) -->
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.3rem; padding-bottom: 0.35rem; border-bottom: 1px solid #3f3f46;">
+                <label style="display: flex; align-items: center; gap: 0.2rem; cursor: pointer; font-size: 0.7rem; color: #f1f5f9; font-weight: 600;">
+                  <input type="checkbox" id="fpSnapToggle" checked onchange="toggleFpSnap(this.checked)">
+                  <span>🧲 吸附</span>
+                </label>
+                <select id="fpSnapStepSelect" onchange="setFpSnapStep(this.value)" style="background: #18181b; color: #f59e0b; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.1rem 0.25rem; font-size: 0.68rem; font-weight: 600;">
+                  <option value="0.01">0.01m (1cm)</option>
+                  <option value="0.05" selected>0.05m (5cm)</option>
+                  <option value="0.10">0.10m (10cm)</option>
+                  <option value="0.50">0.50m (50cm)</option>
+                </select>
+                <label style="display: flex; align-items: center; gap: 0.2rem; cursor: pointer; font-size: 0.7rem; color: #f1f5f9; font-weight: 600;">
+                  <input type="checkbox" id="fpShowBaguaToggle" checked onchange="renderFpCanvas()">
+                  <span>☯️ 九宮線</span>
+                </label>
+              </div>
+
+              <!-- Selected Object Inspector Sub-Panel -->
+              <div id="fpSelectedEditor" style="display: none; flex-direction: column; gap: 0.35rem;">
+                <!-- Name, Color & Rotate Action Row -->
+                <div style="display: flex; align-items: center; gap: 0.25rem;">
+                  <label style="font-size: 0.63rem; color: #94a3b8; white-space: nowrap;">名稱:</label>
+                  <input type="text" id="fpEditName" oninput="updateFpSelectedFromInputs()" style="flex: 1; min-width: 0; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.12rem 0.3rem; font-size: 0.7rem;">
+                  <input type="color" id="fpEditColor" oninput="updateFpSelectedFromInputs()" title="物件顏色" style="width: 22px; height: 22px; background: #18181b; border: 1px solid #3f3f46; border-radius: 0.25rem; cursor: pointer;">
+                  <button type="button" onclick="rotateFpSelected(90)" title="順時針旋轉 90° (快捷鍵 R)" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 0.2rem; padding: 0.08rem 0.3rem; font-size: 0.65rem; cursor: pointer; font-weight: 600; white-space: nowrap;">🔄 轉90°</button>
+                </div>
+
+                <!-- Position X & Y with 0.01m Fine Steppers -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem;">
+                  <div>
+                    <label style="font-size: 0.62rem; color: #38bdf8; font-weight: 600;">向左 X (m):</label>
+                    <input type="number" id="fpEditX" step="0.01" min="0" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.12rem 0.25rem; font-size: 0.72rem; font-weight: 700;">
+                    <div style="display: flex; gap: 0.1rem; margin-top: 0.15rem;">
+                      <button type="button" onclick="nudgeFpSelected('x', 0.05)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">+5c</button>
+                      <button type="button" onclick="nudgeFpSelected('x', 0.01)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">+1c</button>
+                      <button type="button" onclick="nudgeFpSelected('x', -0.01)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">-1c</button>
+                      <button type="button" onclick="nudgeFpSelected('x', -0.05)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">-5c</button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style="font-size: 0.62rem; color: #38bdf8; font-weight: 600;">向下 Y (m):</label>
+                    <input type="number" id="fpEditY" step="0.01" min="0" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.12rem 0.25rem; font-size: 0.72rem; font-weight: 700;">
+                    <div style="display: flex; gap: 0.1rem; margin-top: 0.15rem;">
+                      <button type="button" onclick="nudgeFpSelected('y', -0.05)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">-5c</button>
+                      <button type="button" onclick="nudgeFpSelected('y', -0.01)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">-1c</button>
+                      <button type="button" onclick="nudgeFpSelected('y', 0.01)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">+1c</button>
+                      <button type="button" onclick="nudgeFpSelected('y', 0.05)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">+5c</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Size Width & Length Row -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem;">
+                  <div>
+                    <label style="font-size: 0.62rem; color: #f59e0b;">面寬 W (m):</label>
+                    <input type="number" id="fpEditWidth" step="0.01" min="0.1" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f59e0b; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.12rem 0.25rem; font-size: 0.72rem; font-weight: 700;">
+                  </div>
+                  <div>
+                    <label style="font-size: 0.62rem; color: #f59e0b;">進深 L (m):</label>
+                    <input type="number" id="fpEditLength" step="0.01" min="0.1" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f59e0b; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.12rem 0.25rem; font-size: 0.72rem; font-weight: 700;">
+                  </div>
+                </div>
+
+                <div id="fpDoorMirrorGroup" style="display: none;">
+                  <button class="fp-chip-btn" onclick="toggleFpSelectedDoorMirror()" style="width: 100%; justify-content: center; background: rgba(245, 158, 11, 0.15); border-color: #f59e0b; color: #f59e0b; font-weight: 600; padding: 0.2rem; font-size: 0.65rem;">
+                    🔄 鏡像開門方向 (左開 ⇄ 右開)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Unselected Hint / Guidance Footer -->
+              <div id="fpNoSelectedTip" style="font-size: 0.63rem; color: #94a3b8; text-align: center; background: #18181b; padding: 0.25rem 0.35rem; border-radius: 0.25rem; border: 1px solid #3f3f46;">
+                💡 點選物件可設定 0.01m 座標；拖曳按 <strong style="color: #f59e0b;">Shift</strong> 強制 1cm 吸附 | 鍵盤 <strong style="color: #38bdf8;">↑↓←→</strong> 微調
               </div>
             </div>
           </div>
@@ -1879,68 +1970,10 @@
               <button class="fp-chip-btn" onclick="addFpItem('window', '🪟 採光窗框', 1.2, 0.15, '#38bdf8')">🪟 採光窗</button>
             </div>
           </div>
-
-          <!-- Selected Element Editor -->
-          <div id="fpSelectedEditor" style="background: #27272a; padding: 0.6rem; border-radius: 0.4rem; border: 1px solid #3f3f46; display: none;">
-            <div class="fp-section-title">
-              <span>⚙️ 已選取物件屬性</span>
-              <button onclick="deleteFpSelected()" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 0.2rem; padding: 0.1rem 0.35rem; font-size: 0.65rem; cursor: pointer;">🗑️ 刪除</button>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 0.4rem;">
-              <div>
-                <label style="font-size: 0.65rem; color: #94a3b8;">區塊名稱:</label>
-                <input type="text" id="fpEditName" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
-              </div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
-                <div>
-                  <label style="font-size: 0.65rem; color: #94a3b8;">寬度 (m):</label>
-                  <input type="number" id="fpEditWidth" step="0.1" min="0.2" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
-                </div>
-                <div>
-                  <label style="font-size: 0.65rem; color: #94a3b8;">長度 (m):</label>
-                  <input type="number" id="fpEditLength" step="0.1" min="0.2" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
-                </div>
-              </div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
-                <div>
-                  <label style="font-size: 0.65rem; color: #94a3b8;">X 座標 (m):</label>
-                  <input type="number" id="fpEditX" step="0.1" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
-                </div>
-                <div>
-                  <label style="font-size: 0.65rem; color: #94a3b8;">Y 座標 (m):</label>
-                  <input type="number" id="fpEditY" step="0.1" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
-                </div>
-              </div>
-              <div>
-                <label style="font-size: 0.65rem; color: #94a3b8;">顏色 / 主題:</label>
-                <input type="color" id="fpEditColor" oninput="updateFpSelectedFromInputs()" style="width: 100%; height: 24px; background: #18181b; border: 1px solid #3f3f46; border-radius: 0.25rem; cursor: pointer;">
-              </div>
-              <div id="fpDoorMirrorGroup" style="display: none; margin-top: 0.2rem;">
-                <button class="fp-chip-btn" onclick="toggleFpSelectedDoorMirror()" style="width: 100%; justify-content: center; background: rgba(245, 158, 11, 0.15); border-color: #f59e0b; color: #f59e0b; font-weight: 600; padding: 0.35rem;">
-                  🔄 鏡像開門方向 (左開 ⇄ 右開)
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Center SVG Canvas Area -->
         <div class="fp-canvas-area" id="fpCanvasContainer">
-          <!-- Canvas Top Floating HUD Controls -->
-          <div class="fp-canvas-toolbar">
-            <label style="display: flex; align-items: center; gap: 0.3rem; cursor: pointer;">
-              <input type="checkbox" id="fpSnapToggle" checked onchange="toggleFpSnap(this.checked)">
-              <span>🧲 網格吸附 (0.5m)</span>
-            </label>
-            <span style="color: #3f3f46;">|</span>
-            <label style="display: flex; align-items: center; gap: 0.3rem; cursor: pointer;">
-              <input type="checkbox" id="fpShowBaguaToggle" checked onchange="renderFpCanvas()">
-              <span>☯️ 八卦九宮對角線</span>
-            </label>
-            <span style="color: #3f3f46;">|</span>
-            <span id="fpCanvasScaleText" style="color: #94a3b8;">💡 畫面上可點擊拖曳區塊與右下角縮放</span>
-          </div>
-
           <!-- SVG Floorplan Stage -->
           <svg id="fpCanvasSVG" style="width: 100%; height: 100%; cursor: default;"></svg>
         </div>
@@ -4720,11 +4753,14 @@
 
       fpState.width = state.width || 11.0;
       fpState.length = state.length || 6.3;
+      fpState.wallThickness = state.wallThickness || 40;
 
       let inputW = document.getElementById('fpInputWidth');
       let inputL = document.getElementById('fpInputLength');
+      let inputWall = document.getElementById('fpInputWallThickness');
       if (inputW) inputW.value = fpState.width;
       if (inputL) inputL.value = fpState.length;
+      if (inputWall) inputWall.value = fpState.wallThickness;
 
       // Sync rooms from main state if available
       if (state.customRooms && state.customRooms.length > 0) {
@@ -4748,9 +4784,17 @@
     function updateFpDimensionFromInputs() {
       let inputW = document.getElementById('fpInputWidth');
       let inputL = document.getElementById('fpInputLength');
+      let inputWall = document.getElementById('fpInputWallThickness');
       if (inputW && inputL) {
         fpState.width = Math.max(3, parseFloat(inputW.value) || 11.0);
         fpState.length = Math.max(3, parseFloat(inputL.value) || 6.3);
+      }
+      if (inputWall) {
+        let wt = parseFloat(inputWall.value) || 40;
+        fpState.wallThickness = wt;
+        state.wallThickness = wt;
+        let mainWallInput = document.getElementById('wallThickness');
+        if (mainWallInput) mainWallInput.value = wt;
       }
       renderFpCanvas();
       updateFpAudit();
@@ -4801,22 +4845,38 @@
       fpState.selectedType = type;
 
       let editor = document.getElementById('fpSelectedEditor');
-      if (!editor) return;
+      let deleteBtn = document.getElementById('fpDeleteBtn');
+      let noSelTip = document.getElementById('fpNoSelectedTip');
 
       let obj = type === 'room' 
         ? fpState.rooms.find(r => r.id === id)
         : fpState.items.find(i => i.id === id);
 
       if (!obj) {
-        editor.style.display = 'none';
+        if (editor) editor.style.display = 'none';
+        if (deleteBtn) deleteBtn.style.display = 'none';
+        if (noSelTip) noSelTip.style.display = 'block';
         return;
       }
 
-      editor.style.display = 'block';
-      document.getElementById('fpEditName').value = obj.name || '';
-      document.getElementById('fpEditWidth').value = obj.width;
-      document.getElementById('fpEditLength').value = obj.length;
-      document.getElementById('fpEditX').value = obj.x;
+      if (editor) editor.style.display = 'flex';
+      if (deleteBtn) deleteBtn.style.display = 'inline-block';
+      if (noSelTip) noSelTip.style.display = 'none';
+
+      let nameEl = document.getElementById('fpEditName');
+      let widthEl = document.getElementById('fpEditWidth');
+      let lengthEl = document.getElementById('fpEditLength');
+      let xEl = document.getElementById('fpEditX');
+      let yEl = document.getElementById('fpEditY');
+      let colorEl = document.getElementById('fpEditColor');
+
+      if (nameEl) nameEl.value = obj.name || '';
+      if (widthEl) widthEl.value = obj.width.toFixed(2);
+      if (lengthEl) lengthEl.value = obj.length.toFixed(2);
+      if (xEl) xEl.value = obj.x.toFixed(2);
+      if (yEl) yEl.value = obj.y.toFixed(2);
+      if (colorEl && obj.color) colorEl.value = obj.color;
+
       let doorMirrorBtnGroup = document.getElementById('fpDoorMirrorGroup');
       if (doorMirrorBtnGroup) {
         let isDoor = type === 'item' && (obj.category === 'door' || (obj.name && obj.name.includes('門')));
@@ -4836,6 +4896,68 @@
       updateFpAudit();
     }
 
+    function rotateFpSelected(angle = 90) {
+      if (!fpState.selectedId || !fpState.selectedType) return;
+      let obj = fpState.selectedType === 'room'
+        ? fpState.rooms.find(r => r.id === fpState.selectedId)
+        : fpState.items.find(i => i.id === fpState.selectedId);
+      if (!obj) return;
+
+      // Update 2D architectural symbol rotation
+      obj.rotation = ((obj.rotation || 0) + angle) % 360;
+
+      // Swap width and length bounding box for 90° or 270° orientation
+      let temp = obj.width;
+      obj.width = obj.length;
+      obj.length = temp;
+
+      // Clamp coordinates to stay inside house boundary
+      let maxW = Math.max(0, fpState.width - obj.width);
+      let maxL = Math.max(0, fpState.length - obj.length);
+      obj.x = Math.max(0, Math.min(maxW, parseFloat(obj.x.toFixed(2))));
+      obj.y = Math.max(0, Math.min(maxL, parseFloat(obj.y.toFixed(2))));
+
+      selectFpObject(obj.id, fpState.selectedType);
+      renderFpCanvas();
+      updateFpAudit();
+    }
+
+    function toggleFpSnap(enabled) {
+      fpState.gridSnap = enabled;
+      renderFpCanvas();
+    }
+
+    function setFpSnapStep(stepVal) {
+      fpState.gridSize = parseFloat(stepVal) || 0.05;
+      renderFpCanvas();
+    }
+
+    function nudgeFpSelected(prop, delta) {
+      if (!fpState.selectedId || !fpState.selectedType) return;
+      let obj = fpState.selectedType === 'room'
+        ? fpState.rooms.find(r => r.id === fpState.selectedId)
+        : fpState.items.find(i => i.id === fpState.selectedId);
+      if (!obj) return;
+
+      if (prop === 'x') {
+        let maxVal = Math.max(0, fpState.width - obj.width);
+        obj.x = Math.max(0, Math.min(maxVal, parseFloat((obj.x + delta).toFixed(2))));
+      } else if (prop === 'y') {
+        let maxVal = Math.max(0, fpState.length - obj.length);
+        obj.y = Math.max(0, Math.min(maxVal, parseFloat((obj.y + delta).toFixed(2))));
+      } else if (prop === 'width') {
+        let maxVal = Math.max(0.1, fpState.width - obj.x);
+        obj.width = Math.max(0.1, Math.min(maxVal, parseFloat((obj.width + delta).toFixed(2))));
+      } else if (prop === 'length') {
+        let maxVal = Math.max(0.1, fpState.length - obj.y);
+        obj.length = Math.max(0.1, Math.min(maxVal, parseFloat((obj.length + delta).toFixed(2))));
+      }
+
+      selectFpObject(obj.id, fpState.selectedType);
+      renderFpCanvas();
+      updateFpAudit();
+    }
+
     function updateFpSelectedFromInputs() {
       if (!fpState.selectedId || !fpState.selectedType) return;
       let obj = fpState.selectedType === 'room'
@@ -4844,12 +4966,19 @@
 
       if (!obj) return;
 
-      obj.name = document.getElementById('fpEditName').value || obj.name;
-      obj.width = Math.max(0.1, parseFloat(document.getElementById('fpEditWidth').value) || obj.width);
-      obj.length = Math.max(0.1, parseFloat(document.getElementById('fpEditLength').value) || obj.length);
-      obj.x = parseFloat(document.getElementById('fpEditX').value) || 0;
-      obj.y = parseFloat(document.getElementById('fpEditY').value) || 0;
-      obj.color = document.getElementById('fpEditColor').value || obj.color;
+      let nameVal = document.getElementById('fpEditName')?.value;
+      let widthVal = parseFloat(document.getElementById('fpEditWidth')?.value);
+      let lengthVal = parseFloat(document.getElementById('fpEditLength')?.value);
+      let xVal = parseFloat(document.getElementById('fpEditX')?.value);
+      let yVal = parseFloat(document.getElementById('fpEditY')?.value);
+      let colorVal = document.getElementById('fpEditColor')?.value;
+
+      if (nameVal) obj.name = nameVal;
+      if (!isNaN(widthVal)) obj.width = Math.max(0.1, widthVal);
+      if (!isNaN(lengthVal)) obj.length = Math.max(0.1, lengthVal);
+      if (!isNaN(xVal)) obj.x = Math.max(0, xVal);
+      if (!isNaN(yVal)) obj.y = Math.max(0, yVal);
+      if (colorVal) obj.color = colorVal;
 
       renderFpCanvas();
       updateFpAudit();
@@ -4866,7 +4995,11 @@
       fpState.selectedType = null;
 
       let editor = document.getElementById('fpSelectedEditor');
+      let deleteBtn = document.getElementById('fpDeleteBtn');
+      let noSelTip = document.getElementById('fpNoSelectedTip');
       if (editor) editor.style.display = 'none';
+      if (deleteBtn) deleteBtn.style.display = 'none';
+      if (noSelTip) noSelTip.style.display = 'block';
 
       renderFpCanvas();
       updateFpAudit();
@@ -4912,10 +5045,35 @@
         originCornerText = "左下牆心";
       }
 
+      let wallThickCm = fpState.wallThickness || state.wallThickness || 40;
+      let wallPx = (wallThickCm / 100) * scale; // 牆厚像素
+      let halfWall = wallPx / 2;
+
+      let outX = originX - halfWall;
+      let outY = originY - halfWall;
+      let outW = housePxW + wallPx;
+      let outH = housePxL + wallPx;
+
+      let inX = originX + halfWall;
+      let inY = originY + halfWall;
+      let inW = housePxW - wallPx;
+      let inH = housePxL - wallPx;
+
+      // 牆體 Compound Path (100% 相同於主 UI)
+      let wallPathD = `
+        M ${outX} ${outY} H ${outX + outW} V ${outY + outH} H ${outX} Z
+        M ${inX} ${inY} H ${inX + inW} V ${inY + inH} H ${inX} Z
+      `;
+
       let html = `
         <defs>
           <pattern id="fpGridPattern" width="${scale * 0.5}" height="${scale * 0.5}" patternUnits="userSpaceOnUse">
             <path d="M ${scale * 0.5} 0 L 0 0 0 ${scale * 0.5}" fill="none" stroke="#27272a" stroke-width="0.75"/>
+          </pattern>
+          <pattern id="fpBrickPattern" width="20" height="12" patternUnits="userSpaceOnUse">
+            <rect width="20" height="12" fill="rgba(194, 65, 12, 0.22)" />
+            <path d="M 0 0 H 20 M 0 6 H 20 M 10 0 V 6 M 0 6 V 12 M 20 6 V 12" 
+                  stroke="rgba(255, 255, 255, 0.25)" stroke-width="0.75" fill="none" />
           </pattern>
         </defs>
 
@@ -4923,21 +5081,29 @@
         <rect width="100%" height="100%" fill="#09090b"/>
         <rect x="${originX}" y="${originY}" width="${housePxW}" height="${housePxL}" fill="url(#fpGridPattern)"/>
 
-        <!-- Outer House Wall -->
+        <!-- 房屋內部柔和藍底 (100% 相同於主 UI) -->
+        <rect x="${inX}" y="${inY}" width="${inW}" height="${inH}" 
+              fill="rgba(2, 132, 199, 0.12)" style="pointer-events: none;"/>
+
+        <!-- 牆體本體：極細緻磚頭紋理雙線牆厚 (100% 相同於主 UI) -->
+        <path d="${wallPathD}" fill="url(#fpBrickPattern)" fill-rule="evenodd" 
+              stroke="rgba(234, 88, 12, 0.75)" stroke-width="1.2" style="pointer-events: none;"/>
+
+        <!-- 牆心線參考虛線 (Golden Centerline - 100% 相同於主 UI) -->
         <rect x="${originX}" y="${originY}" width="${housePxW}" height="${housePxL}" 
-              fill="rgba(39, 39, 42, 0.4)" stroke="#38bdf8" stroke-width="2.5" rx="2"/>
+              fill="none" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5,4" style="pointer-events: none;"/>
 
         <!-- Wall Direction Labels -->
-        <text x="${originX + housePxW / 2}" y="${originY - 14}" fill="#38bdf8" font-size="12" font-weight="600" text-anchor="middle">
-          ▲ 前牆 (面寬 W: ${fpState.width.toFixed(1)} m)
+        <text x="${originX + housePxW / 2}" y="${outY - 10}" fill="#38bdf8" font-size="12" font-weight="600" text-anchor="middle">
+          ▲ 前牆 (面寬 W: ${fpState.width.toFixed(1)} m | 牆厚: ${wallThickCm} cm)
         </text>
-        <text x="${originX + housePxW / 2}" y="${originY + housePxL + 18}" fill="#94a3b8" font-size="11" font-weight="500" text-anchor="middle">
+        <text x="${originX + housePxW / 2}" y="${outY + outH + 18}" fill="#94a3b8" font-size="11" font-weight="500" text-anchor="middle">
           ▼ 後牆 (靠山面)
         </text>
-        <text x="${originX - 14}" y="${originY + housePxL / 2}" fill="#94a3b8" font-size="11" font-weight="500" text-anchor="middle" transform="rotate(-90, ${originX - 14}, ${originY + housePxL / 2})">
+        <text x="${outX - 14}" y="${originY + housePxL / 2}" fill="#94a3b8" font-size="11" font-weight="500" text-anchor="middle" transform="rotate(-90, ${outX - 14}, ${originY + housePxL / 2})">
           ◀ 左牆 (進深 L: ${fpState.length.toFixed(1)} m)
         </text>
-        <text x="${rightWallX + 16}" y="${originY + housePxL / 2}" fill="#38bdf8" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(90, ${rightWallX + 16}, ${originY + housePxL / 2})">
+        <text x="${outX + outW + 16}" y="${originY + housePxL / 2}" fill="#38bdf8" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(90, ${outX + outW + 16}, ${originY + housePxL / 2})">
           ▶ 右牆 (放樣基準邊 X=0)
         </text>
 
@@ -4949,28 +5115,42 @@
         </text>
       `;
 
-      // Taiji & Bagua Sector Overlay Lines
+      // Taiji & Bagua Sector Overlay Lines (Synchronized with Main UI facingAngle)
       if (showBagua) {
         let taijiX = originX + housePxW / 2;
         let taijiY = originY + housePxL / 2;
         let maxR = Math.max(housePxW, housePxL) * 0.75;
+        let facingAngle = state.facingAngle !== undefined ? state.facingAngle : 306.0;
 
         html += `
           <!-- Taiji Center Point -->
           <circle cx="${taijiX}" cy="${taijiY}" r="6" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5"/>
-          <text x="${taijiX + 10}" y="${taijiY + 4}" fill="#f59e0b" font-size="11" font-weight="600">☯️ 太極點</text>
+          <text x="${taijiX + 10}" y="${taijiY + 4}" fill="#f59e0b" font-size="11" font-weight="700">☯️ 太極點 (${facingAngle.toFixed(1)}°)</text>
         `;
 
+        // 8 Bagua Sector Boundaries (22.5°, 67.5°, 112.5°, ...)
+        let boundaries = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5];
+        boundaries.forEach(bDeg => {
+          let bRad = (bDeg - facingAngle - 90) * Math.PI / 180;
+          let bx = taijiX + maxR * Math.cos(bRad);
+          let by = taijiY + maxR * Math.sin(bRad);
+          html += `
+            <line x1="${taijiX}" y1="${taijiY}" x2="${bx}" y2="${by}" stroke="rgba(245, 158, 11, 0.2)" stroke-width="1" stroke-dasharray="2,2" pointer-events="none"/>
+          `;
+        });
+
+        // 8 Bagua Direction Rays & Labels
         BAGUA.forEach(gua => {
-          let rad = (gua.center - 90) * Math.PI / 180;
+          let relAngle = gua.center - facingAngle;
+          let rad = (relAngle - 90) * Math.PI / 180;
           let rx = taijiX + maxR * Math.cos(rad);
           let ry = taijiY + maxR * Math.sin(rad);
 
           html += `
-            <line x1="${taijiX}" y1="${taijiY}" x2="${rx}" y2="${ry}" stroke="rgba(245, 158, 11, 0.25)" stroke-width="1" stroke-dasharray="3,3"/>
-            <text x="${taijiX + (maxR * 0.45) * Math.cos(rad)}" y="${taijiY + (maxR * 0.45) * Math.sin(rad)}" 
-                  fill="rgba(245, 158, 11, 0.65)" font-size="10" font-weight="600" text-anchor="middle">
-              ${gua.code}
+            <line x1="${taijiX}" y1="${taijiY}" x2="${rx}" y2="${ry}" stroke="rgba(245, 158, 11, 0.45)" stroke-width="1.2" stroke-dasharray="4,3" pointer-events="none"/>
+            <text x="${taijiX + (maxR * 0.48) * Math.cos(rad)}" y="${taijiY + (maxR * 0.48) * Math.sin(rad)}" 
+                  fill="#f59e0b" font-size="10" font-weight="700" text-anchor="middle" pointer-events="none">
+              ${gua.code} (${gua.direction})
             </text>
           `;
         });
@@ -5031,6 +5211,48 @@
 
         html += `</g>`;
       });
+
+      // Render Real-time Precision Dimension Alignment Lines & Overlay HUD Badge for Selected/Dragged Object
+      if (fpState.selectedId && fpState.selectedType) {
+        let activeObj = fpState.selectedType === 'room' 
+          ? fpState.rooms.find(r => r.id === fpState.selectedId)
+          : fpState.items.find(i => i.id === fpState.selectedId);
+
+        if (activeObj) {
+          let ox = rightWallX - (activeObj.x + activeObj.width) * scale;
+          let oy = topWallY + activeObj.y * scale;
+          let ow = activeObj.width * scale;
+          let ol = activeObj.length * scale;
+
+          let cornerX = ox + ow; // Right edge of object
+          let midY = oy + ol / 2;
+          let midX = ox + ow / 2;
+
+          html += `
+            <!-- Real-time X Alignment Guide Line (to Right Wall) -->
+            <line x1="${cornerX}" y1="${midY}" x2="${rightWallX}" y2="${midY}" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,3" pointer-events="none"/>
+            <g transform="translate(${(cornerX + rightWallX) / 2}, ${midY - 10})" pointer-events="none">
+              <rect x="-35" y="-9" width="70" height="18" rx="3" fill="rgba(15, 23, 42, 0.92)" stroke="#ef4444" stroke-width="1"/>
+              <text x="0" y="3" fill="#fca5a5" font-size="10" font-weight="700" text-anchor="middle">X=${activeObj.x.toFixed(2)}m</text>
+            </g>
+
+            <!-- Real-time Y Alignment Guide Line (to Top Wall) -->
+            <line x1="${midX}" y1="${oy}" x2="${midX}" y2="${topWallY}" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" pointer-events="none"/>
+            <g transform="translate(${midX}, ${(oy + topWallY) / 2})" pointer-events="none">
+              <rect x="-35" y="-9" width="70" height="18" rx="3" fill="rgba(15, 23, 42, 0.92)" stroke="#38bdf8" stroke-width="1"/>
+              <text x="0" y="3" fill="#7dd3fc" font-size="10" font-weight="700" text-anchor="middle">Y=${activeObj.y.toFixed(2)}m</text>
+            </g>
+
+            <!-- Real-time Precision Placement HUD Badge -->
+            <g transform="translate(15, 15)" pointer-events="none">
+              <rect x="0" y="0" width="360" height="26" rx="4" fill="rgba(24, 24, 27, 0.94)" stroke="#f59e0b" stroke-width="1.2" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.5))"/>
+              <text x="12" y="17" fill="#f59e0b" font-size="11" font-weight="700" font-family="Consolas, monospace">
+                📍 放樣座標: 向左 X=${activeObj.x.toFixed(2)}m | 向下 Y=${activeObj.y.toFixed(2)}m | ${activeObj.width.toFixed(2)}×${activeObj.length.toFixed(2)}m
+              </text>
+            </g>
+          `;
+        }
+      }
 
       svg.innerHTML = html;
     }
@@ -5225,7 +5447,12 @@
         </text>
       `;
 
-      return svgContent;
+      let rot = item.rotation || 0;
+      let cx = ix + iw / 2;
+      let cy = iy + il / 2;
+      let transformAttr = rot ? `transform="rotate(${rot}, ${cx}, ${cy})"` : '';
+
+      return `<g ${transformAttr}>${svgContent}</g>`;
     }
 
     function setupFpCanvasDrag() {
@@ -5274,7 +5501,11 @@
           fpState.selectedId = null;
           fpState.selectedType = null;
           let editor = document.getElementById('fpSelectedEditor');
+          let deleteBtn = document.getElementById('fpDeleteBtn');
+          let noSelTip = document.getElementById('fpNoSelectedTip');
           if (editor) editor.style.display = 'none';
+          if (deleteBtn) deleteBtn.style.display = 'none';
+          if (noSelTip) noSelTip.style.display = 'block';
           renderFpCanvas();
         }
       });
@@ -5301,15 +5532,17 @@
 
         if (!obj) return;
 
+        let currentGridStep = e.shiftKey ? 0.01 : (fpState.gridSize || 0.05);
+
         if (fpDragState.isDragging) {
           // Moving mouse RIGHT decreases X (getting closer to Right wall)
           let newX = fpDragState.initObjX - deltaMetersX;
           // Moving mouse DOWN increases Y (moving down from Top wall)
           let newY = fpDragState.initObjY + deltaMetersY;
 
-          if (fpState.gridSnap) {
-            newX = Math.round(newX / fpState.gridSize) * fpState.gridSize;
-            newY = Math.round(newY / fpState.gridSize) * fpState.gridSize;
+          if (fpState.gridSnap || e.shiftKey) {
+            newX = Math.round(newX / currentGridStep) * currentGridStep;
+            newY = Math.round(newY / currentGridStep) * currentGridStep;
           }
 
           obj.x = Math.max(0, Math.min(fpState.width - obj.width, parseFloat(newX.toFixed(2))));
@@ -5319,9 +5552,9 @@
           let newW = fpDragState.initObjW - deltaMetersX;
           let newL = fpDragState.initObjL + deltaMetersY;
 
-          if (fpState.gridSnap) {
-            newW = Math.round(newW / fpState.gridSize) * fpState.gridSize;
-            newL = Math.round(newL / fpState.gridSize) * fpState.gridSize;
+          if (fpState.gridSnap || e.shiftKey) {
+            newW = Math.round(newW / currentGridStep) * currentGridStep;
+            newL = Math.round(newL / currentGridStep) * currentGridStep;
           }
 
           obj.width = Math.max(0.2, Math.min(fpState.width - obj.x, parseFloat(newW.toFixed(2))));
@@ -5337,6 +5570,37 @@
         fpDragState.isDragging = false;
         fpDragState.isResizing = false;
         fpDragState.targetId = null;
+      });
+
+      // ⌨️ Keyboard Nudging Listener for Pixel-Perfect 0.01m Distance Precision
+      window.addEventListener('keydown', (e) => {
+        let modal = document.getElementById('floorPlannerModal');
+        if (!modal || modal.style.display === 'none') return;
+        if (!fpState.selectedId || !fpState.selectedType) return;
+
+        let activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+        if (activeTag === 'input' || activeTag === 'select' || activeTag === 'textarea') return;
+
+        let step = e.shiftKey ? 0.05 : 0.01;
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          nudgeFpSelected('x', step);
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          nudgeFpSelected('x', -step);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          nudgeFpSelected('y', -step);
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          nudgeFpSelected('y', step);
+        } else if (e.key === 'Delete' || e.key === 'Backspace') {
+          e.preventDefault();
+          deleteFpSelected();
+        } else if (e.key === 'r' || e.key === 'R') {
+          e.preventDefault();
+          rotateFpSelected(90);
+        }
       });
     }
 
@@ -5529,6 +5793,9 @@
     function applyFloorPlannerToCompass() {
       state.width = fpState.width;
       state.length = fpState.length;
+      if (fpState.wallThickness) {
+        state.wallThickness = fpState.wallThickness;
+      }
       state.customRooms = JSON.parse(JSON.stringify(fpState.rooms));
 
       // Bi-directional Door Sync from Floor Planner to Main Stage
@@ -5536,14 +5803,18 @@
 
       let inputW = document.getElementById('houseWidth');
       let inputL = document.getElementById('houseLength');
+      let inputWall = document.getElementById('wallThickness');
+      let lblWallEl = document.getElementById('lblWall');
       if (inputW) inputW.value = state.width;
       if (inputL) inputL.value = state.length;
+      if (inputWall) inputWall.value = state.wallThickness;
+      if (lblWallEl) lblWallEl.innerText = `${state.wallThickness} cm`;
 
       renderCustomRoomsUI();
       updateCalculations();
       closeFloorPlannerModal();
 
-      alert('✅ 已成功將格局規劃圖與大門氣口一鍵套用至陽宅羅盤與動態平面圖！');
+      alert('✅ 已成功將格局規劃圖、牆體厚度與大門氣口一鍵套用至陽宅羅盤與動態平面圖！');
     }
 
     function loadFloorPlannerPreset(presetKey) {
