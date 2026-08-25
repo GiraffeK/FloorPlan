@@ -798,6 +798,186 @@
       overflow-y: auto;
     }
 
+    /* Floor Planner Modal CSS */
+    .fp-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 200;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .fp-modal-container {
+      background: #18181b;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 0.85rem;
+      width: 96vw;
+      height: 92vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      color: #f1f5f9;
+      font-family: var(--font-main);
+    }
+
+    .fp-header {
+      background: #27272a;
+      border-bottom: 1px solid #3f3f46;
+      padding: 0.55rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .fp-header-title {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #38bdf8;
+    }
+
+    .fp-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .fp-body {
+      display: grid;
+      grid-template-columns: 260px 1fr 300px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .fp-sidebar-left {
+      background: #202023;
+      border-right: 1px solid #3f3f46;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      overflow-y: auto;
+    }
+
+    .fp-sidebar-right {
+      background: #202023;
+      border-left: 1px solid #3f3f46;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      overflow-y: auto;
+    }
+
+    .fp-canvas-area {
+      background: #09090b;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    .fp-canvas-toolbar {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 10;
+      background: rgba(24, 24, 27, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.73rem;
+      color: #e4e4e7;
+    }
+
+    .fp-section-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #38bdf8;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .fp-palette-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem;
+    }
+
+    .fp-chip-btn {
+      padding: 0.3rem 0.4rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      border-radius: 0.3rem;
+      border: 1px solid #3f3f46;
+      background: #27272a;
+      color: #e4e4e7;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.15s ease;
+    }
+
+    .fp-chip-btn:hover {
+      background: #3f3f46;
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+
+    .fp-audit-card {
+      background: #27272a;
+      border: 1px solid #3f3f46;
+      border-radius: 0.4rem;
+      padding: 0.5rem 0.65rem;
+      font-size: 0.72rem;
+      line-height: 1.4;
+    }
+
+    .fp-audit-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .fp-badge-good {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 0.05rem 0.3rem;
+      border-radius: 0.2rem;
+      font-size: 0.65rem;
+    }
+
+    .fp-badge-bad {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 0.05rem 0.3rem;
+      border-radius: 0.2rem;
+      font-size: 0.65rem;
+    }
+
     /* Result Reports */
     .status-badge {
       display: inline-flex;
@@ -934,6 +1114,7 @@
     </div>
 
     <div class="header-actions">
+      <button class="btn btn-primary" onclick="openFloorPlannerModal()" style="background: linear-gradient(135deg, #0284c7, #2563eb); border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);">🧱 陽宅格局規劃器</button>
       <button class="btn" onclick="openSatModal()">🛰️ 空拍圖貼上/測繪</button>
       <button class="btn" onclick="resetAllInputs()">🔄 重置預設</button>
       <button class="btn btn-primary" onclick="exportReport()">📄 匯出視覺圖</button>
@@ -1600,6 +1781,194 @@
           <button class="btn" style="justify-content: center;" onclick="resetSatBaseline()">
             🔄 重置基準線至中央
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Floor Planner Overlay Modal -->
+  <div class="fp-modal-overlay" id="floorPlannerModal">
+    <div class="fp-modal-container">
+      <!-- Header -->
+      <div class="fp-header">
+        <div class="fp-header-title">
+          <span>🧱 陽宅格局畫板與九宮八卦動態驗證器</span>
+          <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 400;">(Floor Planner System)</span>
+        </div>
+        <div class="fp-header-actions">
+          <select id="fpPresetSelect" onchange="loadFloorPlannerPreset(this.value)" style="background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.3rem; padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+            <option value="">📋 載入格局範本...</option>
+            <option value="default">經典標準 3房2廳 (default)</option>
+            <option value="compact2b">溫馨小宅 2房1廳 (2-bed)</option>
+            <option value="luxury3b">尊榮大宅 3房2廳2衛 (luxury)</option>
+            <option value="clear">🧹 清空空地</option>
+          </select>
+
+          <button class="btn" onclick="exportFloorPlannerJson()" title="匯出當前格局 JSON 至電腦" style="font-size: 0.72rem; padding: 0.25rem 0.55rem;">💾 儲存 JSON</button>
+          <button class="btn" onclick="triggerImportFPJson()" title="從電腦載入格局 JSON" style="font-size: 0.72rem; padding: 0.25rem 0.55rem;">📂 載入 JSON</button>
+          <input type="file" id="inputImportFPJson" accept=".json" style="display: none;" onchange="importFloorPlannerJson(event)">
+
+          <button class="btn btn-primary" onclick="applyFloorPlannerToCompass()" style="font-size: 0.75rem; padding: 0.3rem 0.75rem; background: linear-gradient(135deg, #0284c7, #2563eb);">
+            ✅ 一鍵套用至陽宅羅盤
+          </button>
+          <button class="btn" onclick="closeFloorPlannerModal()" style="font-size: 0.75rem; padding: 0.3rem 0.5rem;">✕ 關閉</button>
+        </div>
+      </div>
+
+      <!-- Body Grid -->
+      <div class="fp-body">
+        <!-- Left Palette & Config Sidebar -->
+        <div class="fp-sidebar-left">
+          <!-- House Boundary Size -->
+          <div style="background: #27272a; padding: 0.6rem; border-radius: 0.4rem; border: 1px solid #3f3f46;">
+            <div class="fp-section-title">
+              <span>🏠 房屋外框規格</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+              <div>
+                <label style="font-size: 0.65rem; color: #94a3b8;">面寬 W (m):</label>
+                <input type="number" id="fpInputWidth" step="0.1" min="3" max="30" value="11.0" onchange="updateFpDimensionFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.75rem; font-weight: 600;">
+              </div>
+              <div>
+                <label style="font-size: 0.65rem; color: #94a3b8;">進深 L (m):</label>
+                <input type="number" id="fpInputLength" step="0.1" min="3" max="30" value="6.3" onchange="updateFpDimensionFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.75rem; font-weight: 600;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Room Palette -->
+          <div>
+            <div class="fp-section-title">
+              <span>➕ 新增房間分區</span>
+              <span style="font-size: 0.65rem; color: #94a3b8;">點擊放樣</span>
+            </div>
+            <div class="fp-palette-grid">
+              <button class="fp-chip-btn" onclick="addFpRoom('🛋️ 客廳', 4.5, 3.5, '#3b82f6')">🛋️ 客廳</button>
+              <button class="fp-chip-btn" onclick="addFpRoom('🛏️ 主臥室', 3.2, 3.5, '#a855f7')">🛏️ 主臥</button>
+              <button class="fp-chip-btn" onclick="addFpRoom('🛏️ 次臥室', 2.8, 3.0, '#ec4899')">🛏️ 次臥</button>
+              <button class="fp-chip-btn" onclick="addFpRoom('🍳 廚房 (灶位)', 3.0, 2.0, '#f97316')">🍳 廚房</button>
+              <button class="fp-chip-btn" onclick="addFpRoom('🛁 衛浴 (廁所)', 2.0, 1.8, '#0284c7')">🛁 衛浴</button>
+              <button class="fp-chip-btn" onclick="addFpRoom('🍽️ 餐廳', 2.8, 2.2, '#eab308')">🍽️ 餐廳</button>
+              <button class="fp-chip-btn" onclick="addFpRoom('💼 書房', 2.5, 2.2, '#10b981')">💼 書房</button>
+              <button class="fp-chip-btn" onclick="addFpRoom('🌿 陽台', 3.0, 1.2, '#06b6d4')">🌿 陽台</button>
+            </div>
+          </div>
+
+          <!-- Add Feng Shui Items Palette -->
+          <div>
+            <div class="fp-section-title">
+              <span>📍 專業建築圖例設施放樣</span>
+              <span style="font-size: 0.65rem; color: #94a3b8;">平面圖例</span>
+            </div>
+            <div class="fp-palette-grid">
+              <button class="fp-chip-btn" onclick="addFpItem('bed', '🛏️ 床位 (安睡頭向)', 1.8, 2.0, '#a855f7')">🛏️ 安睡床</button>
+              <button class="fp-chip-btn" onclick="addFpItem('stove', '🍳 壓煞灶位', 1.2, 0.6, '#f97316')">🍳 雙口灶</button>
+              <button class="fp-chip-btn" onclick="addFpItem('bathtub', '🛁 衛浴浴缸', 1.6, 0.8, '#0284c7')">🛁 浴缸</button>
+              <button class="fp-chip-btn" onclick="addFpItem('toilet', '🚽 抽水馬桶', 0.6, 0.7, '#0284c7')">🚽 馬桶</button>
+              <button class="fp-chip-btn" onclick="addFpItem('sink', '🚰 洗手檯/水槽', 0.8, 0.5, '#38bdf8')">🚰 水槽</button>
+              <button class="fp-chip-btn" onclick="addFpItem('desk', '💼 文昌辦公桌', 1.4, 0.7, '#10b981')">💼 文昌桌</button>
+              <button class="fp-chip-btn" onclick="addFpItem('door', '🚪 氣口門路 (開門弧)', 1.0, 1.0, '#f59e0b')">🚪 氣口門</button>
+              <button class="fp-chip-btn" onclick="addFpItem('window', '🪟 採光窗框', 1.2, 0.15, '#38bdf8')">🪟 採光窗</button>
+            </div>
+          </div>
+
+          <!-- Selected Element Editor -->
+          <div id="fpSelectedEditor" style="background: #27272a; padding: 0.6rem; border-radius: 0.4rem; border: 1px solid #3f3f46; display: none;">
+            <div class="fp-section-title">
+              <span>⚙️ 已選取物件屬性</span>
+              <button onclick="deleteFpSelected()" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 0.2rem; padding: 0.1rem 0.35rem; font-size: 0.65rem; cursor: pointer;">🗑️ 刪除</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+              <div>
+                <label style="font-size: 0.65rem; color: #94a3b8;">區塊名稱:</label>
+                <input type="text" id="fpEditName" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+                <div>
+                  <label style="font-size: 0.65rem; color: #94a3b8;">寬度 (m):</label>
+                  <input type="number" id="fpEditWidth" step="0.1" min="0.2" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
+                </div>
+                <div>
+                  <label style="font-size: 0.65rem; color: #94a3b8;">長度 (m):</label>
+                  <input type="number" id="fpEditLength" step="0.1" min="0.2" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
+                </div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;">
+                <div>
+                  <label style="font-size: 0.65rem; color: #94a3b8;">X 座標 (m):</label>
+                  <input type="number" id="fpEditX" step="0.1" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
+                </div>
+                <div>
+                  <label style="font-size: 0.65rem; color: #94a3b8;">Y 座標 (m):</label>
+                  <input type="number" id="fpEditY" step="0.1" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #f1f5f9; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.2rem 0.35rem; font-size: 0.72rem;">
+                </div>
+              </div>
+              <div>
+                <label style="font-size: 0.65rem; color: #94a3b8;">顏色 / 主題:</label>
+                <input type="color" id="fpEditColor" oninput="updateFpSelectedFromInputs()" style="width: 100%; height: 24px; background: #18181b; border: 1px solid #3f3f46; border-radius: 0.25rem; cursor: pointer;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center SVG Canvas Area -->
+        <div class="fp-canvas-area" id="fpCanvasContainer">
+          <!-- Canvas Top Floating HUD Controls -->
+          <div class="fp-canvas-toolbar">
+            <label style="display: flex; align-items: center; gap: 0.3rem; cursor: pointer;">
+              <input type="checkbox" id="fpSnapToggle" checked onchange="toggleFpSnap(this.checked)">
+              <span>🧲 網格吸附 (0.5m)</span>
+            </label>
+            <span style="color: #3f3f46;">|</span>
+            <label style="display: flex; align-items: center; gap: 0.3rem; cursor: pointer;">
+              <input type="checkbox" id="fpShowBaguaToggle" checked onchange="renderFpCanvas()">
+              <span>☯️ 八卦九宮對角線</span>
+            </label>
+            <span style="color: #3f3f46;">|</span>
+            <span id="fpCanvasScaleText" style="color: #94a3b8;">💡 畫面上可點擊拖曳區塊與右下角縮放</span>
+          </div>
+
+          <!-- SVG Floorplan Stage -->
+          <svg id="fpCanvasSVG" style="width: 100%; height: 100%; cursor: default;"></svg>
+        </div>
+
+        <!-- Right Feng Shui & Area Audit Sidebar -->
+        <div class="fp-sidebar-right">
+          <!-- Area Summary Card -->
+          <div style="background: #27272a; padding: 0.6rem; border-radius: 0.4rem; border: 1px solid #3f3f46;">
+            <div class="fp-section-title">
+              <span>📊 建物面積與坪數統計</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.72rem;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #94a3b8;">總建物外包面積:</span>
+                <strong id="fpTotalM2" style="color: #38bdf8;">-- m²</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #94a3b8;">合算坪數:</span>
+                <strong id="fpTotalPing" style="color: #f59e0b;">-- 坪</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-top: 1px dashed #3f3f46; padding-top: 0.25rem; margin-top: 0.15rem;">
+                <span style="color: #94a3b8;">已規劃房間數:</span>
+                <span id="fpRoomCount" style="color: #e4e4e7;">-- 間</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #94a3b8;">理氣放樣設施數:</span>
+                <span id="fpItemCount" style="color: #e4e4e7;">-- 個</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bagua Sector Audit List -->
+          <div>
+            <div class="fp-section-title">
+              <span>☯️ 九宮八卦理氣吉凶檢測</span>
+              <span style="font-size: 0.65rem; color: #94a3b8;">動態運算</span>
+            </div>
+            <div id="fpAuditContainer" style="display: flex; flex-direction: column; gap: 0.45rem;">
+              <!-- Dynamic audit cards generated by JS -->
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -4288,6 +4657,869 @@
           renderCustomRoomsUI();
           updateCalculations();
           alert(`📂 已成功從「${file.name}」載入空間放樣資料！`);
+        } catch (err) {
+          alert('❌ 讀取 JSON 檔案時發生錯誤：' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // --- 🧱 Floor Planner Interactive Tool System ---
+    let fpState = {
+      width: 11.0,
+      length: 6.3,
+      gridSnap: true,
+      gridSize: 0.5,
+      selectedId: null,
+      selectedType: null, // 'room' | 'item'
+      rooms: [
+        { id: 'fp_kitchen', name: '🍳 廚房 (灶位)', x: 6.45, y: 0.35, width: 4.20, length: 0.60, color: '#f97316' },
+        { id: 'fp_bath', name: '🛁 衛浴 (廁所)', x: 0.02, y: 3.30, width: 2.10, length: 1.80, color: '#0284c7' },
+        { id: 'fp_closet', name: '📦 衣櫃空間', x: 0.03, y: 5.10, width: 2.10, length: 0.90, color: '#10b981' },
+        { id: 'fp_bedroom', name: '🛏️ 主臥室', x: 0.00, y: 0.225, width: 2.40, length: 2.75, color: '#a855f7' },
+        { id: 'fp_living', name: '🛋️ 客廳大廳', x: 2.40, y: 1.715, width: 3.80, length: 3.20, color: '#3b82f6' }
+      ],
+      items: [
+        { id: 'fp_bed1', category: 'bed', name: '🛏️ 主臥安睡床位', x: 0.3, y: 0.4, width: 1.8, length: 2.0, rotation: 0, color: '#a855f7' },
+        { id: 'fp_stove1', category: 'stove', name: '🍳 壓煞灶位', x: 7.2, y: 0.4, width: 1.2, length: 0.6, rotation: 0, color: '#f97316' },
+        { id: 'fp_desk1', category: 'desk', name: '💼 文昌書桌', x: 3.0, y: 2.0, width: 1.4, length: 0.7, rotation: 0, color: '#10b981' }
+      ]
+    };
+
+    let fpDragState = {
+      isDragging: false,
+      isResizing: false,
+      targetId: null,
+      targetType: null,
+      startX: 0,
+      startY: 0,
+      initObjX: 0,
+      initObjY: 0,
+      initObjW: 0,
+      initObjL: 0
+    };
+
+    function openFloorPlannerModal() {
+      let modal = document.getElementById('floorPlannerModal');
+      if (!modal) return;
+
+      fpState.width = state.width || 11.0;
+      fpState.length = state.length || 6.3;
+
+      let inputW = document.getElementById('fpInputWidth');
+      let inputL = document.getElementById('fpInputLength');
+      if (inputW) inputW.value = fpState.width;
+      if (inputL) inputL.value = fpState.length;
+
+      // Sync rooms from main state if available
+      if (state.customRooms && state.customRooms.length > 0) {
+        fpState.rooms = JSON.parse(JSON.stringify(state.customRooms));
+      }
+
+      modal.style.display = 'flex';
+      setupFpCanvasDrag();
+      renderFpCanvas();
+      updateFpAudit();
+    }
+
+    function closeFloorPlannerModal() {
+      let modal = document.getElementById('floorPlannerModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function updateFpDimensionFromInputs() {
+      let inputW = document.getElementById('fpInputWidth');
+      let inputL = document.getElementById('fpInputLength');
+      if (inputW && inputL) {
+        fpState.width = Math.max(3, parseFloat(inputW.value) || 11.0);
+        fpState.length = Math.max(3, parseFloat(inputL.value) || 6.3);
+      }
+      renderFpCanvas();
+      updateFpAudit();
+    }
+
+    function toggleFpSnap(checked) {
+      fpState.gridSnap = !!checked;
+    }
+
+    function addFpRoom(name, w, l, color) {
+      let newId = 'fp_room_' + Date.now();
+      let room = {
+        id: newId,
+        name: name,
+        x: Math.max(0, parseFloat(((fpState.width - w) / 2).toFixed(2))),
+        y: Math.max(0, parseFloat(((fpState.length - l) / 2).toFixed(2))),
+        width: w,
+        length: l,
+        color: color || '#3b82f6'
+      };
+      fpState.rooms.push(room);
+      selectFpObject(newId, 'room');
+      renderFpCanvas();
+      updateFpAudit();
+    }
+
+    function addFpItem(category, name, w, l, color) {
+      let newId = 'fp_item_' + Date.now();
+      let item = {
+        id: newId,
+        category: category,
+        name: name,
+        x: Math.max(0, parseFloat(((fpState.width - w) / 2).toFixed(2))),
+        y: Math.max(0, parseFloat(((fpState.length - l) / 2).toFixed(2))),
+        width: w,
+        length: l,
+        rotation: 0,
+        color: color || '#38bdf8'
+      };
+      fpState.items.push(item);
+      selectFpObject(newId, 'item');
+      renderFpCanvas();
+      updateFpAudit();
+    }
+
+    function selectFpObject(id, type) {
+      fpState.selectedId = id;
+      fpState.selectedType = type;
+
+      let editor = document.getElementById('fpSelectedEditor');
+      if (!editor) return;
+
+      let obj = type === 'room' 
+        ? fpState.rooms.find(r => r.id === id)
+        : fpState.items.find(i => i.id === id);
+
+      if (!obj) {
+        editor.style.display = 'none';
+        return;
+      }
+
+      editor.style.display = 'block';
+      document.getElementById('fpEditName').value = obj.name || '';
+      document.getElementById('fpEditWidth').value = obj.width;
+      document.getElementById('fpEditLength').value = obj.length;
+      document.getElementById('fpEditX').value = obj.x;
+      document.getElementById('fpEditY').value = obj.y;
+      document.getElementById('fpEditColor').value = obj.color || '#3b82f6';
+      renderFpCanvas();
+    }
+
+    function updateFpSelectedFromInputs() {
+      if (!fpState.selectedId || !fpState.selectedType) return;
+      let obj = fpState.selectedType === 'room'
+        ? fpState.rooms.find(r => r.id === fpState.selectedId)
+        : fpState.items.find(i => i.id === fpState.selectedId);
+
+      if (!obj) return;
+
+      obj.name = document.getElementById('fpEditName').value || obj.name;
+      obj.width = Math.max(0.1, parseFloat(document.getElementById('fpEditWidth').value) || obj.width);
+      obj.length = Math.max(0.1, parseFloat(document.getElementById('fpEditLength').value) || obj.length);
+      obj.x = parseFloat(document.getElementById('fpEditX').value) || 0;
+      obj.y = parseFloat(document.getElementById('fpEditY').value) || 0;
+      obj.color = document.getElementById('fpEditColor').value || obj.color;
+
+      renderFpCanvas();
+      updateFpAudit();
+    }
+
+    function deleteFpSelected() {
+      if (!fpState.selectedId) return;
+      if (fpState.selectedType === 'room') {
+        fpState.rooms = fpState.rooms.filter(r => r.id !== fpState.selectedId);
+      } else {
+        fpState.items = fpState.items.filter(i => i.id !== fpState.selectedId);
+      }
+      fpState.selectedId = null;
+      fpState.selectedType = null;
+
+      let editor = document.getElementById('fpSelectedEditor');
+      if (editor) editor.style.display = 'none';
+
+      renderFpCanvas();
+      updateFpAudit();
+    }
+
+    function renderFpCanvas() {
+      let svg = document.getElementById('fpCanvasSVG');
+      let container = document.getElementById('fpCanvasContainer');
+      if (!svg || !container) return;
+
+      let cWidth = container.clientWidth || 800;
+      let cHeight = container.clientHeight || 600;
+
+      let padding = 50;
+      let scaleX = (cWidth - padding * 2) / fpState.width;
+      let scaleY = (cHeight - padding * 2) / fpState.length;
+      let scale = Math.min(scaleX, scaleY, 80);
+
+      let housePxW = fpState.width * scale;
+      let housePxL = fpState.length * scale;
+      let originX = (cWidth - housePxW) / 2;
+      let originY = (cHeight - housePxL) / 2;
+      let rightWallX = originX + housePxW;
+      let topWallY = originY;
+
+      let showBagua = document.getElementById('fpShowBaguaToggle')?.checked;
+
+      // Origin corner coordinates
+      let originPtX = rightWallX;
+      let originPtY = topWallY;
+      let originCornerText = "右上牆心";
+      if (state.originCorner === 'bottomRight') {
+        originPtX = rightWallX;
+        originPtY = topWallY + housePxL;
+        originCornerText = "右下牆心";
+      } else if (state.originCorner === 'topLeft') {
+        originPtX = originX;
+        originPtY = topWallY;
+        originCornerText = "左上牆心";
+      } else if (state.originCorner === 'bottomLeft') {
+        originPtX = originX;
+        originPtY = topWallY + housePxL;
+        originCornerText = "左下牆心";
+      }
+
+      let html = `
+        <defs>
+          <pattern id="fpGridPattern" width="${scale * 0.5}" height="${scale * 0.5}" patternUnits="userSpaceOnUse">
+            <path d="M ${scale * 0.5} 0 L 0 0 0 ${scale * 0.5}" fill="none" stroke="#27272a" stroke-width="0.75"/>
+          </pattern>
+        </defs>
+
+        <!-- Grid Background -->
+        <rect width="100%" height="100%" fill="#09090b"/>
+        <rect x="${originX}" y="${originY}" width="${housePxW}" height="${housePxL}" fill="url(#fpGridPattern)"/>
+
+        <!-- Outer House Wall -->
+        <rect x="${originX}" y="${originY}" width="${housePxW}" height="${housePxL}" 
+              fill="rgba(39, 39, 42, 0.4)" stroke="#38bdf8" stroke-width="2.5" rx="2"/>
+
+        <!-- Wall Direction Labels -->
+        <text x="${originX + housePxW / 2}" y="${originY - 14}" fill="#38bdf8" font-size="12" font-weight="600" text-anchor="middle">
+          ▲ 前牆 (面寬 W: ${fpState.width.toFixed(1)} m)
+        </text>
+        <text x="${originX + housePxW / 2}" y="${originY + housePxL + 18}" fill="#94a3b8" font-size="11" font-weight="500" text-anchor="middle">
+          ▼ 後牆 (靠山面)
+        </text>
+        <text x="${originX - 14}" y="${originY + housePxL / 2}" fill="#94a3b8" font-size="11" font-weight="500" text-anchor="middle" transform="rotate(-90, ${originX - 14}, ${originY + housePxL / 2})">
+          ◀ 左牆 (進深 L: ${fpState.length.toFixed(1)} m)
+        </text>
+        <text x="${rightWallX + 16}" y="${originY + housePxL / 2}" fill="#38bdf8" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(90, ${rightWallX + 16}, ${originY + housePxL / 2})">
+          ▶ 右牆 (放樣基準邊 X=0)
+        </text>
+
+        <!-- Origin Marker (0,0) -->
+        <circle cx="${originPtX}" cy="${originPtY}" r="6" fill="#f59e0b" stroke="#ffffff" stroke-width="1.8"/>
+        <text x="${originPtX + (originPtX === rightWallX ? -10 : 10)}" y="${originPtY + (originPtY === topWallY ? 16 : -8)}" 
+              fill="#f59e0b" font-size="11" font-weight="700" text-anchor="${originPtX === rightWallX ? 'end' : 'start'}">
+          📍 原點 (0,0) [${originCornerText}]
+        </text>
+      `;
+
+      // Taiji & Bagua Sector Overlay Lines
+      if (showBagua) {
+        let taijiX = originX + housePxW / 2;
+        let taijiY = originY + housePxL / 2;
+        let maxR = Math.max(housePxW, housePxL) * 0.75;
+
+        html += `
+          <!-- Taiji Center Point -->
+          <circle cx="${taijiX}" cy="${taijiY}" r="6" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5"/>
+          <text x="${taijiX + 10}" y="${taijiY + 4}" fill="#f59e0b" font-size="11" font-weight="600">☯️ 太極點</text>
+        `;
+
+        BAGUA.forEach(gua => {
+          let rad = (gua.center - 90) * Math.PI / 180;
+          let rx = taijiX + maxR * Math.cos(rad);
+          let ry = taijiY + maxR * Math.sin(rad);
+
+          html += `
+            <line x1="${taijiX}" y1="${taijiY}" x2="${rx}" y2="${ry}" stroke="rgba(245, 158, 11, 0.25)" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${taijiX + (maxR * 0.45) * Math.cos(rad)}" y="${taijiY + (maxR * 0.45) * Math.sin(rad)}" 
+                  fill="rgba(245, 158, 11, 0.65)" font-size="10" font-weight="600" text-anchor="middle">
+              ${gua.code}
+            </text>
+          `;
+        });
+      }
+
+      // Render Rooms (using Top-Right origin convention to match main stage)
+      fpState.rooms.forEach(room => {
+        let rx = rightWallX - (room.x + room.width) * scale;
+        let ry = topWallY + room.y * scale;
+        let rw = room.width * scale;
+        let rl = room.length * scale;
+        let isSelected = (fpState.selectedId === room.id && fpState.selectedType === 'room');
+
+        html += `
+          <g class="fp-room-group" data-id="${room.id}" data-type="room" style="cursor: pointer;">
+            <rect x="${rx}" y="${ry}" width="${rw}" height="${rl}" 
+                  fill="${room.color || '#3b82f6'}" fill-opacity="${isSelected ? '0.35' : '0.2'}" 
+                  stroke="${isSelected ? '#38bdf8' : (room.color || '#3b82f6')}" 
+                  stroke-width="${isSelected ? '2.5' : '1.5'}" 
+                  stroke-dasharray="${isSelected ? 'none' : '4,2'}" rx="3"/>
+            
+            <text x="${rx + rw / 2}" y="${ry + rl / 2 - 4}" fill="#f1f5f9" font-size="11" font-weight="600" text-anchor="middle" pointer-events="none">
+              ${room.name}
+            </text>
+            <text x="${rx + rw / 2}" y="${ry + rl / 2 + 10}" fill="#94a3b8" font-size="9" text-anchor="middle" pointer-events="none">
+              ${room.width.toFixed(1)}m × ${room.length.toFixed(1)}m
+            </text>
+        `;
+
+        if (isSelected) {
+          // Bottom-Left resize handle
+          html += `
+            <rect x="${rx - 5}" y="${ry + rl - 5}" width="10" height="10" fill="#38bdf8" stroke="#ffffff" stroke-width="1" class="fp-resize-handle" data-id="${room.id}" style="cursor: sw-resize;"/>
+          `;
+        }
+
+        html += `</g>`;
+      });
+
+      // Render Items with Professional 2D Architectural Floor Plan Symbols
+      fpState.items.forEach(item => {
+        let ix = rightWallX - (item.x + item.width) * scale;
+        let iy = topWallY + item.y * scale;
+        let iw = item.width * scale;
+        let il = item.length * scale;
+        let isSelected = (fpState.selectedId === item.id && fpState.selectedType === 'item');
+
+        html += `
+          <g class="fp-item-group" data-id="${item.id}" data-type="item" style="cursor: pointer;">
+            ${renderArchitecturalSymbol(item, ix, iy, iw, il, isSelected)}
+        `;
+
+        if (isSelected) {
+          html += `
+            <rect x="${ix - 5}" y="${iy + il - 5}" width="10" height="10" fill="#f59e0b" stroke="#ffffff" stroke-width="1" class="fp-resize-handle" data-id="${item.id}" style="cursor: sw-resize;"/>
+          `;
+        }
+
+        html += `</g>`;
+      });
+
+      svg.innerHTML = html;
+    }
+
+    // --- 📐 Professional 2D Architectural Blueprint Symbol Vector Renderer ---
+    function renderArchitecturalSymbol(item, ix, iy, iw, il, isSelected) {
+      let cat = item.category || 'generic';
+      let color = item.color || '#38bdf8';
+      let strokeW = isSelected ? 2.2 : 1.5;
+      let strokeColor = isSelected ? '#f59e0b' : color;
+      let fillOpacity = isSelected ? '0.45' : '0.22';
+
+      let svgContent = '';
+
+      if (cat === 'toilet') {
+        // 🚽 抽水馬桶圖例: 後水箱 (Rect) + 馬桶圈 (Oval bowl) + 內孔 (Inner hole)
+        let tankH = Math.min(il * 0.28, 14);
+        let bowlCy = iy + tankH + (il - tankH) * 0.48;
+        let bowlRx = iw * 0.38;
+        let bowlRy = (il - tankH) * 0.44;
+
+        svgContent = `
+          <g>
+            <!-- 馬桶水箱 -->
+            <rect x="${ix + iw * 0.15}" y="${iy + 1}" width="${iw * 0.7}" height="${tankH}" rx="2" 
+                  fill="${color}" fill-opacity="${fillOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+            <!-- 馬桶座圈 -->
+            <ellipse cx="${ix + iw / 2}" cy="${bowlCy}" rx="${bowlRx}" ry="${bowlRy}" 
+                     fill="${color}" fill-opacity="${fillOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+            <!-- 馬桶落水孔 -->
+            <ellipse cx="${ix + iw / 2}" cy="${bowlCy + 1}" rx="${bowlRx * 0.45}" ry="${bowlRy * 0.45}" 
+                     fill="none" stroke="${strokeColor}" stroke-width="1.2" stroke-dasharray="2,2"/>
+          </g>
+        `;
+      } else if (cat === 'bathtub') {
+        // 🛁 衛浴浴缸圖例: 浴缸外框 + 內圓角槽線 + 水龍頭與落水孔
+        let inset = Math.min(iw, il) * 0.14;
+        svgContent = `
+          <g>
+            <!-- 浴缸外框 -->
+            <rect x="${ix}" y="${iy}" width="${iw}" height="${il}" rx="5" 
+                  fill="${color}" fill-opacity="${fillOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+            <!-- 浴缸內槽 -->
+            <rect x="${ix + inset}" y="${iy + inset}" width="${iw - inset * 2}" height="${il - inset * 2}" rx="${(iw - inset*2)*0.4}" 
+                  fill="none" stroke="${strokeColor}" stroke-width="1.5"/>
+            <!-- 排水孔 -->
+            <circle cx="${ix + iw / 2}" cy="${iy + il - inset * 2}" r="${Math.min(iw, il)*0.08}" fill="${strokeColor}" opacity="0.8"/>
+            <!-- 龍頭與出水口 -->
+            <path d="M ${ix + iw/2 - 4} ${iy + inset*0.5} L ${ix + iw/2 + 4} ${iy + inset*0.5} M ${ix + iw/2} ${iy + inset*0.5} L ${ix + iw/2} ${iy + inset*1.5}" 
+                  stroke="${strokeColor}" stroke-width="1.5"/>
+          </g>
+        `;
+      } else if (cat === 'sink') {
+        // 🚰 洗手檯 / 水槽圖例: 檯面外框 + 洗手盆凹槽 + 水龍頭點
+        let insetX = iw * 0.12;
+        let insetY = il * 0.12;
+        svgContent = `
+          <g>
+            <!-- 檯面 -->
+            <rect x="${ix}" y="${iy}" width="${iw}" height="${il}" rx="3" 
+                  fill="${color}" fill-opacity="${fillOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+            <!-- 盆體邊框 -->
+            <rect x="${ix + insetX}" y="${iy + insetY}" width="${iw - insetX * 2}" height="${il - insetY * 2}" rx="${(iw - insetX*2)*0.35}" 
+                  fill="none" stroke="${strokeColor}" stroke-width="1.5"/>
+            <!-- 出水龍頭 -->
+            <circle cx="${ix + iw / 2}" cy="${iy + insetY * 1.5}" r="2.5" fill="${strokeColor}"/>
+            <line x1="${ix + iw / 2}" y1="${iy + insetY * 1.5}" x2="${ix + iw / 2}" y2="${iy + il * 0.45}" stroke="${strokeColor}" stroke-width="1.5"/>
+          </g>
+        `;
+      } else if (cat === 'stove') {
+        // 🍳 瓦斯爐/火爐圖例: 爐面檯面 + 爐火嘴圓環與十字交叉分火線
+        let isDual = iw >= il * 1.3;
+        svgContent = `
+          <g>
+            <rect x="${ix}" y="${iy}" width="${iw}" height="${il}" rx="3" 
+                  fill="${color}" fill-opacity="${fillOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+        `;
+
+        if (isDual) {
+          let r = Math.min(iw * 0.22, il * 0.35);
+          let cy = iy + il / 2;
+          let cx1 = ix + iw * 0.28;
+          let cx2 = ix + iw * 0.72;
+
+          svgContent += `
+            <!-- 左爐火口 -->
+            <circle cx="${cx1}" cy="${cy}" r="${r}" fill="none" stroke="${strokeColor}" stroke-width="1.5"/>
+            <circle cx="${cx1}" cy="${cy}" r="${r * 0.4}" fill="${strokeColor}" opacity="0.9"/>
+            <line x1="${cx1 - r*1.1}" y1="${cy}" x2="${cx1 + r*1.1}" y2="${cy}" stroke="${strokeColor}" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="${cx1}" y1="${cy - r*1.1}" x2="${cx1}" y2="${cy + r*1.1}" stroke="${strokeColor}" stroke-width="1" stroke-dasharray="2,2"/>
+
+            <!-- 右爐火口 -->
+            <circle cx="${cx2}" cy="${cy}" r="${r}" fill="none" stroke="${strokeColor}" stroke-width="1.5"/>
+            <circle cx="${cx2}" cy="${cy}" r="${r * 0.4}" fill="${strokeColor}" opacity="0.9"/>
+            <line x1="${cx2 - r*1.1}" y1="${cy}" x2="${cx2 + r*1.1}" y2="${cy}" stroke="${strokeColor}" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="${cx2}" y1="${cy - r*1.1}" x2="${cx2}" y2="${cy + r*1.1}" stroke="${strokeColor}" stroke-width="1" stroke-dasharray="2,2"/>
+          `;
+        } else {
+          let r = Math.min(iw, il) * 0.32;
+          let cx0 = ix + iw / 2;
+          let cy0 = iy + il / 2;
+          svgContent += `
+            <circle cx="${cx0}" cy="${cy0}" r="${r}" fill="none" stroke="${strokeColor}" stroke-width="1.5"/>
+            <circle cx="${cx0}" cy="${cy0}" r="${r * 0.45}" fill="${strokeColor}" opacity="0.9"/>
+            <line x1="${cx0 - r*1.1}" y1="${cy0}" x2="${cx0 + r*1.1}" y2="${cy0}" stroke="${strokeColor}" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="${cx0}" y1="${cy0 - r*1.1}" x2="${cx0}" y2="${cy0 + r*1.1}" stroke="${strokeColor}" stroke-width="1" stroke-dasharray="2,2"/>
+          `;
+        }
+        svgContent += `</g>`;
+      } else if (cat === 'bed') {
+        // 🛏️ 安睡床位圖例: 床頭靠板 (Headboard) + 左右雙枕頭 + 被單摺線
+        let headH = Math.min(il * 0.1, 8);
+        let pillowW = iw * 0.36;
+        let pillowH = il * 0.22;
+        let pillowY = iy + headH + 4;
+
+        svgContent = `
+          <g>
+            <!-- 床墊本體 -->
+            <rect x="${ix}" y="${iy + headH}" width="${iw}" height="${il - headH}" rx="4" 
+                  fill="${color}" fill-opacity="${fillOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+            <!-- 床頭靠板 -->
+            <rect x="${ix}" y="${iy}" width="${iw}" height="${headH}" rx="2" 
+                  fill="${strokeColor}" opacity="0.8"/>
+            <!-- 左枕頭 -->
+            <rect x="${ix + iw * 0.1}" y="${pillowY}" width="${pillowW}" height="${pillowH}" rx="3" 
+                  fill="rgba(255,255,255,0.25)" stroke="${strokeColor}" stroke-width="1.2"/>
+            <!-- 右枕頭 -->
+            <rect x="${ix + iw * 0.54}" y="${pillowY}" width="${pillowW}" height="${pillowH}" rx="3" 
+                  fill="rgba(255,255,255,0.25)" stroke="${strokeColor}" stroke-width="1.2"/>
+            <!-- 被套弧線 -->
+            <path d="M ${ix} ${iy + il * 0.48} Q ${ix + iw/2} ${iy + il * 0.52} ${ix + iw} ${iy + il * 0.48}" 
+                  fill="none" stroke="${strokeColor}" stroke-width="1.5"/>
+          </g>
+        `;
+      } else if (cat === 'desk') {
+        // 💼 文昌/辦公桌圖例: 桌面 + 筆電/圖稿框 + 辦公椅靠背
+        let chairW = iw * 0.45;
+        let chairH = il * 0.32;
+        svgContent = `
+          <g>
+            <!-- 桌面 -->
+            <rect x="${ix}" y="${iy}" width="${iw}" height="${il * 0.7}" rx="3" 
+                  fill="${color}" fill-opacity="${fillOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+            <!-- 筆電/圖紙 -->
+            <rect x="${ix + iw*0.3}" y="${iy + il*0.12}" width="${iw*0.4}" height="${il*0.35}" rx="2" 
+                  fill="none" stroke="${strokeColor}" stroke-width="1"/>
+            <!-- 辦公椅靠背弧線 -->
+            <path d="M ${ix + (iw - chairW)/2} ${iy + il * 0.75} A ${chairW/2} ${chairH} 0 0 1 ${ix + (iw + chairW)/2} ${iy + il * 0.75} Z" 
+                  fill="${color}" fill-opacity="${fillOpacity}" stroke="${strokeColor}" stroke-width="1.5"/>
+          </g>
+        `;
+      } else if (cat === 'door') {
+        // 🚪 氣口門圖例: 門框樞紐點 + 門扇 + 90度開啟虛線弧
+        svgContent = `
+          <g>
+            <circle cx="${ix}" cy="${iy}" r="3" fill="${strokeColor}"/>
+            <line x1="${ix}" y1="${iy}" x2="${ix}" y2="${iy + iw}" stroke="${strokeColor}" stroke-width="2.5"/>
+            <path d="M ${ix} ${iy + iw} A ${iw} ${iw} 0 0 0 ${ix + iw} ${iy}" 
+                  fill="none" stroke="${strokeColor}" stroke-width="1.5" stroke-dasharray="3,3"/>
+          </g>
+        `;
+      } else if (cat === 'window') {
+        // 🪟 採光窗圖例: 雙軌平行玻璃窗框
+        svgContent = `
+          <g>
+            <rect x="${ix}" y="${iy}" width="${iw}" height="${il}" fill="${color}" fill-opacity="0.3" stroke="${strokeColor}" stroke-width="1.5"/>
+            <line x1="${ix}" y1="${iy + il*0.35}" x2="${ix + iw}" y2="${iy + il*0.35}" stroke="${strokeColor}" stroke-width="1"/>
+            <line x1="${ix}" y1="${iy + il*0.65}" x2="${ix + iw}" y2="${iy + il*0.65}" stroke="${strokeColor}" stroke-width="1"/>
+          </g>
+        `;
+      } else {
+        svgContent = `
+          <rect x="${ix}" y="${iy}" width="${iw}" height="${il}" rx="2" 
+                fill="${color}" fill-opacity="${fillOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+        `;
+      }
+
+      // Symbol Name Label below
+      svgContent += `
+        <text x="${ix + iw / 2}" y="${iy + il + 11}" fill="#e4e4e7" font-size="9.5" font-weight="600" text-anchor="middle" pointer-events="none">
+          ${item.name}
+        </text>
+      `;
+
+      return svgContent;
+    }
+
+    function setupFpCanvasDrag() {
+      let svg = document.getElementById('fpCanvasSVG');
+      if (!svg || svg.getAttribute('data-drag-setup')) return;
+      svg.setAttribute('data-drag-setup', 'true');
+
+      svg.addEventListener('mousedown', (e) => {
+        let handle = e.target.closest('.fp-resize-handle');
+        let targetGroup = e.target.closest('[data-id]');
+
+        if (handle) {
+          let id = handle.getAttribute('data-id');
+          let type = fpState.selectedType || 'room';
+          let obj = type === 'room' ? fpState.rooms.find(r => r.id === id) : fpState.items.find(i => i.id === id);
+          if (!obj) return;
+
+          fpDragState.isResizing = true;
+          fpDragState.isDragging = false;
+          fpDragState.targetId = id;
+          fpDragState.targetType = type;
+          fpDragState.startX = e.clientX;
+          fpDragState.startY = e.clientY;
+          fpDragState.initObjW = obj.width;
+          fpDragState.initObjL = obj.length;
+          return;
+        }
+
+        if (targetGroup) {
+          let id = targetGroup.getAttribute('data-id');
+          let type = targetGroup.getAttribute('data-type');
+          selectFpObject(id, type);
+
+          let obj = type === 'room' ? fpState.rooms.find(r => r.id === id) : fpState.items.find(i => i.id === id);
+          if (!obj) return;
+
+          fpDragState.isDragging = true;
+          fpDragState.isResizing = false;
+          fpDragState.targetId = id;
+          fpDragState.targetType = type;
+          fpDragState.startX = e.clientX;
+          fpDragState.startY = e.clientY;
+          fpDragState.initObjX = obj.x;
+          fpDragState.initObjY = obj.y;
+        } else {
+          fpState.selectedId = null;
+          fpState.selectedType = null;
+          let editor = document.getElementById('fpSelectedEditor');
+          if (editor) editor.style.display = 'none';
+          renderFpCanvas();
+        }
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!fpDragState.isDragging && !fpDragState.isResizing) return;
+        let svg = document.getElementById('fpCanvasSVG');
+        let container = document.getElementById('fpCanvasContainer');
+        if (!svg || !container) return;
+
+        let cWidth = container.clientWidth || 800;
+        let cHeight = container.clientHeight || 600;
+        let padding = 50;
+        let scaleX = (cWidth - padding * 2) / fpState.width;
+        let scaleY = (cHeight - padding * 2) / fpState.length;
+        let scale = Math.min(scaleX, scaleY, 80);
+
+        let deltaMetersX = (e.clientX - fpDragState.startX) / scale;
+        let deltaMetersY = (e.clientY - fpDragState.startY) / scale;
+
+        let obj = fpDragState.targetType === 'room'
+          ? fpState.rooms.find(r => r.id === fpDragState.targetId)
+          : fpState.items.find(i => i.id === fpDragState.targetId);
+
+        if (!obj) return;
+
+        if (fpDragState.isDragging) {
+          // Moving mouse RIGHT decreases X (getting closer to Right wall)
+          let newX = fpDragState.initObjX - deltaMetersX;
+          // Moving mouse DOWN increases Y (moving down from Top wall)
+          let newY = fpDragState.initObjY + deltaMetersY;
+
+          if (fpState.gridSnap) {
+            newX = Math.round(newX / fpState.gridSize) * fpState.gridSize;
+            newY = Math.round(newY / fpState.gridSize) * fpState.gridSize;
+          }
+
+          obj.x = Math.max(0, Math.min(fpState.width - obj.width, parseFloat(newX.toFixed(2))));
+          obj.y = Math.max(0, Math.min(fpState.length - obj.length, parseFloat(newY.toFixed(2))));
+        } else if (fpDragState.isResizing) {
+          // Bottom-Left resize handle: Dragging LEFT (negative deltaX) increases width
+          let newW = fpDragState.initObjW - deltaMetersX;
+          let newL = fpDragState.initObjL + deltaMetersY;
+
+          if (fpState.gridSnap) {
+            newW = Math.round(newW / fpState.gridSize) * fpState.gridSize;
+            newL = Math.round(newL / fpState.gridSize) * fpState.gridSize;
+          }
+
+          obj.width = Math.max(0.2, Math.min(fpState.width - obj.x, parseFloat(newW.toFixed(2))));
+          obj.length = Math.max(0.2, Math.min(fpState.length - obj.y, parseFloat(newL.toFixed(2))));
+        }
+
+        selectFpObject(obj.id, fpDragState.targetType);
+        renderFpCanvas();
+        updateFpAudit();
+      });
+
+      window.addEventListener('mouseup', () => {
+        fpDragState.isDragging = false;
+        fpDragState.isResizing = false;
+        fpDragState.targetId = null;
+      });
+    }
+
+    function updateFpAudit() {
+      let totalM2El = document.getElementById('fpTotalM2');
+      let totalPingEl = document.getElementById('fpTotalPing');
+      let roomCountEl = document.getElementById('fpRoomCount');
+      let itemCountEl = document.getElementById('fpItemCount');
+      let container = document.getElementById('fpAuditContainer');
+
+      let areaM2 = fpState.width * fpState.length;
+      let ping = areaM2 * 0.3025;
+
+      if (totalM2El) totalM2El.innerText = `${areaM2.toFixed(1)} m²`;
+      if (totalPingEl) totalPingEl.innerText = `${ping.toFixed(1)} 坪`;
+      if (roomCountEl) roomCountEl.innerText = `${fpState.rooms.length} 間`;
+      if (itemCountEl) itemCountEl.innerText = `${fpState.items.length} 個`;
+
+      if (!container) return;
+
+      let facingAngle = state.facingAngle || 307.0;
+      let sitMnt = getMountain(facingAngle + 180);
+      let sitGuaCode = sitMnt ? sitMnt.gua : '巽';
+
+      let html = '';
+
+      // Audit Rooms using main stage calculation engine
+      fpState.rooms.forEach(room => {
+        let { compassAngle, bagua, star } = getRoomBaguaAndStar(room, sitGuaCode);
+        let isGood = star.type && star.type.includes("吉");
+
+        html += `
+          <div class="fp-audit-card">
+            <div class="fp-audit-header">
+              <span>${room.name}</span>
+              <span class="${isGood ? 'fp-badge-good' : 'fp-badge-bad'}">${bagua.code}宮 (${star.star})</span>
+            </div>
+            <div style="color: #94a3b8; font-size: 0.68rem;">
+              📍 羅盤立極對應：${bagua.direction} (${compassAngle.toFixed(1)}°)
+              <br/>💡 理氣指引：${isGood ? '宜設寢室、主臥、客廳聚氣發財' : '宜設衛浴、排污、儲藏壓煞化權'}
+            </div>
+          </div>
+        `;
+      });
+
+      // Audit Items
+      fpState.items.forEach(item => {
+        let { compassAngle, bagua, star } = getRoomBaguaAndStar(item, sitGuaCode);
+        let isGood = star.type && star.type.includes("吉");
+
+        html += `
+          <div class="fp-audit-card" style="border-left: 3px solid ${item.color || '#38bdf8'};">
+            <div class="fp-audit-header">
+              <span>${item.name}</span>
+              <span class="${isGood ? 'fp-badge-good' : 'fp-badge-bad'}">${bagua.code}宮 (${star.star})</span>
+            </div>
+            <div style="color: #94a3b8; font-size: 0.68rem;">
+              📍 羅盤立極對應：${bagua.direction} (${compassAngle.toFixed(1)}°)
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html || `<div style="color: #94a3b8; font-size: 0.72rem; text-anchor: center;">尚無放樣設施，請由左側面板新增。</div>`;
+    }
+
+    function getGuaFromAngle(deg) {
+      deg = (deg % 360 + 360) % 360;
+      for (let g of BAGUA) {
+        if (g.min > g.max) {
+          if (deg >= g.min || deg < g.max) return g;
+        } else {
+          if (deg >= g.min && deg < g.max) return g;
+        }
+      }
+      return BAGUA[0];
+    }
+
+    function applyFloorPlannerToCompass() {
+      state.width = fpState.width;
+      state.length = fpState.length;
+      state.customRooms = JSON.parse(JSON.stringify(fpState.rooms));
+
+      let inputW = document.getElementById('houseWidth');
+      let inputL = document.getElementById('houseLength');
+      if (inputW) inputW.value = state.width;
+      if (inputL) inputL.value = state.length;
+
+      renderCustomRoomsUI();
+      updateCalculations();
+      closeFloorPlannerModal();
+
+      alert('✅ 已成功將格局規劃圖一鍵套用至陽宅羅盤與動態平面圖！');
+    }
+
+    function loadFloorPlannerPreset(presetKey) {
+      if (!presetKey) return;
+
+      if (presetKey === 'clear') {
+        fpState.rooms = [];
+        fpState.items = [];
+      } else if (presetKey === 'compact2b') {
+        fpState.width = 9.0;
+        fpState.length = 6.0;
+        fpState.rooms = [
+          { id: 'fp_r1', name: '🛋️ 客廳', x: 0, y: 0, width: 4.5, length: 3.5, color: '#3b82f6' },
+          { id: 'fp_r2', name: '🛏️ 主臥', x: 4.5, y: 0, width: 4.5, length: 3.5, color: '#a855f7' },
+          { id: 'fp_r3', name: '🛏️ 次臥', x: 4.5, y: 3.5, width: 4.5, length: 2.5, color: '#ec4899' },
+          { id: 'fp_r4', name: '🍳 廚房', x: 0, y: 3.5, width: 2.5, length: 2.5, color: '#f97316' },
+          { id: 'fp_r5', name: '🛁 衛浴', x: 2.5, y: 3.5, width: 2.0, length: 2.5, color: '#0284c7' }
+        ];
+        fpState.items = [
+          { id: 'fp_i1', category: 'bed', name: '🛏️ 主臥床頭朝北', x: 5.5, y: 0.5, width: 1.8, length: 2.0, color: '#a855f7' },
+          { id: 'fp_i2', category: 'stove', name: '🍳 廚房安灶', x: 0.2, y: 4.0, width: 1.2, length: 0.6, color: '#f97316' }
+        ];
+      } else if (presetKey === 'luxury3b') {
+        fpState.width = 12.5;
+        fpState.length = 8.0;
+        fpState.rooms = [
+          { id: 'fp_r1', name: '🛋️ 尊榮客廳', x: 0, y: 0, width: 6.0, length: 4.5, color: '#3b82f6' },
+          { id: 'fp_r2', name: '🛏️ 主臥套房', x: 6.0, y: 0, width: 4.5, length: 4.5, color: '#a855f7' },
+          { id: 'fp_r3', name: '🛁 主臥衛浴', x: 10.5, y: 0, width: 2.0, length: 2.5, color: '#0284c7' },
+          { id: 'fp_r4', name: '🛏️ 次臥一', x: 6.0, y: 4.5, width: 3.5, length: 3.5, color: '#ec4899' },
+          { id: 'fp_r5', name: '🛏️ 次臥二', x: 9.5, y: 4.5, width: 3.0, length: 3.5, color: '#a855f7' },
+          { id: 'fp_r6', name: '🍳 獨立廚房', x: 0, y: 4.5, width: 3.5, length: 3.5, color: '#f97316' },
+          { id: 'fp_r7', name: '🛁 客用衛浴', x: 3.5, y: 4.5, width: 2.5, length: 3.5, color: '#0284c7' }
+        ];
+        fpState.items = [
+          { id: 'fp_i1', category: 'bed', name: '🛏️ 主臥床位', x: 7.0, y: 0.5, width: 2.0, length: 2.0, color: '#a855f7' },
+          { id: 'fp_i2', category: 'stove', name: '🍳 雙口灶位', x: 0.5, y: 5.5, width: 1.4, length: 0.6, color: '#f97316' },
+          { id: 'fp_i3', category: 'desk', name: '💼 董事長辦公桌', x: 1.0, y: 1.0, width: 1.6, length: 0.8, color: '#10b981' }
+        ];
+      } else {
+        // default 3-bed layout
+        fpState.width = 11.0;
+        fpState.length = 6.3;
+        fpState.rooms = [
+          { id: 'fp_kitchen', name: '🍳 廚房 (灶位)', x: 6.45, y: 0.35, width: 4.20, length: 0.60, color: '#f97316' },
+          { id: 'fp_bath', name: '🛁 衛浴 (廁所)', x: 0.02, y: 3.30, width: 2.10, length: 1.80, color: '#0284c7' },
+          { id: 'fp_closet', name: '📦 衣櫃空間', x: 0.03, y: 5.10, width: 2.10, length: 0.90, color: '#10b981' },
+          { id: 'fp_bedroom', name: '🛏️ 主臥室', x: 0.00, y: 0.225, width: 2.40, length: 2.75, color: '#a855f7' },
+          { id: 'fp_living', name: '🛋️ 客廳大廳', x: 2.40, y: 1.715, width: 3.80, length: 3.20, color: '#3b82f6' }
+        ];
+        fpState.items = [
+          { id: 'fp_bed1', category: 'bed', name: '🛏️ 主臥安睡床位', x: 0.3, y: 0.4, width: 1.8, length: 2.0, rotation: 0, color: '#a855f7' },
+          { id: 'fp_stove1', category: 'stove', name: '🍳 壓煞灶位', x: 7.2, y: 0.4, width: 1.2, length: 0.6, rotation: 0, color: '#f97316' },
+          { id: 'fp_desk1', category: 'desk', name: '💼 文昌書桌', x: 3.0, y: 2.0, width: 1.4, length: 0.7, rotation: 0, color: '#10b981' }
+        ];
+      }
+
+      let inputW = document.getElementById('fpInputWidth');
+      let inputL = document.getElementById('fpInputLength');
+      if (inputW) inputW.value = fpState.width;
+      if (inputL) inputL.value = fpState.length;
+
+      renderFpCanvas();
+      updateFpAudit();
+    }
+
+    function exportFloorPlannerJson() {
+      let defaultFileName = `floorplanner_design_${new Date().toISOString().slice(0, 10)}.json`;
+      let exportObj = {
+        presetName: '陽宅格局規劃方案',
+        savedAt: new Date().toISOString(),
+        width: fpState.width,
+        length: fpState.length,
+        rooms: fpState.rooms,
+        items: fpState.items
+      };
+      let jsonStr = JSON.stringify(exportObj, null, 2);
+
+      let blob = new Blob([jsonStr], { type: 'application/json' });
+      let url = URL.createObjectURL(blob);
+      let a = document.createElement('a');
+      a.href = url;
+      a.download = defaultFileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function triggerImportFPJson() {
+      let inputEl = document.getElementById('inputImportFPJson');
+      if (inputEl) {
+        inputEl.value = '';
+        inputEl.click();
+      }
+    }
+
+    function importFloorPlannerJson(event) {
+      let file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          let data = JSON.parse(e.target.result);
+          if (!data || (!Array.isArray(data.rooms) && !Array.isArray(data.customRooms))) {
+            alert('❌ 載入失敗：JSON 格式不符。');
+            return;
+          }
+
+          if (data.width) fpState.width = data.width;
+          if (data.length) fpState.length = data.length;
+
+          if (Array.isArray(data.rooms)) {
+            fpState.rooms = JSON.parse(JSON.stringify(data.rooms));
+          } else if (Array.isArray(data.customRooms)) {
+            fpState.rooms = JSON.parse(JSON.stringify(data.customRooms));
+          }
+
+          if (Array.isArray(data.items)) {
+            fpState.items = JSON.parse(JSON.stringify(data.items));
+          }
+
+          let inputW = document.getElementById('fpInputWidth');
+          let inputL = document.getElementById('fpInputLength');
+          if (inputW) inputW.value = fpState.width;
+          if (inputL) inputL.value = fpState.length;
+
+          renderFpCanvas();
+          updateFpAudit();
+          alert(`📂 已成功從「${file.name}」載入格局規劃！`);
         } catch (err) {
           alert('❌ 讀取 JSON 檔案時發生錯誤：' + err.message);
         }
