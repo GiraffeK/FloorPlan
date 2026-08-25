@@ -4716,6 +4716,9 @@
         fpState.rooms = JSON.parse(JSON.stringify(state.customRooms));
       }
 
+      // Bi-directional Door Sync from Main Stage to Floor Planner
+      syncDoorFromMainStageToFP();
+
       modal.style.display = 'flex';
       setupFpCanvasDrag();
       renderFpCanvas();
@@ -5374,10 +5377,124 @@
       return BAGUA[0];
     }
 
+    function syncDoorFromMainStageToFP() {
+      let doorW = state.doorWidth || 1.2;
+      let pct = state.doorPosPct !== undefined ? state.doorPosPct : 73;
+      let wall = state.doorWall || 'front';
+
+      let itemX = 0, itemY = 0, itemWidth = doorW, itemLength = 0.25;
+
+      if (wall === 'front') {
+        let centerXFromLeft = fpState.width * (pct / 100);
+        let centerXFromRight = fpState.width - centerXFromLeft;
+        itemWidth = doorW;
+        itemLength = 0.25;
+        itemX = Math.max(0, Math.min(fpState.width - itemWidth, centerXFromRight - itemWidth / 2));
+        itemY = 0;
+      } else if (wall === 'right') {
+        let centerYFromTop = fpState.length * (pct / 100);
+        itemWidth = 0.25;
+        itemLength = doorW;
+        itemX = 0;
+        itemY = Math.max(0, Math.min(fpState.length - itemLength, centerYFromTop - itemLength / 2));
+      } else if (wall === 'back') {
+        let centerXFromLeft = fpState.width * (pct / 100);
+        let centerXFromRight = fpState.width - centerXFromLeft;
+        itemWidth = doorW;
+        itemLength = 0.25;
+        itemX = Math.max(0, Math.min(fpState.width - itemWidth, centerXFromRight - itemWidth / 2));
+        itemY = Math.max(0, fpState.length - itemLength);
+      } else if (wall === 'left') {
+        let centerYFromTop = fpState.length * (1 - pct / 100);
+        itemWidth = 0.25;
+        itemLength = doorW;
+        itemX = Math.max(0, fpState.width - itemWidth);
+        itemY = Math.max(0, Math.min(fpState.length - itemLength, centerYFromTop - itemLength / 2));
+      }
+
+      let doorItem = fpState.items.find(i => i.category === 'door' || (i.name && i.name.includes('門')));
+      if (doorItem) {
+        doorItem.x = parseFloat(itemX.toFixed(2));
+        doorItem.y = parseFloat(itemY.toFixed(2));
+        doorItem.width = parseFloat(itemWidth.toFixed(2));
+        doorItem.length = parseFloat(itemLength.toFixed(2));
+      } else {
+        fpState.items.push({
+          id: 'fp_door_main',
+          category: 'door',
+          name: '🚪 氣口大門',
+          x: parseFloat(itemX.toFixed(2)),
+          y: parseFloat(itemY.toFixed(2)),
+          width: parseFloat(itemWidth.toFixed(2)),
+          length: parseFloat(itemLength.toFixed(2)),
+          color: '#f59e0b'
+        });
+      }
+    }
+
+    function syncDoorFromFPToMainStage() {
+      let doorItem = fpState.items.find(i => i.category === 'door' || (i.name && i.name.includes('門')));
+      if (!doorItem) return;
+
+      let W = fpState.width;
+      let L = fpState.length;
+
+      let cx = doorItem.x + doorItem.width / 2;
+      let cy = doorItem.y + doorItem.length / 2;
+
+      let distTop = cy;
+      let distRight = cx;
+      let distBottom = L - cy;
+      let distLeft = W - cx;
+
+      let minDist = Math.min(distTop, distRight, distBottom, distLeft);
+
+      let wall = 'front';
+      let posPct = 50;
+      let doorW = Math.max(doorItem.width, doorItem.length);
+
+      if (minDist === distTop) {
+        wall = 'front';
+        let centerXFromLeft = W - cx;
+        posPct = (centerXFromLeft / W) * 100;
+      } else if (minDist === distRight) {
+        wall = 'right';
+        posPct = (cy / L) * 100;
+      } else if (minDist === distBottom) {
+        wall = 'back';
+        let centerXFromLeft = W - cx;
+        posPct = (centerXFromLeft / W) * 100;
+      } else if (minDist === distLeft) {
+        wall = 'left';
+        posPct = (1 - cy / L) * 100;
+      }
+
+      posPct = Math.max(0, Math.min(100, Math.round(posPct)));
+
+      state.doorWall = wall;
+      state.doorPosPct = posPct;
+      state.doorWidth = parseFloat(doorW.toFixed(2));
+
+      let doorWallEl = document.getElementById('doorWall');
+      let doorPosEl = document.getElementById('doorPos');
+      let doorWidthEl = document.getElementById('doorWidth');
+      let lblDoorPosEl = document.getElementById('lblDoorPos');
+      let lblDoorWidthEl = document.getElementById('lblDoorWidth');
+
+      if (doorWallEl) doorWallEl.value = wall;
+      if (doorPosEl) doorPosEl.value = posPct;
+      if (doorWidthEl) doorWidthEl.value = state.doorWidth;
+      if (lblDoorPosEl) lblDoorPosEl.innerText = posPct + "%";
+      if (lblDoorWidthEl) lblDoorWidthEl.innerText = state.doorWidth.toFixed(2) + " m";
+    }
+
     function applyFloorPlannerToCompass() {
       state.width = fpState.width;
       state.length = fpState.length;
       state.customRooms = JSON.parse(JSON.stringify(fpState.rooms));
+
+      // Bi-directional Door Sync from Floor Planner to Main Stage
+      syncDoorFromFPToMainStage();
 
       let inputW = document.getElementById('houseWidth');
       let inputL = document.getElementById('houseLength');
@@ -5388,7 +5505,7 @@
       updateCalculations();
       closeFloorPlannerModal();
 
-      alert('✅ 已成功將格局規劃圖一鍵套用至陽宅羅盤與動態平面圖！');
+      alert('✅ 已成功將格局規劃圖與大門氣口一鍵套用至陽宅羅盤與動態平面圖！');
     }
 
     function loadFloorPlannerPreset(presetKey) {
