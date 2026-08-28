@@ -1892,7 +1892,7 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem;">
                   <div>
                     <label style="font-size: 0.62rem; color: #38bdf8; font-weight: 600;">向左 X (m):</label>
-                    <input type="number" id="fpEditX" step="0.01" min="0" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.12rem 0.25rem; font-size: 0.72rem; font-weight: 700;">
+                    <input type="number" id="fpEditX" step="0.01" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.12rem 0.25rem; font-size: 0.72rem; font-weight: 700;">
                     <div style="display: flex; gap: 0.1rem; margin-top: 0.15rem;">
                       <button type="button" onclick="nudgeFpSelected('x', 0.05)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">+5c</button>
                       <button type="button" onclick="nudgeFpSelected('x', 0.01)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">+1c</button>
@@ -1903,7 +1903,7 @@
 
                   <div>
                     <label style="font-size: 0.62rem; color: #38bdf8; font-weight: 600;">向下 Y (m):</label>
-                    <input type="number" id="fpEditY" step="0.01" min="0" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.12rem 0.25rem; font-size: 0.72rem; font-weight: 700;">
+                    <input type="number" id="fpEditY" step="0.01" oninput="updateFpSelectedFromInputs()" style="width: 100%; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.25rem; padding: 0.12rem 0.25rem; font-size: 0.72rem; font-weight: 700;">
                     <div style="display: flex; gap: 0.1rem; margin-top: 0.15rem;">
                       <button type="button" onclick="nudgeFpSelected('y', -0.05)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">-5c</button>
                       <button type="button" onclick="nudgeFpSelected('y', -0.01)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">-1c</button>
@@ -1911,6 +1911,14 @@
                       <button type="button" onclick="nudgeFpSelected('y', 0.05)" style="flex: 1; background: #18181b; color: #38bdf8; border: 1px solid #3f3f46; border-radius: 0.2rem; font-size: 0.58rem; padding: 0.05rem 0;">+5c</button>
                     </div>
                   </div>
+                </div>
+
+                <!-- Outdoor Free Mode Mode Toggle Checkbox -->
+                <div style="display: flex; align-items: center; justify-content: space-between; background: #18181b; padding: 0.2rem 0.35rem; border-radius: 0.25rem; border: 1px solid #3f3f46;">
+                  <label style="display: flex; align-items: center; gap: 0.25rem; cursor: pointer; font-size: 0.65rem; color: #f59e0b; font-weight: 600;">
+                    <input type="checkbox" id="fpEditIsOutdoor" onchange="updateFpSelectedFromInputs()">
+                    <span>🏞️ 屋外自由模式 (不限牆內邊界)</span>
+                  </label>
                 </div>
 
                 <!-- Size Width & Length Row -->
@@ -1972,6 +1980,21 @@
               <button class="fp-chip-btn" onclick="addFpItem('desk', '💼 文昌辦公桌', 1.4, 0.7, '#10b981')">💼 文昌桌</button>
               <button class="fp-chip-btn" onclick="addFpItem('door', '🚪 氣口門路 (開門弧)', 1.0, 1.0, '#f59e0b')">🚪 氣口門</button>
               <button class="fp-chip-btn" onclick="addFpItem('window', '🪟 採光窗框', 1.2, 0.15, '#38bdf8')">🪟 採光窗</button>
+            </div>
+          </div>
+
+          <!-- Add Outdoor & Landscape Palette -->
+          <div style="margin-top: 0.4rem;">
+            <div class="fp-section-title">
+              <span>🏞️ 屋外與景觀水路設施</span>
+              <span style="font-size: 0.65rem; color: #94a3b8;">自由放樣</span>
+            </div>
+            <div class="fp-palette-grid">
+              <button class="fp-chip-btn" onclick="addFpItem('pool', '⛲ 景觀水池', 2.5, 1.8, '#0284c7')">⛲ 景觀水池</button>
+              <button class="fp-chip-btn" onclick="addFpItem('drain', '🌊 屋外水溝', 4.0, 0.4, '#06b6d4')">🌊 屋外水溝</button>
+              <button class="fp-chip-btn" onclick="addFpItem('garden', '🌳 庭院綠化', 2.0, 2.0, '#10b981')">🌳 庭院綠化</button>
+              <button class="fp-chip-btn" onclick="addFpItem('garage', '🚗 屋外車庫', 3.5, 5.0, '#64748b')">🚗 屋外車庫</button>
+              <button class="fp-chip-btn" onclick="addFpItem('outdoor', '🏞️ 自由屋外設施', 1.5, 1.5, '#a855f7')">🏞️ 自由屋外</button>
             </div>
           </div>
         </div>
@@ -4808,16 +4831,29 @@
       fpState.gridSnap = !!checked;
     }
 
+    function isItemUnconstrained(obj) {
+      if (!obj) return false;
+      if (obj.isOutdoor) return true;
+      let cat = obj.category || '';
+      let name = obj.name || '';
+      let unconstrainedCats = ['balcony', 'window', 'door', 'pool', 'drain', 'garden', 'garage', 'outdoor'];
+      if (unconstrainedCats.includes(cat)) return true;
+      if (name.includes('陽台') || name.includes('窗') || name.includes('門') || name.includes('水池') || name.includes('水溝') || name.includes('車庫') || name.includes('庭院')) return true;
+      return false;
+    }
+
     function addFpRoom(name, w, l, color) {
       let newId = 'fp_room_' + Date.now();
+      let isOutdoor = name.includes('陽台');
       let room = {
         id: newId,
         name: name,
-        x: Math.max(0, parseFloat(((fpState.width - w) / 2).toFixed(2))),
-        y: Math.max(0, parseFloat(((fpState.length - l) / 2).toFixed(2))),
+        x: parseFloat(((fpState.width - w) / 2).toFixed(2)),
+        y: parseFloat(((fpState.length - l) / 2).toFixed(2)),
         width: w,
         length: l,
-        color: color || '#3b82f6'
+        color: color || '#3b82f6',
+        isOutdoor: isOutdoor
       };
       fpState.rooms.push(room);
       selectFpObject(newId, 'room');
@@ -4827,16 +4863,19 @@
 
     function addFpItem(category, name, w, l, color) {
       let newId = 'fp_item_' + Date.now();
+      let outdoorCats = ['pool', 'drain', 'garden', 'garage', 'outdoor', 'balcony', 'window', 'door'];
+      let isOutdoor = outdoorCats.includes(category) || name.includes('陽台') || name.includes('窗') || name.includes('門');
       let item = {
         id: newId,
         category: category,
         name: name,
-        x: Math.max(0, parseFloat(((fpState.width - w) / 2).toFixed(2))),
-        y: Math.max(0, parseFloat(((fpState.length - l) / 2).toFixed(2))),
+        x: parseFloat(((fpState.width - w) / 2).toFixed(2)),
+        y: parseFloat(((fpState.length - l) / 2).toFixed(2)),
         width: w,
         length: l,
         rotation: 0,
-        color: color || '#38bdf8'
+        color: color || '#38bdf8',
+        isOutdoor: isOutdoor
       };
       fpState.items.push(item);
       selectFpObject(newId, 'item');
@@ -4873,6 +4912,7 @@
       let xEl = document.getElementById('fpEditX');
       let yEl = document.getElementById('fpEditY');
       let colorEl = document.getElementById('fpEditColor');
+      let isOutdoorEl = document.getElementById('fpEditIsOutdoor');
 
       if (nameEl) nameEl.value = obj.name || '';
       if (widthEl) widthEl.value = obj.width.toFixed(2);
@@ -4880,6 +4920,7 @@
       if (xEl) xEl.value = obj.x.toFixed(2);
       if (yEl) yEl.value = obj.y.toFixed(2);
       if (colorEl && obj.color) colorEl.value = obj.color;
+      if (isOutdoorEl) isOutdoorEl.checked = isItemUnconstrained(obj);
 
       let doorMirrorBtnGroup = document.getElementById('fpDoorMirrorGroup');
       if (doorMirrorBtnGroup) {
@@ -4915,11 +4956,15 @@
       obj.width = obj.length;
       obj.length = temp;
 
-      // Clamp coordinates to stay inside house boundary
-      let maxW = Math.max(0, fpState.width - obj.width);
-      let maxL = Math.max(0, fpState.length - obj.length);
-      obj.x = Math.max(0, Math.min(maxW, parseFloat(obj.x.toFixed(2))));
-      obj.y = Math.max(0, Math.min(maxL, parseFloat(obj.y.toFixed(2))));
+      if (isItemUnconstrained(obj)) {
+        obj.x = parseFloat(obj.x.toFixed(2));
+        obj.y = parseFloat(obj.y.toFixed(2));
+      } else {
+        let maxW = Math.max(0, fpState.width - obj.width);
+        let maxL = Math.max(0, fpState.length - obj.length);
+        obj.x = Math.max(0, Math.min(maxW, parseFloat(obj.x.toFixed(2))));
+        obj.y = Math.max(0, Math.min(maxL, parseFloat(obj.y.toFixed(2))));
+      }
 
       selectFpObject(obj.id, fpState.selectedType);
       renderFpCanvas();
@@ -4943,18 +4988,36 @@
         : fpState.items.find(i => i.id === fpState.selectedId);
       if (!obj) return;
 
+      let unconstrained = isItemUnconstrained(obj);
+
       if (prop === 'x') {
-        let maxVal = Math.max(0, fpState.width - obj.width);
-        obj.x = Math.max(0, Math.min(maxVal, parseFloat((obj.x + delta).toFixed(2))));
+        if (unconstrained) {
+          obj.x = parseFloat((obj.x + delta).toFixed(2));
+        } else {
+          let maxVal = Math.max(0, fpState.width - obj.width);
+          obj.x = Math.max(0, Math.min(maxVal, parseFloat((obj.x + delta).toFixed(2))));
+        }
       } else if (prop === 'y') {
-        let maxVal = Math.max(0, fpState.length - obj.length);
-        obj.y = Math.max(0, Math.min(maxVal, parseFloat((obj.y + delta).toFixed(2))));
+        if (unconstrained) {
+          obj.y = parseFloat((obj.y + delta).toFixed(2));
+        } else {
+          let maxVal = Math.max(0, fpState.length - obj.length);
+          obj.y = Math.max(0, Math.min(maxVal, parseFloat((obj.y + delta).toFixed(2))));
+        }
       } else if (prop === 'width') {
-        let maxVal = Math.max(0.1, fpState.width - obj.x);
-        obj.width = Math.max(0.1, Math.min(maxVal, parseFloat((obj.width + delta).toFixed(2))));
+        if (unconstrained) {
+          obj.width = Math.max(0.1, parseFloat((obj.width + delta).toFixed(2)));
+        } else {
+          let maxVal = Math.max(0.1, fpState.width - obj.x);
+          obj.width = Math.max(0.1, Math.min(maxVal, parseFloat((obj.width + delta).toFixed(2))));
+        }
       } else if (prop === 'length') {
-        let maxVal = Math.max(0.1, fpState.length - obj.y);
-        obj.length = Math.max(0.1, Math.min(maxVal, parseFloat((obj.length + delta).toFixed(2))));
+        if (unconstrained) {
+          obj.length = Math.max(0.1, parseFloat((obj.length + delta).toFixed(2)));
+        } else {
+          let maxVal = Math.max(0.1, fpState.length - obj.y);
+          obj.length = Math.max(0.1, Math.min(maxVal, parseFloat((obj.length + delta).toFixed(2))));
+        }
       }
 
       selectFpObject(obj.id, fpState.selectedType);
@@ -4970,6 +5033,11 @@
 
       if (!obj) return;
 
+      let isOutdoorEl = document.getElementById('fpEditIsOutdoor');
+      if (isOutdoorEl) obj.isOutdoor = isOutdoorEl.checked;
+
+      let unconstrained = isItemUnconstrained(obj);
+
       let nameVal = document.getElementById('fpEditName')?.value;
       let widthVal = parseFloat(document.getElementById('fpEditWidth')?.value);
       let lengthVal = parseFloat(document.getElementById('fpEditLength')?.value);
@@ -4978,10 +5046,39 @@
       let colorVal = document.getElementById('fpEditColor')?.value;
 
       if (nameVal) obj.name = nameVal;
-      if (!isNaN(widthVal)) obj.width = Math.max(0.1, widthVal);
-      if (!isNaN(lengthVal)) obj.length = Math.max(0.1, lengthVal);
-      if (!isNaN(xVal)) obj.x = Math.max(0, xVal);
-      if (!isNaN(yVal)) obj.y = Math.max(0, yVal);
+
+      if (!isNaN(widthVal)) {
+        if (unconstrained) {
+          obj.width = Math.max(0.1, widthVal);
+        } else {
+          let maxW = Math.max(0.1, fpState.width - obj.x);
+          obj.width = Math.max(0.1, Math.min(maxW, widthVal));
+        }
+      }
+      if (!isNaN(lengthVal)) {
+        if (unconstrained) {
+          obj.length = Math.max(0.1, lengthVal);
+        } else {
+          let maxL = Math.max(0.1, fpState.length - obj.y);
+          obj.length = Math.max(0.1, Math.min(maxL, lengthVal));
+        }
+      }
+      if (!isNaN(xVal)) {
+        if (unconstrained) {
+          obj.x = xVal;
+        } else {
+          let maxX = Math.max(0, fpState.width - obj.width);
+          obj.x = Math.max(0, Math.min(maxX, xVal));
+        }
+      }
+      if (!isNaN(yVal)) {
+        if (unconstrained) {
+          obj.y = yVal;
+        } else {
+          let maxY = Math.max(0, fpState.length - obj.length);
+          obj.y = Math.max(0, Math.min(maxY, yVal));
+        }
+      }
       if (colorVal) obj.color = colorVal;
 
       renderFpCanvas();
@@ -5524,7 +5621,6 @@
       });
 
       window.addEventListener('mousemove', (e) => {
-        if (!fpDragState.isDragging && !fpDragState.isResizing) return;
         let svg = document.getElementById('fpCanvasSVG');
         let container = document.getElementById('fpCanvasContainer');
         if (!svg || !container) return;
@@ -5535,8 +5631,8 @@
         let scaleX = (cWidth - padding * 2) / fpState.width;
         let scaleY = (cHeight - padding * 2) / fpState.length;
         let scale = Math.min(scaleX, scaleY, 80);
-
-        let deltaMetersX = (e.clientX - fpDragState.startX) / scale;
+        let housePxW = fpState.width * scale;
+        let rect = svg.getBoundingClientRect();
         let deltaMetersY = (e.clientY - fpDragState.startY) / scale;
 
         let obj = fpDragState.targetType === 'room'
@@ -5546,6 +5642,8 @@
         if (!obj) return;
 
         let currentGridStep = e.shiftKey ? 0.01 : (fpState.gridSize || 0.05);
+
+        let unconstrained = isItemUnconstrained(obj);
 
         if (fpDragState.isDragging) {
           // Moving mouse RIGHT decreases X (getting closer to Right wall)
@@ -5558,8 +5656,13 @@
             newY = Math.round(newY / currentGridStep) * currentGridStep;
           }
 
-          obj.x = Math.max(0, Math.min(fpState.width - obj.width, parseFloat(newX.toFixed(2))));
-          obj.y = Math.max(0, Math.min(fpState.length - obj.length, parseFloat(newY.toFixed(2))));
+          if (unconstrained) {
+            obj.x = parseFloat(newX.toFixed(2));
+            obj.y = parseFloat(newY.toFixed(2));
+          } else {
+            obj.x = Math.max(0, Math.min(fpState.width - obj.width, parseFloat(newX.toFixed(2))));
+            obj.y = Math.max(0, Math.min(fpState.length - obj.length, parseFloat(newY.toFixed(2))));
+          }
         } else if (fpDragState.isResizing) {
           // Bottom-Left resize handle: Dragging LEFT (negative deltaX) increases width
           let newW = fpDragState.initObjW - deltaMetersX;
@@ -5570,8 +5673,13 @@
             newL = Math.round(newL / currentGridStep) * currentGridStep;
           }
 
-          obj.width = Math.max(0.2, Math.min(fpState.width - obj.x, parseFloat(newW.toFixed(2))));
-          obj.length = Math.max(0.2, Math.min(fpState.length - obj.y, parseFloat(newL.toFixed(2))));
+          if (unconstrained) {
+            obj.width = Math.max(0.1, parseFloat(newW.toFixed(2)));
+            obj.length = Math.max(0.1, parseFloat(newL.toFixed(2)));
+          } else {
+            obj.width = Math.max(0.1, Math.min(fpState.width - obj.x, parseFloat(newW.toFixed(2))));
+            obj.length = Math.max(0.1, Math.min(fpState.length - obj.y, parseFloat(newL.toFixed(2))));
+          }
         }
 
         selectFpObject(obj.id, fpDragState.targetType);
@@ -5585,10 +5693,18 @@
         fpDragState.targetId = null;
       });
 
-      // ⌨️ Keyboard Nudging Listener for Pixel-Perfect 0.01m Distance Precision
+      // ⌨️ Keyboard Nudging & Ruler Exit Listener
       window.addEventListener('keydown', (e) => {
         let modal = document.getElementById('floorPlannerModal');
         if (!modal || modal.style.display === 'none') return;
+
+        if (e.key === 'Escape') {
+          if (fpRulerState && fpRulerState.active) {
+            toggleFpRulerMode();
+            return;
+          }
+        }
+
         if (!fpState.selectedId || !fpState.selectedType) return;
 
         let activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
