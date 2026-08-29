@@ -2153,11 +2153,12 @@
       customRooms: [
         { id: 'room_kitchen', name: '🍳 廚房 (灶位)', x: 6.45, y: 0.35, width: 4.20, length: 0.60, color: '#f97316' },
         { id: 'room_bath', name: '🛁 衛浴 (廁所)', x: 0.02, y: 3.30, width: 2.10, length: 1.80, color: '#0284c7' },
-        { id: 'room_closet', name: '📦 衣', x: 0.03, y: 5.10, width: 2.10, length: 0.90, color: '#10b981' },
+        { id: 'room_closet', name: '📦 衣櫃空間', x: 0.03, y: 5.10, width: 2.10, length: 0.90, color: '#10b981' },
         { id: 'room_bedroom', name: '🛏️ 主臥室', x: 0.00, y: 0.225, width: 2.40, length: 2.75, color: '#a855f7' },
         { id: 'room_other1', name: '其他', x: 2.40, y: 1.715, width: 1.50, length: 1.25, color: '#a855f7' },
         { id: 'room_other2', name: '其他', x: 0.00, y: 3.00, width: 2.40, length: 3.10, color: '#0284c7' }
-      ]
+      ],
+      customItems: []
     };
 
     // 宮位風水指南卡自訂拖曳偏移量 (Custom Interactive Offsets for Palace Cards)
@@ -2268,13 +2269,16 @@
 
     // 計算自訂室內空間 (房間/衛浴/廚房) 相對於太極中心之真實羅盤卦位與九星八門
     function getRoomBaguaAndStar(room, sitGua) {
-      let W = state.width;
-      let L = state.length;
+      if (!room) return { compassAngle: 0, bagua: BAGUA[0], star: { star: '伏位', type: '吉' } };
+      let W = state.width || 11.0;
+      let L = state.length || 6.3;
       let xTaiji = W * (1 - (state.taijiXPct || 50) / 100);
       let yTaiji = L * ((state.taijiYPct || 50) / 100);
 
-      let rx = room.x + room.width / 2;
-      let ry = room.y + room.length / 2;
+      let rw = (typeof room.width === 'number' && !isNaN(room.width)) ? room.width : 1.0;
+      let rl = (typeof room.length === 'number' && !isNaN(room.length)) ? room.length : 1.0;
+      let rx = ((typeof room.x === 'number' && !isNaN(room.x)) ? room.x : 0) + rw / 2;
+      let ry = ((typeof room.y === 'number' && !isNaN(room.y)) ? room.y : 0) + rl / 2;
 
       let dx = -(rx - xTaiji);
       let dy = ry - yTaiji;
@@ -2283,8 +2287,8 @@
       screenRelAngle = normalizeAngle(screenRelAngle);
 
       let compassAngle = normalizeAngle(screenRelAngle + state.facingAngle);
-      let roomBagua = getBagua(compassAngle);
-      let roomStar = getNineStar(sitGua || '坎', roomBagua.code);
+      let roomBagua = getBagua(compassAngle) || BAGUA[0];
+      let roomStar = getNineStar(sitGua || '坎', roomBagua.code) || { star: '伏位', type: '吉' };
 
       return { compassAngle, bagua: roomBagua, star: roomStar };
     }
@@ -3454,6 +3458,47 @@
         houseRotGroup.appendChild(customRoomsG);
       }
 
+      // 繪製專業設施圖例 (門、氣窗、文昌桌、安睡床、壓煞灶位、衛浴等)
+      if (isGlobalRoomsVisible && Array.isArray(state.customItems) && state.customItems.length > 0) {
+        let customItemsG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        let trXi = cx + housePxW / 2;
+        let trYi = cy - housePxL / 2;
+
+        state.customItems.forEach(item => {
+          if (!item || item.visible === false) return;
+          let ix = (typeof item.x === 'number' && !isNaN(item.x)) ? item.x : 0;
+          let iy = (typeof item.y === 'number' && !isNaN(item.y)) ? item.y : 0;
+          let iw = (typeof item.width === 'number' && !isNaN(item.width)) ? item.width : 1.0;
+          let il = (typeof item.length === 'number' && !isNaN(item.length)) ? item.length : 1.0;
+
+          let itemSvgX = trXi - (ix + iw) * scalePPM;
+          let itemSvgY = trYi + iy * scalePPM;
+          let itemSvgW = iw * scalePPM;
+          let itemSvgH = il * scalePPM;
+          let itemCx = itemSvgX + itemSvgW / 2;
+          let itemCy = itemSvgY + itemSvgH / 2;
+
+          let { bagua: itemBagua, star: itemStar } = getRoomBaguaAndStar(item, sitMnt.gua);
+          let rPt = getTransformedCoords(ix + iw / 2, iy + il / 2);
+          let icolor = item.color || '#38bdf8';
+
+          let symbolSvg = (typeof renderArchitecturalSymbol === 'function')
+            ? renderArchitecturalSymbol(item, itemSvgX, itemSvgY, itemSvgW, itemSvgH, false)
+            : `<rect x="${itemSvgX}" y="${itemSvgY}" width="${itemSvgW}" height="${itemSvgH}" fill="${icolor}" fill-opacity="0.3" stroke="${icolor}" stroke-width="1.5"/>`;
+
+          customItemsG.innerHTML += `
+            <g class="custom-item-node" data-id="${item.id || ''}" style="cursor:move;">
+              ${symbolSvg}
+              <text x="${itemCx}" y="${itemSvgY + itemSvgH + 11}" fill="#1e293b" font-size="9.5" font-weight="700" text-anchor="middle"
+                    paint-order="stroke fill" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round" pointer-events="none">${item.name || ''}</text>
+              <title>${item.name || ''} (${iw.toFixed(2)}m x ${il.toFixed(2)}m) - ${itemBagua.name}宮 ${itemStar.star}</title>
+            </g>
+          `;
+        });
+
+        houseRotGroup.appendChild(customItemsG);
+      }
+
       // 繪製大門與施工牆心放樣尺寸標註 (Door & Construction Dimension Markers)
       let doorFrameInfo = getDoorFrameCoordinates();
       let { doorX, doorY } = getDoorUnrotatedCoords(cx, cy, housePxW, housePxL);
@@ -4514,13 +4559,13 @@
       if (!svg) return;
 
       svg.addEventListener('mousedown', (e) => {
-        let roomNode = e.target.closest('.custom-room-node');
+        let roomNode = e.target.closest('.custom-room-node, .custom-item-node');
         if (!roomNode) return;
         e.preventDefault();
         e.stopPropagation();
 
         let id = roomNode.getAttribute('data-id');
-        let room = state.customRooms ? state.customRooms.find(r => r.id === id) : null;
+        let room = (typeof findRoomOrItem === 'function') ? findRoomOrItem(id) : (state.customRooms ? state.customRooms.find(r => r.id === id) : null);
         if (!room) return;
 
         roomDragState.isDragging = true;
@@ -4535,7 +4580,7 @@
         if (!roomDragState.isDragging || !roomDragState.roomId) return;
         e.preventDefault();
 
-        let room = state.customRooms ? state.customRooms.find(r => r.id === roomDragState.roomId) : null;
+        let room = (typeof findRoomOrItem === 'function') ? findRoomOrItem(roomDragState.roomId) : (state.customRooms ? state.customRooms.find(r => r.id === roomDragState.roomId) : null);
         if (!room) return;
 
         let rect = svg.getBoundingClientRect();
@@ -5980,7 +6025,11 @@
         if (data.state.doorMirror !== undefined) state.doorMirror = data.state.doorMirror;
         if (data.state.showBaguaDimensions !== undefined) state.showBaguaDimensions = data.state.showBaguaDimensions;
         if (Array.isArray(data.state.customRooms)) state.customRooms = JSON.parse(JSON.stringify(data.state.customRooms));
-        if (Array.isArray(data.state.customItems)) state.customItems = JSON.parse(JSON.stringify(data.state.customItems));
+        if (Array.isArray(data.state.customItems)) {
+          state.customItems = JSON.parse(JSON.stringify(data.state.customItems));
+        } else {
+          if (!Array.isArray(state.customItems)) state.customItems = [];
+        }
 
         if (data.fpState) {
           if (data.fpState.width && !isNaN(data.fpState.width) && data.fpState.width > 0) fpState.width = parseFloat(data.fpState.width);
@@ -5990,6 +6039,10 @@
           if (Array.isArray(data.fpState.rooms)) fpState.rooms = JSON.parse(JSON.stringify(data.fpState.rooms));
           if (Array.isArray(data.fpState.items)) fpState.items = JSON.parse(JSON.stringify(data.fpState.items));
         }
+
+        // Ensure state arrays are always valid
+        if (!Array.isArray(state.customRooms)) state.customRooms = [];
+        if (!Array.isArray(state.customItems)) state.customItems = [];
 
         let inputW = document.getElementById('houseWidth');
         let inputL = document.getElementById('houseLength');
