@@ -5678,7 +5678,10 @@
         let scale = Math.min(scaleX, scaleY, 80);
         let housePxW = fpState.width * scale;
         let rect = svg.getBoundingClientRect();
+        let deltaMetersX = (e.clientX - fpDragState.startX) / scale;
         let deltaMetersY = (e.clientY - fpDragState.startY) / scale;
+
+        if (!fpDragState.isDragging && !fpDragState.isResizing) return;
 
         let obj = fpDragState.targetType === 'room'
           ? fpState.rooms.find(r => r.id === fpDragState.targetId)
