@@ -1,6 +1,6 @@
 {
   "presetName": "陽宅格局規劃方案",
-  "savedAt": "2026-08-28T14:04:08.460Z",
+  "savedAt": "2026-08-29T04:50:39.846Z",
   "width": 11,
   "length": 6.3,
   "wallThickness": 40,
@@ -241,19 +241,20 @@
       "id": "fp_desk1",
       "category": "desk",
       "name": "💼 文昌書桌",
-      "x": 2.45,
-      "y": 1.8,
-      "width": 1.4,
-      "length": 0.7,
+      "x": 8.2,
+      "y": 4.7,
+      "width": 1.6,
+      "length": 0.8,
       "rotation": 0,
       "color": "#10b981",
       "layoutCoords": {
         "originCorner": "bottomRight",
-        "cornerX": 2.45,
-        "cornerY": 4.5,
-        "centerX": 3.15,
-        "centerY": 4.15
-      }
+        "cornerX": 8.2,
+        "cornerY": 1.6,
+        "centerX": 9,
+        "centerY": 1.2
+      },
+      "isOutdoor": false
     },
     {
       "id": "fp_door_main",
@@ -441,6 +442,44 @@
         "cornerY": 2.45,
         "centerX": 11.13,
         "centerY": 1.85
+      }
+    },
+    {
+      "id": "fp_item_1787978382090",
+      "category": "window",
+      "name": "🪟 採光窗框",
+      "x": 8.4,
+      "y": 6.35,
+      "width": 1.2,
+      "length": 0.15,
+      "rotation": 0,
+      "color": "#38bdf8",
+      "isOutdoor": true,
+      "layoutCoords": {
+        "originCorner": "bottomRight",
+        "cornerX": 8.4,
+        "cornerY": 0.05,
+        "centerX": 9,
+        "centerY": 0.13
+      }
+    },
+    {
+      "id": "fp_item_1787978482634",
+      "category": "window",
+      "name": "🪟 採光窗框",
+      "x": 0.6,
+      "y": 6.35,
+      "width": 1.2,
+      "length": 0.15,
+      "rotation": 0,
+      "color": "#38bdf8",
+      "isOutdoor": true,
+      "layoutCoords": {
+        "originCorner": "bottomRight",
+        "cornerX": 0.6,
+        "cornerY": 0.05,
+        "centerX": 1.2,
+        "centerY": 0.13
       }
     }
   ]
